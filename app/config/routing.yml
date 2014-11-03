@@ -1,0 +1,4 @@
+bdc_poll:
+    resource: "@BDCPollBundle/Resources/config/routing.yml"
+    prefix:   /
+

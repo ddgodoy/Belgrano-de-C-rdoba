@@ -122,6 +122,11 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
 
         }
 
+        // bdc_poll_homepage
+        if ($pathinfo === '/home') {
+            return array (  '_controller' => 'BDCPollBundle:Front:index',  '_route' => 'bdc_poll_homepage',);
+        }
+
         throw 0 < count($allow) ? new MethodNotAllowedException(array_unique($allow)) : new ResourceNotFoundException();
     }
 }
