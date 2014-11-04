@@ -5,7 +5,7 @@ parameters:
     database_port: null
     database_name: club_belgrano
     database_user: root
-    database_password: 
+    database_password: pk1321
     mailer_transport: smtp
     mailer_host: smtp.gmail.com
     mailer_user: icox.automatic.service@gmail.com
