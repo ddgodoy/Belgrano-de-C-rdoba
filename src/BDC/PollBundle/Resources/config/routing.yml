@@ -1,3 +1,7 @@
+bdc_poll_user:
+    resource: "@BDCPollBundle/Resources/config/routing/user.yml"
+    prefix:   /user
+
 bdc_poll_homepage:
     path:     /home/{name}
     defaults: { _controller: BDCPollBundle:Front:index }

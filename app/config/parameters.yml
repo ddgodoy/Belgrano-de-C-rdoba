@@ -13,5 +13,5 @@ parameters:
     locale: es_AR
     secret: kefdl345lasdfkj34ds
     debug_toolbar: true
-    debug_redirects: false
+    debug_redirects: true
     use_assetic_controller: true
