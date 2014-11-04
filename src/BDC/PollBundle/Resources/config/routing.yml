@@ -1,5 +1,5 @@
 bdc_poll_homepage:
-    path:     /home
+    path:     /home/{name}
     defaults: { _controller: BDCPollBundle:Front:index }
 
 
