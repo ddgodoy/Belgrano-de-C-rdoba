@@ -2,6 +2,8 @@
 
 namespace BDC\PollBundle\Entity;
 
+
+
 use Doctrine\ORM\Mapping as ORM;
 
 /**

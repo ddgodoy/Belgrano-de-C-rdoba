@@ -1,11 +1,13 @@
 <?php
 
+
 namespace BDC\PollBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use BDC\PollBundle\Entity\User;
+
 use BDC\PollBundle\Form\UserType;
 
 /**
@@ -23,9 +25,9 @@ class UserController extends Controller
     {       
        $em = $this->getDoctrine()->getManager();
        $entities =  $em->getRepository('BDCPollBundle:User')->findAll();
-      
+       //$entities = array('id' => 1, 'name' => 'Nombre');
        return $this->render('BDCPollBundle:User:index.html.twig', array(
-            'entities' => $entities,
+            'entities' => $entities,'js' => array('js/user/index.js'),
         ));
     }
     /**
