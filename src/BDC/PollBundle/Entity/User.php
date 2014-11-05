@@ -40,6 +40,27 @@ class User
      * @var \DateTime
      */
     private $modified;
+    
+        /**
+     * @var string
+     */
+    private $last_name;
+
+    /**
+     * @var string
+     */
+    private $dni;
+
+    /**
+     * @var integer
+     */
+    private $associate_id;
+
+    /**
+     * @var string
+     */
+    private $role;
+
 
 
     /**
@@ -165,5 +186,126 @@ class User
     public function getModified()
     {
         return $this->modified;
+    }
+
+
+    /**
+     * Set last_name
+     *
+     * @param string $lastName
+     * @return User
+     */
+    public function setLastName($lastName)
+    {
+        $this->last_name = $lastName;
+
+        return $this;
+    }
+
+    /**
+     * Get last_name
+     *
+     * @return string 
+     */
+    public function getLastName()
+    {
+        return $this->last_name;
+    }
+
+    /**
+     * Set dni
+     *
+     * @param string $dni
+     * @return User
+     */
+    public function setDni($dni)
+    {
+        $this->dni = $dni;
+
+        return $this;
+    }
+
+    /**
+     * Get dni
+     *
+     * @return string 
+     */
+    public function getDni()
+    {
+        return $this->dni;
+    }
+
+    /**
+     * Set associate_id
+     *
+     * @param integer $associateId
+     * @return User
+     */
+    public function setAssociateId($associateId)
+    {
+        $this->associate_id = $associateId;
+
+        return $this;
+    }
+
+    /**
+     * Get associate_id
+     *
+     * @return integer 
+     */
+    public function getAssociateId()
+    {
+        return $this->associate_id;
+    }
+
+    /**
+     * Set role
+     *
+     * @param string $role
+     * @return User
+     */
+    public function setRole($role)
+    {
+        $this->role = $role;
+
+        return $this;
+    }
+
+    /**
+     * Get role
+     *
+     * @return string 
+     */
+    public function getRole()
+    {
+        return $this->role;
+    }
+    /**
+     * @var \BDC\PollBundle\Entity\Associate
+     */
+    private $associate;
+
+
+    /**
+     * Set associate
+     *
+     * @param \BDC\PollBundle\Entity\Associate $associate
+     * @return User
+     */
+    public function setAssociate(\BDC\PollBundle\Entity\Associate $associate = null)
+    {
+        $this->associate = $associate;
+
+        return $this;
+    }
+
+    /**
+     * Get associate
+     *
+     * @return \BDC\PollBundle\Entity\Associate 
+     */
+    public function getAssociate()
+    {
+        return $this->associate;
     }
 }

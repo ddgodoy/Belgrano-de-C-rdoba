@@ -1,6 +1,7 @@
 BDC\PollBundle\Entity\User:
+    detect_relations: true
     type: entity
-    table: null
+    table: User
     repositoryClass: BDC\PollBundle\Repository\UserRepository
     id:
         id:
@@ -12,9 +13,20 @@ BDC\PollBundle\Entity\User:
         name:
             type: string
             length: 255
+        last_name:
+            type: string
+            length: 255
         email:
             type: string
             length: 255
+        dni:
+            type: string
+            length: 255
+        associate_id:
+            type: integer
+        role:
+            type: string
+            length: 50
         password:
             type: string
             length: 255
@@ -22,4 +34,13 @@ BDC\PollBundle\Entity\User:
             type: datetime
         modified:
             type: datetime
+    
+    manyToOne:
+        associate:
+            targetEntity: Associate
+            joinColumn:
+            name: associate_id
+            referencedColumnName: id
+   
+            
     lifecycleCallbacks: {  }

@@ -25,7 +25,7 @@ class UserController extends Controller
     {       
        $em = $this->getDoctrine()->getManager();
        $entities =  $em->getRepository('BDCPollBundle:User')->findAll();
-       //$entities = array('id' => 1, 'name' => 'Nombre');
+       
        return $this->render('BDCPollBundle:User:index.html.twig', array(
             'entities' => $entities,'js' => array('js/user/index.js'),
         ));

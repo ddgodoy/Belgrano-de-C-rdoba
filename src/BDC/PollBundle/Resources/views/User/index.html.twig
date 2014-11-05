@@ -1,49 +1,65 @@
+
 {% extends 'BDCPollBundle::layout.html.twig' %}
 
-{% block body -%}
-    <h1>User list</h1>
-
-    <table class="records_list">
+{% block body %}
+    <div class="row">
+        <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li class="active"><i class="fa fa-user"></i> Usuarios</li>
+            </ol>
+        </div>
+    </div>    
+    <h1 class="page-header">Usuarios</h1>
+    <div class="row">
+        <div class="col-lg-12 page-actions">
+             <a class="btn btn-primary pull-right"href="{{ path('user_new') }}">
+                 <i class="fa fa-plus-circle"></i>Agregar Usuario
+            </a>
+        </div>
+    </div>
+    <table class="table table-striped">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Password</th>
-                <th>Created</th>
-                <th>Modified</th>
-                <th>Actions</th>
+               
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>DNI</th>
+                <th>E-mail</th>
+                <th>Tipo de Socio</th>
+                <th>Acciones</th>
+                
             </tr>
         </thead>
         <tbody>
-        {% for entity in entities %}
-            <tr>
-                <td><a href="{{ path('user_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
-                <td>{{ entity.name }}</td>
-                <td>{{ entity.email }}</td>
-                <td>{{ entity.password }}</td>
-                <td>{% if entity.created %}{{ entity.created|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>{% if entity.modified %}{{ entity.modified|date('Y-m-d H:i:s') }}{% endif %}</td>
-                <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('user_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('user_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
-                </td>
-            </tr>
-        {% endfor %}
+              {% for entity in entities %}
+                <tr>
+                   
+                    <td>{{ entity.name }}</td>
+                    <td>{{ entity.lastname }}</td>
+                    <td>{{ entity.dni }}</td>
+                    <td>{{ entity.email }}</td>
+                    
+                    <td>
+                        {% if entity.associate.name is defined %}
+                            {{ entity.associate.name }}
+                        {% endif %}
+                    </td>
+                    
+                    
+                    <td>
+                        <ul class="table-actions">
+                            <!--<li>
+                                <a href="{{ path('user_show', { 'id': entity.id }) }}">show</a>
+                            </li>--->
+                            <li>
+                                <a href="{{ path('user_edit', { 'id': entity.id }) }}"><i class="fa fa-pencil"></i> Editar</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
 
-        <ul>
-        <li>
-            <a href="{{ path('user_new') }}">
-                Create a new entry
-            </a>
-        </li>
-    </ul>
-    {% endblock %}
+     
+{% endblock %}

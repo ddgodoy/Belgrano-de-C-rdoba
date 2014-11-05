@@ -343,3 +343,23 @@ table.dataTable thead .sorting:after {
 .panel-yellow a:hover {
     color: #df8a13;
 }
+
+.breadcrumb {
+    margin-top: 20px;
+}
+
+.table-actions {
+    list-style: none;
+}
+
+.page-actions {
+    margin-bottom: 20px;
+}
+
+.page-actions a i {
+    margin-right: 5px;
+}
+
+.page-header {
+    color: #009DD4;
+}
