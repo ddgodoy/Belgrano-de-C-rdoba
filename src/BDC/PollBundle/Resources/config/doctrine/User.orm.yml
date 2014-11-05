@@ -1,7 +1,7 @@
 BDC\PollBundle\Entity\User:
     type: entity
     table: null
-    repositoryClass: BDC\PollBundle\Entity\UserRepository
+    repositoryClass: BDC\PollBundle\Repository\UserRepository
     id:
         id:
             type: integer
