@@ -1,0 +1,17 @@
+BDC\PollBundle\Entity\Associate:
+    type: entity
+    table: Associate
+    repositoryClass: BDC\PollBundle\Repository\UserRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 150
+    
+    
+    lifecycleCallbacks: {  }
