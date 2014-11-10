@@ -51,6 +51,7 @@ class UserController extends Controller
         return $this->render('BDCPollBundle:User:new.html.twig', array(
             'entity' => $entity,
             'form'   => $form->createView(),
+           
         ));
     }
 
@@ -131,6 +132,9 @@ class UserController extends Controller
             'entity'      => $entity,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'js' =>  array('js/plugins/jquery-validation/js/jquery.validate.min.js', 
+                           'js/plugins/jquery-validation/js/localization/messages_es_AR.js'   
+                          ,'js/user/edit.js')
         ));
     }
 
@@ -158,6 +162,7 @@ class UserController extends Controller
      */
     public function updateAction(Request $request, $id)
     {
+        die(print_r($request->request));
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('BDCPollBundle:User')->find($id);
@@ -169,7 +174,14 @@ class UserController extends Controller
         $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createEditForm($entity);
         $editForm->handleRequest($request);
-
+        
+        if ($request->request->get('pass') != '') {
+            if ($request->request->get('pass2') !== $request->request->get('pass')) {
+               // setear password    
+            }
+            
+        }
+        
         if ($editForm->isValid()) {
             $em->flush();
 
