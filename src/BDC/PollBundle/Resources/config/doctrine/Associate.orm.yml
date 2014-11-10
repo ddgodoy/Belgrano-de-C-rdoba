@@ -1,7 +1,7 @@
 BDC\PollBundle\Entity\Associate:
     type: entity
     table: Associate
-    repositoryClass: BDC\PollBundle\Repository\UserRepository
+    repositoryClass: BDC\PollBundle\Repository\AssociateRepository
     id:
         id:
             type: integer
@@ -13,5 +13,9 @@ BDC\PollBundle\Entity\Associate:
             type: string
             length: 150
     
+    oneToMany:
+        user:
+            targetEntity: User
+            mappedBy: associate
     
     lifecycleCallbacks: {  }

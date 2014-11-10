@@ -38,9 +38,10 @@ BDC\PollBundle\Entity\User:
     manyToOne:
         associate:
             targetEntity: Associate
+            inversedBy: user
             joinColumn:
-            name: associate_id
-            referencedColumnName: id
+                name: associate_id
+                referencedColumnName: id
    
             
     lifecycleCallbacks: {  }

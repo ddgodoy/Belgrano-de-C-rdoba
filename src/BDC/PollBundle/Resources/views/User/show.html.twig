@@ -39,10 +39,14 @@
         </a>
     </li>
     <li>
-        <a href="{{ path('user_edit', { 'id': entity.id }) }}">
+        <a href="{{ path('user_form_edit', { 'id': entity.id }) }}">
             Edit
         </a>
     </li>
-    <li>{{ form(delete_form) }}</li>
+    <li>
+        <a href="{{ path('user_delete', { 'id': entity.id }) }}">
+            Delete
+        </a>
+    </li>
 </ul>
 {% endblock %}

@@ -5,26 +5,32 @@ namespace BDC\PollBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Doctrine\ORM\EntityManager;
 
 class UserType extends AbstractType
 {
+    protected $doctrine;
+
+    public function __construct(EntityManager $doctrine)
+    {
+       $this->doctrine = $doctrine;
+    }
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $array_type_user = $this->doctrine->getRepository('BDCPollBundle:Associate')->getArrayForSelect();
+        
         $builder
             ->add('dni')
             ->add('name')
             ->add('last_name')
-            ->add('email')
-            ->add('associate_id')
-            ->add('password')
-            
-            
-                
-            
+            ->add('email', 'email')
+            ->add('role', 'choice', ['choices' =>['admin'=>'Administrador', 'user'=>'Usuario']])    
+            ->add('associate_id', 'choice',['choices' => $array_type_user, 'required'=> true, 'empty_value' => '-- Seleccionar --','empty_data' => null, 'label'  => 'tipo de socio'])
+            ->add('password', 'password')          
         ;
     }
     

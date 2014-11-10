@@ -1,6 +1,6 @@
 bdc_poll_user:
     resource: "@BDCPollBundle/Resources/config/routing/user.yml"
-    prefix:   /user
+    prefix:   /admin/user
 
 bdc_poll_homepage:
     path:     /home/{name}

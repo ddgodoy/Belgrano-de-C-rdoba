@@ -12,7 +12,7 @@
     <h1 class="page-header">Usuarios</h1>
     <div class="row">
         <div class="col-lg-12 page-actions">
-             <a class="btn btn-primary pull-right"href="{{ path('user_new') }}">
+             <a class="btn btn-primary pull-right"href="{{ path('user_form') }}">
                  <i class="fa fa-plus-circle"></i>Agregar Usuario
             </a>
         </div>
@@ -26,8 +26,7 @@
                 <th>DNI</th>
                 <th>E-mail</th>
                 <th>Tipo de Socio</th>
-                <th>Acciones</th>
-                
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -44,15 +43,12 @@
                             {{ entity.associate.name }}
                         {% endif %}
                     </td>
-                    
-                    
                     <td>
                         <ul class="table-actions">
-                            <!--<li>
-                                <a href="{{ path('user_show', { 'id': entity.id }) }}">show</a>
-                            </li>--->
                             <li>
-                                <a href="{{ path('user_edit', { 'id': entity.id }) }}"><i class="fa fa-pencil"></i> Editar</a>
+                                <a href="{{ path('user_show', { 'id': entity.id }) }}"><i class="fa fa-eye"></i></a> |
+                                <a href="{{ path('user_form_edit', { 'id': entity.id }) }}"><i class="fa fa-pencil"></i></a> |
+                                <a href="{{ path('user_delete', { 'id': entity.id }) }}"><i class="fa fa-trash-o"></i></a>
                             </li>
                         </ul>
                     </td>

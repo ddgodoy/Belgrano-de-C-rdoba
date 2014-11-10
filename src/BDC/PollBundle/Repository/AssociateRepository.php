@@ -12,4 +12,19 @@ use Doctrine\ORM\EntityRepository;
  */
 class AssociateRepository extends EntityRepository
 {
+    /**
+     * get array for select
+     * @return type
+     */
+    public function getArrayForSelect()
+    {
+        $array = [];
+        $object = $this->findAll();
+        foreach ($object as $value) {
+            $array[$value->getId()] = $value->getName();
+        }
+        
+        return $array;
+    }
+
 }

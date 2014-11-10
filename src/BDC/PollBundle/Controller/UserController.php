@@ -7,6 +7,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use BDC\PollBundle\Entity\User;
+use BDC\PollBundle\Entity\Associate;
+
 
 use BDC\PollBundle\Form\UserType;
 
@@ -30,64 +32,48 @@ class UserController extends Controller
             'entities' => $entities,'js' => array('js/user/index.js'),
         ));
     }
-    /**
-     * Creates a new User entity.
-     *
-     */
-    public function createAction(Request $request)
+    
+    public function formAction(Request $request, $id=Null)
     {
-        $entity = new User();
-        $form = $this->createCreateForm($entity);
+        $str_action  = $id?'Editar':'Nuevo';
+        $rute        = $id?'user_form_edit':'user_form';
+        $parameter   = $id?['id'=>$id]:[];
+        $url         = $this->generateUrl($rute,$parameter);
+        $em          = $this->getDoctrine()->getManager();
+        if($id)
+        {
+            $user = $em->getRepository('BDCPollBundle:User')->findOneById($id);
+        }
+        else
+        {
+            $user = new User();
+        }    
+        
+        $form = $this->createForm(new UserType($em), $user);
         $form->handleRequest($request);
-
+        
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
+            $associate = $em->getRepository('BDCPollBundle:Associate')->findOneById($user->getAssociateId());
+            $user->setAssociate($associate);
+            if(!$id){
+            $user->setCreated(new \DateTime());
+            }
+            $user->setModified(new \DateTime());
+            $em->persist($user);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('user_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('user_form_edit',['id'=>$user->getId()]));
         }
-
-        return $this->render('BDCPollBundle:User:new.html.twig', array(
-            'entity' => $entity,
+        
+        return $this->render('BDCPollBundle:User:form.html.twig', array(
+            'entity' => $user,
             'form'   => $form->createView(),
-           
+            'str_action'=>$str_action,
+            'url'=>$url,
+            'id'=>$id
         ));
-    }
-
-    /**
-     * Creates a form to create a User entity.
-     *
-     * @param User $entity The entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createCreateForm(User $entity)
-    {
-        $form = $this->createForm(new UserType(), $entity, array(
-            'action' => $this->generateUrl('user_create'),
-            'method' => 'POST',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Create'));
-
-        return $form;
-    }
-
-    /**
-     * Displays a form to create a new User entity.
-     *
-     */
-    public function newAction()
-    {
-        $entity = new User();
-        $form   = $this->createCreateForm($entity);
-
-        return $this->render('BDCPollBundle:User:new.html.twig', array(
-            'entity' => $entity,
-            'form'   => $form->createView(),
-        ));
-    }
+        
+    }        
 
     /**
      * Finds and displays a User entity.
@@ -103,135 +89,27 @@ class UserController extends Controller
             throw $this->createNotFoundException('Unable to find User entity.');
         }
 
-        $deleteForm = $this->createDeleteForm($id);
-
         return $this->render('BDCPollBundle:User:show.html.twig', array(
             'entity'      => $entity,
-            'delete_form' => $deleteForm->createView(),
         ));
     }
 
-    /**
-     * Displays a form to edit an existing User entity.
-     *
-     */
-    public function editAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('BDCPollBundle:User')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find User entity.');
-        }
-
-        $editForm = $this->createEditForm($entity);
-        $deleteForm = $this->createDeleteForm($id);
-
-        return $this->render('BDCPollBundle:User:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-            'js' =>  array('js/plugins/jquery-validation/js/jquery.validate.min.js', 
-                           'js/plugins/jquery-validation/js/localization/messages_es_AR.js'   
-                          ,'js/user/edit.js')
-        ));
-    }
-
-    /**
-    * Creates a form to edit a User entity.
-    *
-    * @param User $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
-    private function createEditForm(User $entity)
-    {
-        $form = $this->createForm(new UserType(), $entity, array(
-            'action' => $this->generateUrl('user_update', array('id' => $entity->getId())),
-            'method' => 'PUT',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Update'));
-
-        return $form;
-    }
-    /**
-     * Edits an existing User entity.
-     *
-     */
-    public function updateAction(Request $request, $id)
-    {
-        die(print_r($request->request));
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('BDCPollBundle:User')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find User entity.');
-        }
-
-        $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($entity);
-        $editForm->handleRequest($request);
-        
-        if ($request->request->get('pass') != '') {
-            if ($request->request->get('pass2') !== $request->request->get('pass')) {
-               // setear password    
-            }
-            
-        }
-        
-        if ($editForm->isValid()) {
-            $em->flush();
-
-            return $this->redirect($this->generateUrl('user_edit', array('id' => $id)));
-        }
-
-        return $this->render('BDCPollBundle:User:edit.html.twig', array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
-        ));
-    }
     /**
      * Deletes a User entity.
      *
      */
     public function deleteAction(Request $request, $id)
     {
-        $form = $this->createDeleteForm($id);
-        $form->handleRequest($request);
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('BDCPollBundle:User')->find($id);
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('BDCPollBundle:User')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find User entity.');
-            }
-
-            $em->remove($entity);
-            $em->flush();
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find User entity.');
         }
 
+        $em->remove($entity);
+        $em->flush();
+        
         return $this->redirect($this->generateUrl('user'));
-    }
-
-    /**
-     * Creates a form to delete a User entity by id.
-     *
-     * @param mixed $id The entity id
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createDeleteForm($id)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('user_delete', array('id' => $id)))
-            ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
-        ;
     }
 }
