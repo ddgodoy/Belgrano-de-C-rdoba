@@ -363,3 +363,7 @@ table.dataTable thead .sorting:after {
 .page-header {
     color: #009DD4;
 }
+
+.row.message {
+    padding-top: 20px;
+}

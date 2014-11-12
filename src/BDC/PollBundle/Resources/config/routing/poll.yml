@@ -1,0 +1,19 @@
+poll:
+    path:     /
+    defaults: { _controller: "BDCPollBundle:User:index" }
+
+poll_show:
+    path:     /{id}/show
+    defaults: { _controller: "BDCPollBundle:User:show" }
+
+poll_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "BDCPollBundle:User:delete" }
+
+poll_form:
+    pattern:  /new
+    defaults: { _controller: BDCPollBundle:User:form }
+    
+poll_form_edit:
+    pattern:  /edit/{id}
+    defaults: { _controller: BDCPollBundle:User:form }

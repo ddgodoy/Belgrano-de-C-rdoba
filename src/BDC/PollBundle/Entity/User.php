@@ -61,7 +61,7 @@ class User
      */
     private $role;
 
-
+    private $salt;
 
     /**
      * Get id
@@ -307,5 +307,15 @@ class User
     public function getAssociate()
     {
         return $this->associate;
+    }
+    
+    public function getSalt() {
+        return $this->salt;
+
+    }
+    
+    public function setSalt($salt) {
+        $this->salt = $salt;
+        return $this;
     }
 }

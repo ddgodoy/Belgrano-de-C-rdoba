@@ -28,9 +28,9 @@ class UserType extends AbstractType
             ->add('name')
             ->add('last_name')
             ->add('email', 'email')
-            ->add('role', 'choice', ['choices' =>['admin'=>'Administrador', 'user'=>'Usuario']])    
+            ->add('role', 'choice', ['choices' =>['admin'=>'Administrador', 'associate'=>'Socio']])    
             ->add('associate_id', 'choice',['choices' => $array_type_user, 'required'=> true, 'empty_value' => '-- Seleccionar --','empty_data' => null, 'label'  => 'tipo de socio'])
-            ->add('password', 'password')          
+                    
         ;
     }
     

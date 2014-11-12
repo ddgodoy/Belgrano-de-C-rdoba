@@ -1,27 +1,93 @@
-{% extends '::base.html.twig' %}
+
+{% extends 'BDCPollBundle::layout.html.twig' %}
+{% form_theme form with ['BDCPollBundle:Form:bootstrap-override.html.twig'] %}  
 
 {% block body -%}
-    <h1>{{ str_action }} Usuario</h1>
-
+    <div class="row">
+        <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li><i class="fa fa-users"></i> <a href="{{ path('user') }}">Usuarios</a></li>
+                <li class="active">{{ str_action }} Usuario</li>
+            </ol>
+        </div>
+    </div>    
+    <h1 class="page-header">{{ str_action }} Usuario</h1>
     <div class="row">
         <div class="col-lg-6">
-            <form enctype="multipart/form-data" method="post" action="{{ url }}">
-                {{ form_errors(form) }}
- 
-                {{ form_row(form.dni) }}
-                {{ form_row(form.name) }}
-                {{ form_row(form.last_name) }}
-                {{ form_row(form.email) }}
-                {{ form_row(form.role) }}
-                {{ form_row(form.associate_id) }}
-                {{ form_row(form.password) }}
+            <form name="bdc_pollbundle_user" id="bdc_pollbundle_user" method="post" action="{{url}}">
+                <!--<input type="hidden" name="_method" value="PUT">-->
+                <div class="form-group">
+                    {{ form_label(form.dni,'DNI') }}
+                    {{ form_errors(form.dni) }}
+                    {{ form_widget(form.dni) }}
+                </div>
 
-                {{ form_rest(form) }}
+                <div class="form-group">
+                    {{ form_label(form.name,'Nombre') }}
+                    {{ form_errors(form.name) }}
+                    {{ form_widget(form.name) }}
+                </div>
 
-                <input type="submit" />
-            </form>    
+                <div class="form-group">
+                    {{ form_label(form.last_name,'Apellido') }}
+                    {{ form_errors(form.last_name) }}
+                    {{ form_widget(form.last_name) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.email,'E-mail') }}
+                    {{ form_errors(form.email) }}
+                    {{ form_widget(form.email) }}
+                </div>
+
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+
+                            {{ form_label(form.role,'Rol de Usuario') }}
+                            {{ form_errors(form.role) }}
+                            {{ form_widget(form.role) }}
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row" id="associate-wrapper">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            {{ form_label(form.associate_id,'Tipo de Socio') }}
+                            {{ form_errors(form.associate_id) }}
+                            {{ form_widget(form.associate_id) }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Contraseña</label>
+                    <input type="password" id="pass" name="pass" class="form-control" />
+
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Repetir Contraseña</label>
+                    <input type="password" id="pass2" name="pass2" class="form-control" />     
+                </div>
+
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <button type="submit" class="btn btn-primary">Confirmar</button>
+                    </div>
+                </div>
+                {{ form_widget(form._token) }}
+            </form>
+
         </div>
-    </div>
-     
-</ul>
-{% endblock %}
+
+    {% endblock %}
+
+
+
+
+

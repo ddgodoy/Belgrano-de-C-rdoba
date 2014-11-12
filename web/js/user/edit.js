@@ -1,3 +1,18 @@
+$('#bdc_pollbundle_user_role').change(function(){
+    if ($(this).val() === 'associate') {
+        $('#bdc_pollbundle_user_associate_id').prop('disabled', false);
+        $('#associate-wrapper').slideDown('slow');
+    } else {
+        $('#associate-wrapper').slideUp('slow', 
+            function(){  
+                $('#bdc_pollbundle_user_associate_id').val('');
+                $('#bdc_pollbundle_user_associate_id').prop('disabled', true);
+                
+                
+        });
+        
+    }
+});
 
 $(document).ready(function () {
     $('#bdc_pollbundle_user').validate({
@@ -44,5 +59,11 @@ $(document).ready(function () {
                     .closest('.form-group').removeClass('has-error'); // set success class to the control group
         }
     });
+    $('#bdc_pollbundle_user_role').trigger('change');
+    
+    
+    
 });
+
+
 
