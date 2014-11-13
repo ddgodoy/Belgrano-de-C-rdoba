@@ -4,10 +4,10 @@ namespace BDC\PollBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use BDC\PollBundle\Entity\User;
-//use BDC\PollBundle\Entity\Associate;
-use BDC\PollBundle\Service\PasswordEncrypt;
-use BDC\PollBundle\Form\UserType;
+use BDC\PollBundle\Entity\Poll;
+use BDC\PollBundle\Entity\Answer;
+use BDC\PollBundle\Form\PollType;
+use BDC\PollBundle\Service\BDCUtils;
 
 /**
  * Poll controller.
@@ -16,7 +16,7 @@ use BDC\PollBundle\Form\UserType;
 class PollController extends Controller {
 
     /**
-     * Lists all User entities.
+     * Lists all Poll entities.
      *
      */
     public function indexAction() {
@@ -30,143 +30,125 @@ class PollController extends Controller {
 
     public function formAction(Request $request, $id = null) {
 
+        $utils = new BDCUtils;
 
 
-        $str_action = $id ? 'Editar' : 'Nuevo';
-        $rute = $id ? 'user_form_edit' : 'user_form';
+        $str_action = $id ? 'Editar' : 'Nueva';
+        $rute = $id ? 'poll_form_edit' : 'poll_form';
         $parameter = $id ? ['id' => $id] : [];
         $url = $this->generateUrl($rute, $parameter);
         $em = $this->getDoctrine()->getManager();
-        $user_repo = $em->getRepository('BDCPollBundle:User');
+        $poll_repo = $em->getRepository('BDCPollBundle:Poll');
 
 
 
-        $js = array('js/plugins/jquery-validation/js/jquery.validate.min.js', 'js/plugins/jquery-validation/js/localization/messages_es_AR.js');
+        $js = array('js/plugins/jquery-validation/js/jquery.validate.min.js', 'js/plugins/jquery-validation/js/localization/messages_es_AR.js', 'js/poll/edit.js');
+
         if ($id) {
-            $ok_message = 'El usuario se ha editado correctamente.';
-            $error_message = 'Ha ocurrido un problema y el usuario no se pudo editar, por favor inténtelo nuevamente más tarde.';
-            $js[] = 'js/user/edit.js';
-            $user = $user_repo->findOneById($id);
+            $ok_message = 'La encuesta se ha editado correctamente.';
+            $error_message = 'Ha ocurrido un problema y la encuesta no se pudo editar, por favor inténtelo nuevamente más tarde.';
+
+            $poll = $poll_repo->findOneById($id);
         } else {
             $ok_message = 'El usuario se ha creado correctamente.';
             $error_message = 'Ha ocurrido un problema y el usuario no se pudo crear, por favor inténtelo nuevamente más tarde.';
-            $js[] = 'js/user/new.js';
-            $user = new User();
+
+            $poll = new Poll();
         }
-
-
-
-        $form = $this->createForm(new UserType($em), $user);
+        $form = $this->createForm(new PollType($em), $poll);
         $form->handleRequest($request);
 
         $params = array(
-            'entity' => $user,
+            'entity' => $poll,
             'form' => $form->createView(),
             'str_action' => $str_action,
             'url' => $url,
             'id' => $id,
             'js' => $js);
 
-        $associate = $em->getRepository('BDCPollBundle:Associate')->findOneById($user->getAssociateId());
-        $user->setAssociate($associate);
+
 
         if ($form->isSubmitted() === true) {
 
             $request_params = $this->get('request')->request->all();
-            $email = $request_params['bdc_pollbundle_user']['email'];
-            $dni = $request_params['bdc_pollbundle_user']['dni'];
-            
-            $duplicate_email = $user_repo->duplicateEmail($email, $id);
-
+            //por el momento nada extra por validar
             $validate = true;
-            $change_pass = false;
-
-            if ($duplicate_email === true) {
-                $validate = false;
-                $error_message = 'Ya existe un usuario con el e-mail "' . $email . '". ';
-            }
-            
-            $duplicate_dni = $user_repo->duplicateDni($dni, $id);
-            
-            if ($duplicate_dni === true) {
-                $validate = false;
-                $error_message = 'Ya existe un usuario con el DNI "' . $dni . '". ';
-            }
-
-            if (($request->get('pass') !== '')  && ($validate === true)){
-                $change_pass = true;
-                if ($request->get('pass2') !== $request->get('pass')) {
-                    $error_message = 'Las contraseñas ingresadas no coinciden. Por favor, ingrese nuevamente la misma contraseña en ambos campos de texto.';
-                    $validate = false;
-                }
-
-                if (strlen($request->get('pass')) < 4) {
-                    $error_message = 'La longitud de la contraseña debe ser mayor a 3 caracteres. Por favor, ingrese una contraseña de mayor longitud.';
-                    $validate = false;
-                }
-            }
-
 
             if ($validate === true) {
                 if (!$id) {
-                    $user->setCreated(new \DateTime());
+                    $poll->created = new \DateTime();
                 }
-                $user->setModified(new \DateTime());
+                $poll->modified = new \DateTime();
 
-                if ($change_pass === true) {
-                    $enc = new PasswordEncrypt();
-                    $user->setSalt(uniqid(mt_rand()));
-                    $user->setPassword($enc->encodePassword($request->get('pass'), $user->getSalt()));
-                }
-                $em->persist($user);
+                $poll->slug = $utils->slugify($request_params['bdc_pollbundle_poll']['name']);
+
+                $em->persist($poll);
                 $em->flush();
                 $params['message'] = array('status' => 'success', 'text' => $ok_message);
-                if (!$id) {
-                     return $this->redirect($this->generateUrl('user'));
-                }
+
+                return $this->redirect($this->generateUrl('poll_show',array('id' => $poll->id)));
+                
             } else {
                 $params['message'] = array('status' => 'danger', 'text' => $error_message);
             }
-           
         }
 
-        return $this->render('BDCPollBundle:User:form.html.twig', $params);
+        return $this->render('BDCPollBundle:Poll:form.html.twig', $params);
     }
 
     /**
-     * Finds and displays a User entity.
+     * Finds and displays a Poll entity.
      *
      */
     public function showAction($id) {
+
         $em = $this->getDoctrine()->getManager();
+        $request_params = $this->get('request')->request->all();
 
-        $entity = $em->getRepository('BDCPollBundle:User')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find User entity.');
+        if (count($request_params) > 0) {
+            $answer_name = $request_params['answer'];
+            //die(print_r($request_params));
+            if ($answer_name != '') {
+                $answer = new Answer();
+                $answer->name = $answer_name;
+                $answer->id_poll = $request_params['id_poll'];
+                $em->persist($answer);
+                $em->flush();
+                echo json_encode(array('status' => 'success'));
+                exit;
+            }
         }
 
-        return $this->render('BDCPollBundle:User:show.html.twig', array(
-                    'entity' => $entity,
+        $entity = $em->getRepository('BDCPollBundle:Poll')->find($id);
+        $answers = $em->getRepository('BDCPollBundle:Answer')->findBy(array('id_poll' => $id));
+        $votes = $em->getRepository('BDCPollBundle:Vote')->findBy(array('id_poll' => $id));
+
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Poll entity.');
+        }
+
+        return $this->render('BDCPollBundle:Poll:show.html.twig', array(
+                    'entity' => $entity, 'answers' => $answers, 'votes' => $votes, 'js' => array('js/plugins/jquery-validation/js/jquery.validate.min.js', 'js/plugins/jquery-validation/js/localization/messages_es_AR.js', 'js/poll/show.js')
         ));
     }
 
     /**
-     * Deletes a User entity.
+     * Deletes a Poll entity.
      *
      */
     public function deleteAction(Request $request, $id) {
         $em = $this->getDoctrine()->getManager();
-        $entity = $em->getRepository('BDCPollBundle:User')->find($id);
+        $entity = $em->getRepository('BDCPollBundle:Poll')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find User entity.');
+            throw $this->createNotFoundException('Unable to find Poll entity.');
         }
 
         $em->remove($entity);
         $em->flush();
 
-        return $this->redirect($this->generateUrl('user'));
+        return $this->redirect($this->generateUrl('poll'));
     }
 
 }

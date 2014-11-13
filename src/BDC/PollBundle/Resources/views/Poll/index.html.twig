@@ -1,0 +1,54 @@
+
+{% extends 'BDCPollBundle::layout.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li class="active"><i class="fa fa-bar-chart-o"></i> Encuestas</li>
+            </ol>
+        </div>
+    </div>    
+    <h1 class="page-header">Encuestas</h1>
+    <div class="row">
+        <div class="col-lg-12 page-actions">
+             <a class="btn btn-primary pull-right"href="{{ path('poll_form') }}">
+                 <i class="fa fa-plus-circle"></i>Agregar Encuesta
+            </a>
+        </div>
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+               
+                <th>Nombre</th>
+                <th>Estado</th>
+               
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+              {% for entity in entities %}
+                <tr>
+                   
+                    <td>{{ entity.name }}</td>
+                    <td>{% if entity.status == 'active' %} Activa {% else %} Inactiva {% endif %}</td>
+                   
+                    
+                   
+                    <td>
+                        <ul class="table-actions">
+                            <li>
+                                <a href="{{ path('poll_show', { 'id': entity.id }) }}"><i class="fa fa-eye"></i></a> |
+                                <a href="{{ path('poll_form_edit', { 'id': entity.id }) }}"><i class="fa fa-pencil"></i></a> |
+                                <a href="{{ path('poll_delete', { 'id': entity.id }) }}"><i class="fa fa-trash-o"></i></a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+     
+{% endblock %}

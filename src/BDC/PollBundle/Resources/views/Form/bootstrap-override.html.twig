@@ -29,7 +29,7 @@
 
 {% block form_widget_simple -%}
     {% set type = type|default('text') -%}
-    <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" class="form-control" {% endif %}/>
+    <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %} class="form-control" />
 {%- endblock form_widget_simple %}
 
 {% block form_label -%}

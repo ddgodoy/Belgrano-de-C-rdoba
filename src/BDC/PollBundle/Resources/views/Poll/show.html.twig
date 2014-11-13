@@ -1,0 +1,124 @@
+{% extends 'BDCPollBundle::layout.html.twig' %}
+
+
+{% block body -%}  
+    <div class="row">
+        <div class="col-lg-12">
+            <ul class="breadcrumb">
+                <li><i class="fa fa-bar-chart-o"></i> <a href="{{ path('poll') }}">Encuestas</a></li>
+                <li class="active">Ver Encuesta</li>
+            </ul>
+        </div>
+    </div>    
+    <h1 class="page-header">{{ entity.name }}<a href="{{ path('poll_form_edit', { 'id': entity.id }) }}" class="btn btn-outline btn-primary btn-xs btn-action">Editar</a></h1> 
+
+
+
+
+    <div class="row">
+        <div class="col-lg-4">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    {% if entity.status == 'active' %}
+                        <span class="badge alert-success">Activa</span>
+                    {% endif %}
+                    {% if entity.status == 'inactive' %}
+                        <span class="badge alert-warning">Inactiva</span>
+                    {% endif %}
+                    {% if entity.status == 'ended' %}
+                        <span class="badge alert-info">Finalizada</span>
+                    {% endif %}
+                    Estado
+                </li>
+            </ul>
+        </div>
+        <div class="col-lg-4">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    {% if answers|length > 0 %}
+                        <span class="badge">{{ answers|length }}</span>
+                        Respuestas
+                    {% else %}
+
+                        <span class="badge">0</span>
+                        No hay respuestas agregadas
+                    {% endif %}
+
+
+                </li>
+            </ul>
+        </div>
+        <div class="col-lg-4">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    {% if votes|length > 0 %}
+                        <span class="badge">{{ votes|length }}</span>
+                        Votos
+                    {% else %}
+
+                        <span class="badge">0</span>
+                        Sin Votos Aún
+                    {% endif %}
+
+
+                </li>
+            </ul>
+        </div>            
+        {%if answers is not empty %} 
+            <div class="col-lg-12">
+                <h2 class="page-header">Respuestas</h2>
+                <div class="row">
+                    <div class="col-lg-12 page-actions">
+                        <button onclick="add_answer_modal( {{ entity.id }} );" class="btn btn-primary pull-right"><i class="fa fa-plus-circle margin-right-5"></i>Agregar Respuesta</button>
+
+                    </div>
+                </div>
+                <div class="col-lg-6">        
+                <ul class="list-group">
+                    {% for a in answers %}
+                        <li class="list-group-item">{{ a.name }} </li>
+                        {% endfor %}
+                </ul>
+                </div>
+            </div>
+
+
+        {% else %}
+            <div class="col-lg-6">
+                <div class="alert alert-info">
+                    Todavía no has agregado ninguna respuesta, <a href="#" onclick="add_answer_modal( {{ entity.id }} );
+                            return false;" class="alert-link">Agregar Una Respuesta</a>.
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="modal fade" id="form-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Agregar Respuesta</h4>
+                </div>
+                <div class="modal-body">
+
+                    <form method="post" id="answer-form">
+                        <label class="control-label">Ingrese una respuesta:</label>
+                        <input type="text" class="form-control" id="answer" name="answer"/>
+                        <input type="hidden" name="id" id="id" value="{{entity.id}}" />
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="add_answer_submit();">Confirmar</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+{% endblock %}
+
+
