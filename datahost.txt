@@ -1,0 +1,17 @@
+https://www.icox.mobi:8443
+usuario: icoxpanel
+clave: lximin+menos
+
+WEB: belgrano.icox.mobi
+
+FTP:
+ftp.icox.mobi
+belgrano
+kjz14U3@
+
+
+base de datos
+
+name:     staging_belgrano
+user:     belgrano_cba
+password: u78A1?os
