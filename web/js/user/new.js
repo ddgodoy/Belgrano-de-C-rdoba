@@ -40,10 +40,16 @@ $(document).ready(function () {
             "bdc_pollbundle_user[associate_id]": {
                 required: true,
             },
+            "pass": {
+                required: true,
+            },
+            "pass2": {
+                required: true,
+            },
+            
         },
         invalidHandler: function (event, validator) { //display error alert on form submit              
-            $('#company-error').fadeIn();
-            $('#exists-error').fadeOut();
+            
 
         },
         highlight: function (element) { // hightlight error inputs

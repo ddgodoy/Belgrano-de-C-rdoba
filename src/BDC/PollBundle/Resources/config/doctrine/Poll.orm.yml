@@ -1,0 +1,31 @@
+BDC\PollBundle\Entity\Poll:
+    detect_relations: true
+    type: entity
+    table: Poll
+    repositoryClass: BDC\PollBundle\Repository\PollRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        name:
+            type: string
+            length: 255
+        slug:
+            type: string
+            length: 255
+        status:
+            type: string
+            length: 50
+        created:
+            type: datetime
+        modified:
+            type: datetime
+       
+    
+   
+   
+            
+    lifecycleCallbacks: {  }

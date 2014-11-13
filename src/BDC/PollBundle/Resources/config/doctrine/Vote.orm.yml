@@ -1,0 +1,23 @@
+BDC\PollBundle\Entity\Vote:
+    detect_relations: true
+    type: entity
+    table: Vote
+    repositoryClass: BDC\PollBundle\Repository\VoteRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        id_poll:
+            type: integer
+        id_answer:
+            type: integer
+        id_user:
+            type: integer   
+        created:
+            type: datetime
+       
+            
+    lifecycleCallbacks: {  }

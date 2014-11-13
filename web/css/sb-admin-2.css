@@ -353,7 +353,8 @@ table.dataTable thead .sorting:after {
 }
 
 .page-actions {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+   
 }
 
 .page-actions a i {
@@ -362,4 +363,16 @@ table.dataTable thead .sorting:after {
 
 .page-header {
     color: #009DD4;
+}
+
+.row.message {
+    padding-top: 20px;
+}
+
+.btn-action {
+    margin-left: 5px;
+}
+
+.margin-right-5 {
+    margin-right: 5px;
 }

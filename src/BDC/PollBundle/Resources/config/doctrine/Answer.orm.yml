@@ -1,0 +1,20 @@
+BDC\PollBundle\Entity\Answer:
+    detect_relations: true
+    type: entity
+    table: Answer
+    repositoryClass: BDC\PollBundle\Repository\AnswerRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        id_poll:
+            type: integer
+           
+        name:
+            type: string
+            length: 255
+            
+    lifecycleCallbacks: {  }

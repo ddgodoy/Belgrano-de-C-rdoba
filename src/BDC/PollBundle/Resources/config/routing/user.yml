@@ -11,7 +11,7 @@ user_delete:
     defaults: { _controller: "BDCPollBundle:User:delete" }
 
 user_form:
-    pattern:  /news
+    pattern:  /new
     defaults: { _controller: BDCPollBundle:User:form }
     
 user_form_edit:

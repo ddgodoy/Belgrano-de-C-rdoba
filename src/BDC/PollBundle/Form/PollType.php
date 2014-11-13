@@ -7,7 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\ORM\EntityManager;
 
-class UserType extends AbstractType
+class PollType extends AbstractType
 {
     protected $doctrine;
 
@@ -21,17 +21,14 @@ class UserType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $array_type_user = $this->doctrine->getRepository('BDCPollBundle:Associate')->getArrayForSelect();
+        
         
         $builder
-            ->add('dni')
             ->add('name')
-            ->add('last_name')
-            ->add('email', 'email')
-            ->add('role', 'choice', ['choices' =>['admin'=>'Administrador', 'associate'=>'Socio']])    
-            ->add('associate_id', 'choice',['choices' => $array_type_user, 'required'=> true, 'empty_value' => '-- Seleccionar --','empty_data' => null, 'label'  => 'tipo de socio'])
+            ->add('status', 'choice', ['choices' =>['active'=>'Activa', 'inactive'=>'Inactiva', 'ended' => 'Finalizada']]);
+            
                     
-        ;
+        
     }
     
     /**
@@ -40,7 +37,7 @@ class UserType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'BDC\PollBundle\Entity\User'
+            'data_class' => 'BDC\PollBundle\Entity\Poll'
         ));
     }
 
@@ -49,6 +46,6 @@ class UserType extends AbstractType
      */
     public function getName()
     {
-        return 'bdc_pollbundle_user';
+        return 'bdc_pollbundle_poll';
     }
 }

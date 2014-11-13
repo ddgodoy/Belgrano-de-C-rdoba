@@ -1,9 +1,53 @@
-{% extends '::base.html.twig' %}
+{% extends 'BDCPollBundle::layout.html.twig' %}
 
-{% block body -%}
-    <h1>User</h1>
 
-    <table class="record_properties">
+{% block body -%}  
+    <div class="row">
+        <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li><i class="fa fa-users"></i> <a href="{{ path('user') }}">Usuarios</a></li>
+                <li class="active">Ver Usuario</li>
+            </ol>
+        </div>
+    </div>    
+    <h1 class="page-header">Ver Usuario</h1>
+    <div class="row">
+        <div class="col-lg-6">
+   
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <strong>{{ entity.name }} {{ entity.lastname }}</strong>
+                        </div>
+                        <div class="panel-body">
+                            <ul>
+                                
+                                <li>DNI: {{ entity.dni }}</li>
+                                <li>E-mail: {{entity.email}}</li>
+                                {% if entity.associate.name is defined %}
+                                <li>Tipo de Socio: {{entity.associate.name}}</li>
+                                {% endif %}
+                               
+                                
+                            </ul>
+                        </div>
+                        <div class="panel-footer">
+                           Última actualización {{ entity.modified|date('d/m/Y H:i:s') }}
+                        </div>
+                    </div>
+                </div>
+    
+    
+    
+    </div>
+
+    
+    
+    
+    
+    
+    
+    
+    <!--<table class="record_properties">
         <tbody>
             <tr>
                 <th>Id</th>
@@ -25,28 +69,7 @@
                 <th>Created</th>
                 <td>{{ entity.created|date('Y-m-d H:i:s') }}</td>
             </tr>
-            <tr>
-                <th>Modified</th>
-                <td>{{ entity.modified|date('Y-m-d H:i:s') }}</td>
-            </tr>
+            
         </tbody>
-    </table>
-
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('user') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('user_form_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('user_delete', { 'id': entity.id }) }}">
-            Delete
-        </a>
-    </li>
-</ul>
+    </table>-->
 {% endblock %}
