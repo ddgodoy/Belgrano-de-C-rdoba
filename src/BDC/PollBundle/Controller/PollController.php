@@ -106,10 +106,26 @@ class PollController extends Controller {
         $request_params = $this->get('request')->request->all();
 
         if (count($request_params) > 0) {
+            $answer_repo = $em->getRepository('BDCPollBundle:Answer');
+            
+            if (isset($request_params['delete'])) {
+                $answer = $answer_repo->findOneById($request_params['id_answer']);
+                $em->remove($answer);
+                $em->flush();
+                echo json_encode(array('status' => 'success'));
+                exit;
+            }
+            
             $answer_name = $request_params['answer'];
             //die(print_r($request_params));
+            
             if ($answer_name != '') {
-                $answer = new Answer();
+                    
+                if (isset($request_params['id_answer'])) {
+                    $answer = $answer_repo->findOneById($request_params['id_answer']);
+                } else {
+                    $answer = new Answer();
+                }
                 $answer->name = $answer_name;
                 $answer->id_poll = $request_params['id_poll'];
                 $em->persist($answer);

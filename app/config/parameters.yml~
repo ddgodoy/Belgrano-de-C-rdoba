@@ -1,0 +1,17 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_driver: pdo_mysql
+    database_host: localhost
+    database_port: null
+    database_name: club_belgrano
+    database_user: root
+    database_password: pk1321
+    mailer_transport: smtp
+    mailer_host: smtp.gmail.com
+    mailer_user: icox.automatic.service@gmail.com
+    mailer_password: la-virginia
+    locale: es_AR
+    secret: kefdl345lasdfkj34ds
+    debug_toolbar: true
+    debug_redirects: true
+    use_assetic_controller: true
