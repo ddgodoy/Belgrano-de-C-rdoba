@@ -7,8 +7,8 @@ bdc_poll_poll:
     prefix:   /admin/poll
 
 bdc_poll_homepage:
-    path:     /home/{name}
-    defaults: { _controller: BDCPollBundle:Front:index }
+    resource: "@BDCPollBundle/Resources/config/routing/admin.yml"
+    prefix:   /admin
 
 
 
