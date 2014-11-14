@@ -165,7 +165,8 @@ class UserController extends Controller {
 
         $em->remove($entity);
         $em->flush();
-
+        echo json_encode(array('status' => 'success'));
+        exit;
         return $this->redirect($this->generateUrl('user'));
     }
 

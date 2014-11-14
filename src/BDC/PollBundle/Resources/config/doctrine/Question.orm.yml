@@ -1,8 +1,8 @@
-BDC\PollBundle\Entity\Answer:
+BDC\PollBundle\Entity\Question:
     detect_relations: true
     type: entity
-    table: Answer
-    repositoryClass: BDC\PollBundle\Repository\AnswerRepository
+    table: Question
+    repositoryClass: BDC\PollBundle\Repository\QuestionRepository
     id:
         id:
             type: integer
@@ -12,10 +12,10 @@ BDC\PollBundle\Entity\Answer:
     fields:
         id_poll:
             type: integer
-        id_question:
-            type: integer
-        answer:
+           
+        question:
             type: string
             length: 255
+      
             
     lifecycleCallbacks: {  }

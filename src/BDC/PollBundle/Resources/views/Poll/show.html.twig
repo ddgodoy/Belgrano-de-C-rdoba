@@ -35,13 +35,13 @@
         <div class="col-lg-4">
             <ul class="list-group">
                 <li class="list-group-item">
-                    {% if answers|length > 0 %}
-                        <span class="badge">{{ answers|length }}</span>
-                        Respuestas
+                    {% if questions|length > 0 %}
+                        <span class="badge">{{ questions|length }}</span>
+                        Preguntas
                     {% else %}
 
                         <span class="badge">0</span>
-                        No hay respuestas agregadas
+                        No hay preguntas agregadas
                     {% endif %}
 
 
@@ -64,23 +64,23 @@
                 </li>
             </ul>
         </div>            
-        {%if answers is not empty %} 
+        {%if questions is not empty %} 
             <div class="col-lg-12">
-                <h2 class="page-header">Respuestas</h2>
+                <h2 class="page-header">Preguntas</h2>
                 <div class="row">
                     <div class="col-lg-12 page-actions">
-                        <button onclick="add_answer_modal( {{ entity.id }} );" class="btn btn-primary pull-right"><i class="fa fa-plus-circle margin-right-5"></i>Agregar Respuesta</button>
+                        <button onclick="add_question_modal( {{ entity.id }} );" class="btn btn-primary pull-right"><i class="fa fa-plus-circle margin-right-5"></i>Agregar Pregunta</button>
 
                     </div>
                 </div>
                 <div class="col-lg-6">        
                 <ul class="list-group">
-                    {% for a in answers %}
-                        <li class="list-group-item">{{ a.name }} 
+                    {% for a in questions %}
+                        <li class="list-group-item">{{ a.question }} 
                             <div class="pull-right">
-                                         
-                            <a onclick="edit_answer_modal({{a.id}},{{a.id_poll}},'{{a.name}}');"><i class="fa fa-pencil"></i></a> |
-                            <a onclick="delete_answer_modal({{a.id}},{{a.id_poll}}, '{{a.name}}');"><i class="fa fa-trash-o"></i></a> 
+                            <a href="{{ path('question_show', { 'id': a.id }) }}"><i class="fa fa-eye"></i></a> |
+                            <a onclick="edit_question_modal({{a.id}},{{a.id_poll}},'{{a.question}}');"><i class="fa fa-pencil"></i></a> |
+                            <a onclick="delete_question_modal({{a.id}},{{a.id_poll}}, '{{a.question}}');"><i class="fa fa-trash-o"></i></a> 
                             </div>
                         </li>
                         {% endfor %}
@@ -92,8 +92,8 @@
         {% else %}
             <div class="col-lg-6">
                 <div class="alert alert-info">
-                    Todavía no has agregado ninguna respuesta, <a href="#" onclick="add_answer_modal( {{ entity.id }} );
-                            return false;" class="alert-link">Agregar Una Respuesta</a>.
+                    Todavía no has agregado ninguna pregunta, <a href="#" onclick="add_question_modal( {{ entity.id }} );
+                            return false;" class="alert-link">agregar la primera pregunta</a>.
                 </div>
             </div>
         {% endif %}
@@ -104,19 +104,19 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel">Agregar Respuesta</h4>
+                    <h4 class="modal-title" id="myModalLabel">Agregar Pregunta</h4>
                 </div>
                 <div class="modal-body">
 
                     <form method="post" id="answer-form">
-                        <label class="control-label">Ingrese una respuesta:</label>
-                        <input type="text" class="form-control" id="answer" name="answer"/>
+                        <label class="control-label">Ingrese una pregunta:</label>
+                        <input type="text" class="form-control" id="question" name="question"/>
                         <input type="hidden" name="id" id="id" value="{{entity.id}}" />
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" onclick="add_answer_submit();">Confirmar</button>
+                    <button type="button" class="btn btn-primary" onclick="add_question_submit();">Confirmar</button>
                 </div>
             </div>
             <!-- /.modal-content -->
@@ -130,20 +130,20 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabelEdit">Editar Respuesta</h4>
+                    <h4 class="modal-title" id="myModalLabelEdit">Editar Pregunta</h4>
                 </div>
                 <div class="modal-body">
 
                     <form method="post" id="answer-form">
-                        <label class="control-label">Respuesta:</label>
-                        <input type="text" class="form-control" id="edit_answer" name="edit_answer"/>
-                        <input type="hidden" name="id_answer" id="id_answer" value="" />
+                        <label class="control-label">Pregunta:</label>
+                        <input type="text" class="form-control" id="edit_question" name="edit_question"/>
+                        <input type="hidden" name="id_answer" id="id_question" value="" />
                         <input type="hidden" name="id_poll" id="id_poll" value="{{entity.id}}" />
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" onclick="edit_answer_submit();">Confirmar</button>
+                    <button type="button" class="btn btn-primary" onclick="edit_question_submit();">Confirmar</button>
                 </div>
             </div>
             <!-- /.modal-content -->
@@ -157,15 +157,15 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabelDelete">Eliminar Respuesta</h4>
+                    <h4 class="modal-title" id="myModalLabelDelete">Eliminar Pregunta</h4>
                 </div>
                 <div class="modal-body">
 
-                    <p>Está seguro que desea eliminar la respuesta: "<span id="answer_text"></span>"</p>
+                    <p>Está seguro que desea eliminar la pregunta: "<span id="question_text"></span>"</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" onclick="delete_answer_submit();">Confirmar</button>
+                    <button type="button" class="btn btn-primary" onclick="delete_question_submit();">Confirmar</button>
                 </div>
             </div>
             <!-- /.modal-content -->

@@ -5,7 +5,7 @@ namespace BDC\PollBundle\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use BDC\PollBundle\Entity\Poll;
-use BDC\PollBundle\Entity\Question;
+use BDC\PollBundle\Entity\Answer;
 use BDC\PollBundle\Form\PollType;
 use BDC\PollBundle\Service\BDCUtils;
 
@@ -13,7 +13,7 @@ use BDC\PollBundle\Service\BDCUtils;
  * Poll controller.
  *
  */
-class PollController extends Controller {
+class QuestionController extends Controller {
 
     /**
      * Lists al Poll entities.
@@ -42,7 +42,7 @@ class PollController extends Controller {
 
 
 
-        $js = array('js/plugins/jquery-validation/js/jquery.validate.min.js', 'js/plugins/jquery-validation/js/localization/messages_es_AR.js', 'js/poll/edit.js');
+        $js = array('js/plugins/jquery-validation/js/jquery.validate.min.js', 'js/plugins/jquery-validation/js/localization/messages_es_AR.js', 'js/question/edit.js');
 
         if ($id) {
             $ok_message = 'La encuesta se ha editado correctamente.';
@@ -104,48 +104,53 @@ class PollController extends Controller {
 
         $em = $this->getDoctrine()->getManager();
         $request_params = $this->get('request')->request->all();
+        $entity = $em->getRepository('BDCPollBundle:Question')->find($id);
+       
 
         if (count($request_params) > 0) {
-            $question_repo = $em->getRepository('BDCPollBundle:Question');
+            $answer_repo = $em->getRepository('BDCPollBundle:Answer');
             
             if (isset($request_params['delete'])) {
-                $question = $question_repo->findOneById($request_params['id_question']);
-                $em->remove($question);
+                $answer = $answer_repo->findOneById($request_params['id_answer']);
+                $em->remove($answer);
                 $em->flush();
                 echo json_encode(array('status' => 'success'));
                 exit;
             }
             
-            $question_name = $request_params['question'];
+            $answer_name = $request_params['answer'];
             //die(print_r($request_params));
             
-            if ($question_name != '') {
+            if ($answer_name != '') {
                     
-                if (isset($request_params['id_question'])) {
-                    $question = $question_repo->findOneById($request_params['id_question']);
+                if (isset($request_params['id_answer'])) {
+                    $answer = $answer_repo->findOneById($request_params['id_answer']);
                 } else {
-                    $question = new Question();
+                    $answer = new Answer();
                 }
-                $question->question = $question_name;
-                $question->id_poll = $request_params['id_poll'];
-                $em->persist($question);
+                $answer->answer = $answer_name;
+                $answer->id_poll = $request_params['id_poll'];
+                $answer->id_question = $request_params['id_question'];
+                $em->persist($answer);
                 $em->flush();
                 echo json_encode(array('status' => 'success'));
                 exit;
             }
         }
 
-        $entity = $em->getRepository('BDCPollBundle:Poll')->find($id);
-        $questions = $em->getRepository('BDCPollBundle:Question')->findBy(array('id_poll' => $id));
-        $votes = $em->getRepository('BDCPollBundle:Vote')->findBy(array('id_poll' => $id));
+       
+   
+        $poll = $em->getRepository('BDCPollBundle:Poll')->find($entity->id_poll);
+        $answers = $em->getRepository('BDCPollBundle:Answer')->findBy(array('id_question' => $id));
+        
 
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Poll entity.');
         }
 
-        return $this->render('BDCPollBundle:Poll:show.html.twig', array(
-                    'entity' => $entity, 'questions' => $questions, 'votes' => $votes, 'js' => array('js/plugins/jquery-validation/js/jquery.validate.min.js', 'js/plugins/jquery-validation/js/localization/messages_es_AR.js', 'js/poll/show.js')
+        return $this->render('BDCPollBundle:Question:show.html.twig', array(
+                    'entity' => $entity, 'poll' => $poll, 'answers' => $answers, 'js' => array('js/plugins/jquery-validation/js/jquery.validate.min.js', 'js/plugins/jquery-validation/js/localization/messages_es_AR.js', 'js/question/show.js')
         ));
     }
 
