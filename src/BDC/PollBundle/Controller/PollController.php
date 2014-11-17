@@ -20,6 +20,12 @@ class PollController extends Controller {
      *
      */
     public function indexAction() {
+        
+        $utils = new BDCUtils;      
+        if ($utils->checkSession() === null) {
+            return $this->redirect($this->generateUrl('user_login'));
+        }
+        
         $em = $this->getDoctrine()->getManager();
         $entities = $em->getRepository('BDCPollBundle:Poll')->findAll();
 
@@ -29,8 +35,13 @@ class PollController extends Controller {
     }
 
     public function formAction(Request $request, $id = null) {
+        
+        $utils = new BDCUtils;      
+        if ($utils->checkSession() === null) {
+            return $this->redirect($this->generateUrl('user_login'));
+        }
 
-        $utils = new BDCUtils;
+       
 
 
         $str_action = $id ? 'Editar' : 'Nueva';
@@ -101,6 +112,11 @@ class PollController extends Controller {
      *
      */
     public function showAction($id) {
+        
+        $utils = new BDCUtils;      
+        if ($utils->checkSession() === null) {
+            return $this->redirect($this->generateUrl('user_login'));
+        }
 
         $em = $this->getDoctrine()->getManager();
         $request_params = $this->get('request')->request->all();
@@ -154,6 +170,12 @@ class PollController extends Controller {
      *
      */
     public function deleteAction(Request $request, $id) {
+        
+        $utils = new BDCUtils;      
+        if ($utils->checkSession() === null) {
+            return $this->redirect($this->generateUrl('user_login'));
+        }
+        
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('BDCPollBundle:Poll')->find($id);
 

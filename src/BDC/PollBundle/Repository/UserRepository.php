@@ -3,6 +3,8 @@
 namespace BDC\PollBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use BDC\PollBundle\Service\PasswordEncrypt;
+
 
 /**
  * UserRepository
@@ -29,8 +31,8 @@ class UserRepository extends EntityRepository {
     }
 
     function duplicateDni($dni, $id) {
-         $id = intval($id);
-        
+        $id = intval($id);
+
         $em = $this->getEntityManager();
         $query = $em->createQuery(
                         'SELECT u
@@ -41,6 +43,32 @@ class UserRepository extends EntityRepository {
 
         $users = $query->getResult();
         return count($users) > 0;
+    }
+
+    function authenticate($email, $password) {
+
+        $em = $this->getEntityManager();
+        $query = $em->createQuery(
+                        'SELECT u
+               FROM BDCPollBundle:User u
+              WHERE u.email = :email'
+              
+                )->setParameter('email', $email);
+
+        $user = $query->getResult();
+        if (count($user)) {
+            $user = $user[0];
+            $encodedPassword = $user->getPassword();
+          
+            $salt = $user->getSalt();
+          
+            $enc = new PasswordEncrypt();
+            
+            if ($enc->isPasswordValid($encodedPassword, $password, $salt)) {
+                return $user;
+            }
+            return false;
+        }
         
     }
 

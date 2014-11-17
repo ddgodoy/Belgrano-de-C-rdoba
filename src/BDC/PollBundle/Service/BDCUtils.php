@@ -1,6 +1,7 @@
 <?php
 
 namespace BDC\PollBundle\Service;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 
 
@@ -29,6 +30,15 @@ class BDCUtils
 
         return $text;
      
+  }
+  
+  function checkSession() {
+      
+      $s = new Session();
+      
+      return $s->get('user');
+          
+      
   }
 
 }
