@@ -204,7 +204,7 @@ class UserController extends Controller {
             if ($user !== false) {
                 $session = new Session();
                 $session->set('user', $user);
-                return $this->redirect($this->generateUrl('user'));
+                return $this->redirect($this->generateUrl('home'));
             } else {
                 $params['error'] = true;
             }
