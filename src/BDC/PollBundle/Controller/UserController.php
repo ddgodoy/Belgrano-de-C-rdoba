@@ -27,7 +27,7 @@ class UserController extends Controller {
         }
         
         $em = $this->getDoctrine()->getManager();
-        $entities = $em->getRepository('BDCPollBundle:User')->findAll();
+        $entities = $em->getRepository('BDCPollBundle:User')->getPartners();
 
         return $this->render('BDCPollBundle:User:index.html.twig', array(
                     'entities' => $entities, 'js' => array('js/user/index.js'),
@@ -48,6 +48,7 @@ class UserController extends Controller {
         $url = $this->generateUrl($rute, $parameter);
         $em = $this->getDoctrine()->getManager();
         $user_repo = $em->getRepository('BDCPollBundle:User');
+        $user_pass = uniqid();
 
 
 
@@ -89,7 +90,7 @@ class UserController extends Controller {
             $duplicate_email = $user_repo->duplicateEmail($email, $id);
 
             $validate = true;
-            $change_pass = false;
+            $change_pass = true;
 
             if ($duplicate_email === true) {
                 $validate = false;
@@ -103,7 +104,7 @@ class UserController extends Controller {
                 $error_message = 'Ya existe un usuario con el DNI "' . $dni . '". ';
             }
 
-            if (($request->get('pass') !== '') && ($validate === true)) {
+            /*if (($request->get('pass') !== '') && ($validate === true)) {
                 $change_pass = true;
                 if ($request->get('pass2') !== $request->get('pass')) {
                     $error_message = 'Las contraseñas ingresadas no coinciden. Por favor, ingrese nuevamente la misma contraseña en ambos campos de texto.';
@@ -114,7 +115,7 @@ class UserController extends Controller {
                     $error_message = 'La longitud de la contraseña debe ser mayor a 3 caracteres. Por favor, ingrese una contraseña de mayor longitud.';
                     $validate = false;
                 }
-            }
+            }*/
 
 
             if ($validate === true) {
@@ -127,10 +128,11 @@ class UserController extends Controller {
                     $enc = new PasswordEncrypt();
                     $salt = uniqid(mt_rand());
                     $user->setSalt($salt);
-                    $encoded = $enc->encodePassword($request->get('pass'), $salt);
+                    $encoded = $enc->encodePassword($user_pass, $salt);
                  
                     $user->setPassword($encoded);
                 }
+                $user->setRole('partners');
                 $em->persist($user);
                 $em->flush();
                 $params['message'] = array('status' => 'success', 'text' => $ok_message);

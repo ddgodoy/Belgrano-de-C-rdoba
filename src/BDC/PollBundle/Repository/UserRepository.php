@@ -71,5 +71,21 @@ class UserRepository extends EntityRepository {
         }
         
     }
+    
+    /**
+     * get partners
+     */
+    function getPartners()
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery(
+                        'SELECT u
+               FROM BDCPollBundle:User u
+              WHERE u.role != :rol'
+              
+                )->setParameter('rol', 'admin');
+
+        return $query->getResult();
+    }
 
 }
