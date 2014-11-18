@@ -82,7 +82,7 @@
                     <form method="post" id="answer-form">
                         <label class="control-label">Ingrese una respuesta:</label>
                         <input type="text" class="form-control" id="answer" name="answer"/>
-                        <input type="hidden" name="id_question" id="id" value="{{entity.id}}" />
+                        <input type="hidden" name="id_question" id="id_question" value="{{entity.id}}" />
                         <input type="hidden" name="id_poll" id="id_poll" value="{{poll.id}}" />
                     </form>
                 </div>
@@ -110,8 +110,8 @@
                         <label class="control-label">Respuesta:</label>
                         <input type="text" class="form-control" id="edit_answer" name="edit_answer"/>
                         <input type="hidden" name="id_answer" id="id_answer" value="" />
-                        <input type="hidden" name="id_question" id="id_question" value="{{entity.id}}" />
-                        <input type="hidden" name="id_poll" id="id_poll" value="{{poll.id}}" />
+                        <input type="hidden" name="id_question" id="id_question_edit" value="{{entity.id}}" />
+                        <input type="hidden" name="id_poll" id="id_poll_edit" value="{{poll.id}}" />
                     </form>
                 </div>
                 <div class="modal-footer">

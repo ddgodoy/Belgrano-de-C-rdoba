@@ -15,6 +15,9 @@ function add_answer_submit() {
         return false;
     }
     
+    id_question = $('id_question').val();
+    id_poll = $('id_poll').val();
+    
     $.ajax({
         type: 'POST',
         async: true,
@@ -43,6 +46,9 @@ function edit_answer_submit() {
     if ($('#edit_answer').val() === '') {
         return false;
     }
+    
+    id_question = $('id_question_edit').val();
+    id_poll = $('id_poll_edit').val();
     
     $.ajax({
         type: 'POST',
