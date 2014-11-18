@@ -34,7 +34,7 @@ class UserController extends Controller {
         ));
     }
 
-    public function formAction(Request $request, $id = null) {
+    public function formAction(Request $request, $id = null, $profile = null) {
 
         
         $utils = new BDCUtils;      
@@ -48,8 +48,8 @@ class UserController extends Controller {
         $url = $this->generateUrl($rute, $parameter);
         $em = $this->getDoctrine()->getManager();
         $user_repo = $em->getRepository('BDCPollBundle:User');
-        $user_pass = uniqid();
-
+        $user_pass = $profile?$request->get('pass'):uniqid();
+        $url = $profile?$this->generateUrl('user_profile_edit', ['id'=>7, 'profile'=>'profile']):$url;
 
 
         $js = array('js/plugins/jquery-validation/js/jquery.validate.min.js', 'js/plugins/jquery-validation/js/localization/messages_es_AR.js');
@@ -76,7 +76,8 @@ class UserController extends Controller {
             'str_action' => $str_action,
             'url' => $url,
             'id' => $id,
-            'js' => $js);
+            'js' => $js,
+            'profile'=>$profile);
 
         $associate = $em->getRepository('BDCPollBundle:Associate')->findOneById($user->getAssociateId());
         $user->setAssociate($associate);
@@ -90,7 +91,7 @@ class UserController extends Controller {
             $duplicate_email = $user_repo->duplicateEmail($email, $id);
 
             $validate = true;
-            $change_pass = true;
+            $change_pass = $profile?false:true;
 
             if ($duplicate_email === true) {
                 $validate = false;
@@ -103,20 +104,21 @@ class UserController extends Controller {
                 $validate = false;
                 $error_message = 'Ya existe un usuario con el DNI "' . $dni . '". ';
             }
+            
+            if($profile){
+                if (($request->get('pass') !== '') && ($validate === true)) {
+                    $change_pass = true;
+                    if ($request->get('pass2') !== $request->get('pass')) {
+                        $error_message = 'Las contraseñas ingresadas no coinciden. Por favor, ingrese nuevamente la misma contraseña en ambos campos de texto.';
+                        $validate = false;
+                    }
 
-            /*if (($request->get('pass') !== '') && ($validate === true)) {
-                $change_pass = true;
-                if ($request->get('pass2') !== $request->get('pass')) {
-                    $error_message = 'Las contraseñas ingresadas no coinciden. Por favor, ingrese nuevamente la misma contraseña en ambos campos de texto.';
-                    $validate = false;
+                    if (strlen($request->get('pass')) < 4) {
+                        $error_message = 'La longitud de la contraseña debe ser mayor a 3 caracteres. Por favor, ingrese una contraseña de mayor longitud.';
+                        $validate = false;
+                    }
                 }
-
-                if (strlen($request->get('pass')) < 4) {
-                    $error_message = 'La longitud de la contraseña debe ser mayor a 3 caracteres. Por favor, ingrese una contraseña de mayor longitud.';
-                    $validate = false;
-                }
-            }*/
-
+            }    
 
             if ($validate === true) {
                 if (!$id) {
