@@ -15,8 +15,8 @@ function add_answer_submit() {
         return false;
     }
     
-    id_question = $('id_question').val();
-    id_poll = $('id_poll').val();
+    id_question = $('#id_question').val();
+    id_poll = $('#id_poll').val();
     
     $.ajax({
         type: 'POST',
@@ -47,8 +47,8 @@ function edit_answer_submit() {
         return false;
     }
     
-    id_question = $('id_question_edit').val();
-    id_poll = $('id_poll_edit').val();
+    id_question = $('#id_question_edit').val();
+    id_poll = $('#id_poll_edit').val();
     
     $.ajax({
         type: 'POST',
