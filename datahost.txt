@@ -15,3 +15,8 @@ base de datos
 name:     staging_belgrano
 user:     belgrano_cba
 password: u78A1?os
+
+FTP:
+server: 96.30.53.214
+user: encu@belgranocordoba.com
+clave: App$@753
