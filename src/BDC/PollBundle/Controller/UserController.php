@@ -194,7 +194,7 @@ class UserController extends Controller {
         return $this->redirect($this->generateUrl('user'));
     }
 
-    function loginAction(Request $request) {
+    public function loginAction(Request $request) {
         
                 
         $em = $this->getDoctrine()->getManager();
@@ -213,10 +213,10 @@ class UserController extends Controller {
         return $this->render('BDCPollBundle:User:login.html.twig', $params);
     }
     
-    function logoutAction() {
+    public function logoutAction(Request $request) {
         $session = new Session();
         $session->remove('user');
-        $this->redirect($this->generateUrl('user_login'));
+        return $this->redirect($this->generateUrl('user_login'));
     }
     
    

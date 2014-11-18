@@ -13,6 +13,10 @@ user_delete:
 user_login:
     path:   /login
     defaults: { _controller: "BDCPollBundle:User:login" }
+    
+user_logout:
+    path:   /logout
+    defaults: { _controller: "BDCPollBundle:User:logout" }    
 
 user_form:
     pattern:  /new
