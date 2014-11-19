@@ -376,3 +376,11 @@ table.dataTable thead .sorting:after {
 .margin-right-5 {
     margin-right: 5px;
 }
+
+.tab-content {
+    margin-top: 25px;
+}
+
+#pie-chart {
+    min-height: 400px;
+}

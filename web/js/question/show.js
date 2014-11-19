@@ -85,3 +85,50 @@ function delete_answer_submit() {
         }
     });
 }
+
+function load_pie_chart_data(id_q) {
+    
+     $.ajax({
+        type: 'POST',
+        async: true,
+        cache: false,
+        dataType: "json",
+        url: base_url + '/admin/question/'+id_q+'/show',
+        data: {'pie_chart_data': 1},
+        success: function (response) {
+            
+           build_charts(response);
+        }
+    });
+}
+
+function build_charts(pie_data) {
+    var data = pie_data;
+
+    var plotObj = $.plot($("#pie-chart"), data, {
+        series: {
+            pie: {
+                show: true
+            }
+        },
+        grid: {
+            hoverable: true
+        },
+        tooltip: true,
+        tooltipOpts: {
+            content: "%p.0%, %s", // show percentages, rounding to 2 decimal places
+            shifts: {
+                x: 20,
+                y: 0
+            },
+            defaultTheme: false
+        },
+       
+    });
+
+}
+
+
+$(document).ready(function() {
+    load_pie_chart_data($('#id').val());
+});

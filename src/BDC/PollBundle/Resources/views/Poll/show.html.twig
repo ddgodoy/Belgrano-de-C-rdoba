@@ -73,27 +73,30 @@
 
                     </div>
                 </div>
-                <div class="col-lg-12">        
-                <ul class="list-group">
-                    {% for a in questions %}
-                        <li class="list-group-item">{{ a.question }} 
-                            <div class="pull-right">
-                            <a href="{{ path('question_show', { 'id': a.id }) }}"><i class="fa fa-eye"></i></a> |
-                            <a onclick="edit_question_modal({{a.id}},{{a.id_poll}},'{{a.question}}');"><i class="fa fa-pencil"></i></a> |
-                            <a onclick="delete_question_modal({{a.id}},{{a.id_poll}}, '{{a.question}}');"><i class="fa fa-trash-o"></i></a> 
-                            </div>
-                        </li>
-                        {% endfor %}
-                </ul>
+                <div class="row">    
+                    <div class="col-lg-6">
+                        <ul class="list-group">
+                            {% for a in questions %}
+                                <li class="list-group-item">{{ a.question }} 
+                                    <div class="pull-right">
+                                        <a href="{{ path('question_show', { 'id': a.id }) }}"><i class="fa fa-eye"></i></a> |
+                                        <a onclick="edit_question_modal({{a.id}},{{a.id_poll}} , '{{a.question}}');"><i class="fa fa-pencil"></i></a> |
+                                        <a onclick="delete_question_modal({{a.id}},{{a.id_poll}} , '{{a.question}}');"><i class="fa fa-trash-o"></i></a> 
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
                 </div>
             </div>
+
 
 
         {% else %}
             <div class="col-lg-6">
                 <div class="alert alert-info">
                     Todavía no has agregado ninguna pregunta, <a href="#" onclick="add_question_modal( {{ entity.id }} );
-                            return false;" class="alert-link">agregar la primera pregunta</a>.
+                                        return false;" class="alert-link">agregar la primera pregunta</a>.
                 </div>
             </div>
         {% endif %}
@@ -124,7 +127,7 @@
         <!-- /.modal-dialog -->
     </div>
     <!-- /.modal -->
-    
+
     <div class="modal fade" id="form-modal-edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabelEdit" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -151,8 +154,8 @@
         <!-- /.modal-dialog -->
     </div>
     <!-- /.modal -->
-    
-     <div class="modal fade" id="form-modal-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabelDelete" aria-hidden="true">
+
+    <div class="modal fade" id="form-modal-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabelDelete" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -173,7 +176,7 @@
         <!-- /.modal-dialog -->
     </div>
     <!-- /.modal -->
-    
+
 
 {% endblock %}
 

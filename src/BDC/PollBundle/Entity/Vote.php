@@ -15,14 +15,19 @@ class Vote
     public $id;
     
      /**
-     * @var string
+     * @var integer
      */
     public $id_poll;
 
     /**
-     * @var string
+     * @var integer
      */
     public $id_answer;
+    
+     /**
+     * @var integer
+     */
+    public $id_question;
     
     /**
      * @var string

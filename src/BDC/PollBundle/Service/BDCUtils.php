@@ -1,15 +1,13 @@
 <?php
 
 namespace BDC\PollBundle\Service;
+
 use Symfony\Component\HttpFoundation\Session\Session;
 
+class BDCUtils {
 
-
-class BDCUtils 
-{
-
-  function slugify($text) {
-       // replace non letter or digits by -
+    function slugify($text) {
+        // replace non letter or digits by -
         $text = preg_replace('~[^\\pL\d]+~u', '-', $text);
 
         // trim
@@ -29,16 +27,39 @@ class BDCUtils
         }
 
         return $text;
-     
-  }
-  
-  function checkSession() {
-      
-      $s = new Session();
-      
-      return $s->get('user');
-          
-      
-  }
+    }
 
+    function checkSession() {
+
+        $s = new Session();
+
+        return $s->get('user');
+    }
+
+    function pie_chart_data($votes) {
+
+        $output = array();
+
+        foreach ($votes as $v) {
+           
+            $output[] = array('label' => $v['answer'], 'data' => $v['total_votes']);
+                    
+           
+        }
+        
+        return json_encode($output);
+    }
 }
+ /*var pie_data = [{
+        label: "Series 0",
+        data: 1
+    }, {
+        label: "Series 1",
+        data: 3
+    }, {
+        label: "Series 2",
+        data: 9
+    }, {
+        label: "Series 3",
+        data: 20
+    }];*/

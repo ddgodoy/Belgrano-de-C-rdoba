@@ -12,6 +12,7 @@ BDC\PollBundle\Entity\Question:
     fields:
         id_poll:
             type: integer
+        
            
         question:
             type: string

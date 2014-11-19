@@ -12,6 +12,8 @@ BDC\PollBundle\Entity\Vote:
     fields:
         id_poll:
             type: integer
+        id_question:
+            type: integer
         id_answer:
             type: integer
         id_user:

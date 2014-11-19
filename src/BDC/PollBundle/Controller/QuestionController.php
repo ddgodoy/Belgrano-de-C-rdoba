@@ -121,6 +121,14 @@ class QuestionController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $request_params = $this->get('request')->request->all();
         $entity = $em->getRepository('BDCPollBundle:Question')->find($id);
+        
+        $votes = $em->getRepository('BDCPollBundle:Question')->getVotes($id);
+        
+        if (isset($request_params['pie_chart_data'])) {
+
+            echo $utils->pie_chart_data($votes);
+            exit;
+        }
        
 
         if (count($request_params) > 0) {
@@ -166,7 +174,7 @@ class QuestionController extends Controller {
         }
 
         return $this->render('BDCPollBundle:Question:show.html.twig', array(
-                    'entity' => $entity, 'poll' => $poll, 'answers' => $answers, 'js' => array('js/plugins/jquery-validation/js/jquery.validate.min.js', 'js/plugins/jquery-validation/js/localization/messages_es_AR.js', 'js/question/show.js')
+                    'entity' => $entity, 'votes' => $votes, 'poll' => $poll, 'answers' => $answers, 'js' => array('js/plugins/jquery-validation/js/jquery.validate.min.js', 'js/plugins/jquery-validation/js/localization/messages_es_AR.js','js/plugins/flot/excanvas.min.js','js/plugins/flot/jquery.flot.js','js/plugins/flot/jquery.flot.pie.js','js/plugins/flot/jquery.flot.resize.js','js/plugins/flot/jquery.flot.tooltip.min.js' ,'js/question/show.js')
         ));
     }
 

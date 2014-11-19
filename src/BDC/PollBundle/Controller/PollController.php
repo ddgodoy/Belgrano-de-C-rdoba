@@ -119,6 +119,7 @@ class PollController extends Controller {
         }
 
         $em = $this->getDoctrine()->getManager();
+        $votes = $em->getRepository('BDCPollBundle:Vote')->findBy(array('id_question' => $id));
         $request_params = $this->get('request')->request->all();
 
         if (count($request_params) > 0) {
@@ -153,16 +154,19 @@ class PollController extends Controller {
 
         $entity = $em->getRepository('BDCPollBundle:Poll')->find($id);
         $questions = $em->getRepository('BDCPollBundle:Question')->findBy(array('id_poll' => $id));
-        $votes = $em->getRepository('BDCPollBundle:Vote')->findBy(array('id_poll' => $id));
-
+        
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Poll entity.');
         }
+        
+        $js = array('js/plugins/jquery-validation/js/jquery.validate.min.js', 'js/plugins/jquery-validation/js/localization/messages_es_AR.js', 'js/poll/show.js');
+        
+        
 
         return $this->render('BDCPollBundle:Poll:show.html.twig', array(
-                    'entity' => $entity, 'questions' => $questions, 'votes' => $votes, 'js' => array('js/plugins/jquery-validation/js/jquery.validate.min.js', 'js/plugins/jquery-validation/js/localization/messages_es_AR.js', 'js/poll/show.js')
-        ));
+                    'entity' => $entity, 'questions' => $questions, 'votes' => $votes, 'js' => $js)
+        );
     }
 
     /**
