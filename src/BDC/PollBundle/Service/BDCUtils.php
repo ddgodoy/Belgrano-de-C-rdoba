@@ -36,21 +36,28 @@ class BDCUtils {
         return $s->get('user');
     }
 
-    function pie_chart_data($votes) {
+    function pie_chart_data($votes, $answers) {
 
         $output = array();
 
-        foreach ($votes as $v) {
-           
-            $output[] = array('label' => $v['answer'], 'data' => $v['total_votes']);
-                    
-           
+        foreach ($answers as $a) {
+            $answer_result = array('label' => $a->answer);
+            $total_votes = 0;
+            foreach ($votes as $v) {
+                if ($v['answer'] === $a->answer) {
+                    $total_votes += 1;
+                }
+            }
+            $answer_result['data'] = $total_votes;
+            $output[] = $answer_result;
         }
-        
+
         return json_encode($output);
     }
+
 }
- /*var pie_data = [{
+
+/*var pie_data = [{
         label: "Series 0",
         data: 1
     }, {

@@ -121,12 +121,13 @@ class QuestionController extends Controller {
         $em = $this->getDoctrine()->getManager();
         $request_params = $this->get('request')->request->all();
         $entity = $em->getRepository('BDCPollBundle:Question')->find($id);
+        $answers = $em->getRepository('BDCPollBundle:Answer')->findBy(array('id_question' => $id));
         
         $votes = $em->getRepository('BDCPollBundle:Question')->getVotes($id);
         
         if (isset($request_params['pie_chart_data'])) {
 
-            echo $utils->pie_chart_data($votes);
+            echo $utils->pie_chart_data($votes, $answers);
             exit;
         }
        
