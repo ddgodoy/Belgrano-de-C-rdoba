@@ -63,7 +63,7 @@ class BDCUtils {
         $ykeys = array();
         foreach ($associates as $s) {
 
-            $labels[] = $s->getName();
+            
             $associate_array = array('s' => $s->getName());
             foreach ($answers as $a) {
 
@@ -79,6 +79,7 @@ class BDCUtils {
 
                         if (!in_array($a->answer, $ykeys)) {
                             $ykeys[] = $a->answer;
+                            $labels[] = $a->answer;
                         }
                         $associate_array[$a->answer] = $v['total_votes'];
 
