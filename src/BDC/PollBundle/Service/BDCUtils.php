@@ -55,7 +55,79 @@ class BDCUtils {
         return json_encode($output);
     }
 
+    function bar_chart_data($votes, $answers, $associates) {
+
+
+        $data = array();
+        $labels = array();
+        $ykeys = array();
+        foreach ($associates as $s) {
+
+            $labels[] = $s->getName();
+            $associate_array = array('s' => $s->getName());
+            foreach ($answers as $a) {
+
+
+                $continue = true;
+                foreach ($votes as $k => $v) {
+
+
+
+
+                    if (($v['answer'] === $a->answer) && ($v['name'] === $s->getName())) {
+                        //$total_votes = $v['total_votes'];
+
+                        if (!in_array($a->answer, $ykeys)) {
+                            $ykeys[] = $a->answer;
+                        }
+                        $associate_array[$a->answer] = $v['total_votes'];
+
+                        break;
+                    }
+                }
+            }
+            $data[] = $associate_array;
+        }
+        $output = array('data' => $data, 'labels' => $labels, 'ykeys' => array_values($ykeys));
+        return json_encode($output);
+    }
+
 }
+
+/*
+ * data: [{
+            s: 'Celeste',
+            a: 100,
+            b: 90
+        }, {
+            y: 'Dorada',
+            a: 75,
+            b: 65
+        }, {
+            y: '2008',
+            a: 50,
+            b: 40
+        }, {
+            y: '2009',
+            a: 75,
+            b: 65
+        }, {
+            y: '2010',
+            a: 50,
+            b: 40
+        }, {
+            y: '2011',
+            a: 75,
+            b: 65
+        }, {
+            y: '2012',
+            a: 100,
+            b: 90
+        }],
+        xkey: 's',
+        ykeys: ['a', 'b'],
+        labels: ['Series A', 'Series B'],
+ */
 
 /*var pie_data = [{
         label: "Series 0",

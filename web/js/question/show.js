@@ -102,10 +102,24 @@ function load_pie_chart_data(id_q) {
     });
 }
 
-function build_charts(pie_data) {
-    var data = pie_data;
+function load_bar_chart_data(id_q) {
+     $.ajax({
+        type: 'POST',
+        async: true,
+        cache: false,
+        dataType: "json",
+        url: base_url + '/admin/question/'+id_q+'/show',
+        data: {'bar_chart_data': 1},
+        success: function (response) {   
+           build_bar_charts(response);
+        }
+    });   
+}
 
-    var plotObj = $.plot($("#pie-chart"), data, {
+function build_charts(pie_data) {
+   
+
+    var plotObj = $.plot($("#pie-chart"), pie_data, {
         series: {
             pie: {
                 show: true
@@ -128,7 +142,58 @@ function build_charts(pie_data) {
 
 }
 
+function build_bar_charts(bar_data) {
+      Morris.Bar({
+        element: 'bar-chart',
+        data: bar_data.data,
+        xkey: 's',
+        ykeys: bar_data.ykeys,
+        labels: bar_data.labels,
+        //hideHover: 'auto',
+        resize: true
+    });
+}
 
+/*
+ * Morris.Bar({
+        element: 'bar-chart',
+        data: [{
+            s: 'Celeste',
+            a: 100,
+            b: 90
+        }, {
+            y: 'Dorada',
+            a: 75,
+            b: 65
+        }, {
+            y: '2008',
+            a: 50,
+            b: 40
+        }, {
+            y: '2009',
+            a: 75,
+            b: 65
+        }, {
+            y: '2010',
+            a: 50,
+            b: 40
+        }, {
+            y: '2011',
+            a: 75,
+            b: 65
+        }, {
+            y: '2012',
+            a: 100,
+            b: 90
+        }],
+        xkey: 's',
+        ykeys: ['a', 'b'],
+        labels: ['Series A', 'Series B'],
+        //hideHover: 'auto',
+        resize: true
+ */
 $(document).ready(function() {
     load_pie_chart_data($('#id').val());
+   
+    load_bar_chart_data($('#id').val());
 });

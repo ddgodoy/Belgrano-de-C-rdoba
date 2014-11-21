@@ -119,6 +119,19 @@ class QuestionController extends Controller {
         }
         
         $em = $this->getDoctrine()->getManager();
+        
+        $group_votes = $em->getRepository('BDCPollBundle:Question')->getVotesGrouped($id);
+        $associates = $em->getRepository('BDCPollBundle:Associate')->findAll();
+        
+             
+        //echo '<pre>';
+        //print_r($group_votes);
+        //echo '</pre>';
+        
+        //echo '<pre>';
+        //print_r($associates);
+        //echo '</pre>'; 
+        
         $request_params = $this->get('request')->request->all();
         $entity = $em->getRepository('BDCPollBundle:Question')->find($id);
         $answers = $em->getRepository('BDCPollBundle:Answer')->findBy(array('id_question' => $id));
@@ -130,8 +143,13 @@ class QuestionController extends Controller {
             echo $utils->pie_chart_data($votes, $answers);
             exit;
         }
+        
+        if (isset($request_params['bar_chart_data'])) {
+            $group_votes = $em->getRepository('BDCPollBundle:Question')->getVotesGrouped($id);
+            echo $utils->bar_chart_data($group_votes, $answers, $associates);   
+            exit;
+        }
        
-
         if (count($request_params) > 0) {
             $answer_repo = $em->getRepository('BDCPollBundle:Answer');
             
@@ -144,7 +162,6 @@ class QuestionController extends Controller {
             }
             
             $answer_name = $request_params['answer'];
-            //die(print_r($request_params));
             
             if ($answer_name != '') {
                     
@@ -166,17 +183,28 @@ class QuestionController extends Controller {
        
    
         $poll = $em->getRepository('BDCPollBundle:Poll')->find($entity->id_poll);
-        $answers = $em->getRepository('BDCPollBundle:Answer')->findBy(array('id_question' => $id));
+        
         
 
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Poll entity.');
         }
-
-        return $this->render('BDCPollBundle:Question:show.html.twig', array(
-                    'entity' => $entity, 'votes' => $votes, 'poll' => $poll, 'answers' => $answers, 'js' => array('js/plugins/jquery-validation/js/jquery.validate.min.js', 'js/plugins/jquery-validation/js/localization/messages_es_AR.js','js/plugins/flot/excanvas.min.js','js/plugins/flot/jquery.flot.js','js/plugins/flot/jquery.flot.pie.js','js/plugins/flot/jquery.flot.resize.js','js/plugins/flot/jquery.flot.tooltip.min.js' ,'js/question/show.js')
-        ));
+        
+        $js = array('js/plugins/jquery-validation/js/jquery.validate.min.js', 
+            'js/plugins/jquery-validation/js/localization/messages_es_AR.js',
+            'js/plugins/flot/excanvas.min.js',
+            'js/plugins/flot/jquery.flot.js',
+            'js/plugins/flot/jquery.flot.pie.js',
+            'js/plugins/flot/jquery.flot.resize.js',
+            'js/plugins/flot/jquery.flot.tooltip.min.js',
+            'js/plugins/morris/raphael.min.js',
+            'js/plugins/morris/morris.min.js',
+            'js/question/show.js',
+      
+               );
+                 
+        return $this->render('BDCPollBundle:Question:show.html.twig', array('entity' => $entity, 'votes' => $votes, 'poll' => $poll, 'answers' => $answers, 'js' => $js  ));
     }
 
     /**
