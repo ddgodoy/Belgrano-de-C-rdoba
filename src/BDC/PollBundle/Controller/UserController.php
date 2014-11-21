@@ -134,7 +134,8 @@ class UserController extends Controller {
                  
                     $user->setPassword($encoded);
                 }
-                $user->setRole('partners');
+                $role = $profile?'admin':'partners';
+                $user->setRole($role);
                 $em->persist($user);
                 $em->flush();
                 $params['message'] = array('status' => 'success', 'text' => $ok_message);
