@@ -6,6 +6,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use BDC\PollBundle\Entity\Poll;
 use BDC\PollBundle\Entity\Question;
+use BDC\PollBundle\Entity\Vote;
 use BDC\PollBundle\Form\PollType;
 use BDC\PollBundle\Service\BDCUtils;
 
@@ -193,5 +194,78 @@ class PollController extends Controller {
         exit;
         return $this->redirect($this->generateUrl('poll'));
     }
+    
+    function generateAction($id) {
+        
+        $utils = new BDCUtils();
+        
+        if ($utils->checkSession() === null) {
+            return $this->redirect($this->generateUrl('user_login'));
+        }
+        
+        $em = $this->getDoctrine()->getManager();
+        $js = array('js/plugins/prism/prism.js','js/poll/generate.js');
+        $css = array('js/plugins/prism/prism.css'); 
+        $entity = $em->getRepository('BDCPollBundle:Poll')->find($id);
+        $questions = $em->getRepository('BDCPollBundle:Question')->findBy(array('id_poll' => $id));
+        $answers = $em->getRepository('BDCPollBundle:Answer')->findBy(array('id_poll' => $id));
+        
+        $action =  $url = $this->generateUrl('front_vote',array(), true);
+        $form_code = $utils->generate_form_code($entity, $questions, $answers, $action);
+        
+        return $this->render('BDCPollBundle:Poll:generate.html.twig', array(
+                    'entity' => $entity,'form_code' => $form_code ,'js' => $js, 'css' => $css)
+        );
+    } 
+    
+    function voteAction(Request $request) {
+        
+        
+        $request_params = $this->get('request')->request->all();
+        $id_poll = $request_params['id_poll'];
+        $email = $request_params['email'];
+        $answers = $request_params['answers'];
+        
+        $em = $this->getDoctrine()->getManager();
+        $poll = $em->getRepository('BDCPollBundle:Poll')->find($id_poll);
+        $associate = $em->getRepository('BDCPollBundle:User')->findOneBy(array('email' => $email ));
+        if (count($associate) === 0) {
+             return $this->render('BDCPollBundle:Front:index.html.twig', array('message' => array('text' =>  'El e-mail no pertenece a ningún socio. Si considera que esto es un error por favor comuníquese con el administador del sitio.', 'status' => 'danger')));
+        }
+        
+     
+        $questions = $em->getRepository('BDCPollBundle:Question')->findBy(array('id_poll' => $id_poll));
+        //$answers = $em->getRepository('BDCPollBundle:Answer')->findBy(array('id_poll' => $id_poll));
+         $voted = false;
+        foreach ($answers as $id_question => $id_answer) {
+            $already_voted = $em->getRepository('BDCPollBundle:Vote')->findBy(array('id_poll' => $id_poll, 'id_user' => $associate->getId(), 'id_answer' => $id_answer));
+           
+            if (count($already_voted) === 0) {
+                $vote = new Vote();
+                $voted = true;
+                $vote->id_poll = $id_poll;
+                $vote->id_question = $id_question;
+                $vote->id_answer = $id_answer;
+                $vote->id_user = $associate->getId();
+               
+                $em->persist($vote);
+                $em->flush();
+            }
+        }
+        
+        $vote_result = 'success';
+        if ($voted === false) {
+            $vote_result = 'already_voted';
+        }
+        return $this->render('BDCPollBundle:Front:vote.html.twig', array('vote_result' => $vote_result));
+        
+        
+        
+        
+    }
+        
+     
+        
+    
 
 }

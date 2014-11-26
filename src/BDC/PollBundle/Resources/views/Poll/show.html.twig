@@ -9,13 +9,20 @@
                 <li class="active">Ver Encuesta</li>
             </ul>
         </div>
-    </div>    
-    <h1 class="page-header">{{ entity.name }}<a href="{{ path('poll_form_edit', { 'id': entity.id }) }}" class="btn btn-outline btn-primary btn-xs btn-action">Editar</a></h1> 
+    </div>  
+                <h1 class="page-header">{{ entity.name }}<a href="{{ path('poll_form_edit', { 'id': entity.id }) }}" class="btn btn-outline btn-primary btn-xs btn-action">Editar</a> </h1>
+                
 
 
+                 <div class="row">
+                    <div class="col-lg-12 page-actions">
+                        <a href="{{ path('poll_generate', {'id' : entity.id}) }}" class="btn btn-primary pull-right"><i class="fa fa-code margin-right-5"></i>Generar Formulario</a>
 
+                    </div>
+                </div>
 
     <div class="row">
+        
         <div class="col-lg-4">
             <ul class="list-group">
                 <li class="list-group-item">

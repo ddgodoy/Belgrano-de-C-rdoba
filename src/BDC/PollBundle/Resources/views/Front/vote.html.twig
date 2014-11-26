@@ -1,0 +1,20 @@
+{% extends 'BDCPollBundle::frontlayout.html.twig' %}
+{% block body %}
+    
+    {% if vote_result == 'success' %}
+    <div class="alert alert-success col-lg-6" style="margin-top: 30px">
+        <strong>Gracias!</strong><br/>
+        Tu voto se ha registrado correctamente.
+        
+    </div>
+    {% endif %}
+    
+    {% if vote_result == 'already_voted' %} 
+    <div class="alert alert-info col-lg-6" style="margin-top: 30px">
+        <strong>Ya has votado con anteriodad</strong><br/>
+        Ya has participado anteriormente en esta encuesta. Sólo puedes votar una vez.
+        
+    </div>    
+    {% endif %}
+        
+{% endblock %}

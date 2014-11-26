@@ -1,0 +1,27 @@
+{% extends 'BDCPollBundle::layout.html.twig' %}
+
+{% block body -%}  
+    <div class="row">
+        <div class="col-lg-12">
+            <ul class="breadcrumb">
+                <li><i class="fa fa-bar-chart-o"></i> <a href="{{ path('poll') }}">Encuestas</a></li>
+                <li><a href="{{ path('poll_show', {'id' : entity.id}) }}">Ver Encuesta</a></li>
+                <li class="active">Generar Código</li>
+            </ul>
+        </div>
+    </div>  
+    <h1 class="page-header">{{ entity.name }} - Generar Formulario</h1>
+    <p class="text-info">
+        Haz click en el código a continuación para seleccionarlo, luego puedes copiarlo para poder utilizarlo en la plataforma de envío de e-mails.
+    </p>
+   
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="well" onclick="selectText(this);" style="cursor: pointer;">
+                <pre><code class="language-markup" style="">{{ form_code }}</code></pre>
+</div>              
+        </div>     
+    </div>  
+{% endblock %}
+
+

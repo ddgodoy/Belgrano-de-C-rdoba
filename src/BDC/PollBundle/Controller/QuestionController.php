@@ -138,6 +138,8 @@ class QuestionController extends Controller {
         
         $votes = $em->getRepository('BDCPollBundle:Question')->getVotes($id);
         
+        $total_votes = $em->getRepository('BDCPollBundle:Vote')->findBy(array('id_question' => $id));
+        
         if (isset($request_params['pie_chart_data'])) {
 
             echo $utils->pie_chart_data($votes, $answers);
@@ -204,7 +206,7 @@ class QuestionController extends Controller {
       
                );
                  
-        return $this->render('BDCPollBundle:Question:show.html.twig', array('entity' => $entity, 'votes' => $votes, 'poll' => $poll, 'answers' => $answers, 'js' => $js  ));
+        return $this->render('BDCPollBundle:Question:show.html.twig', array('entity' => $entity, 'votes' => $votes, 'total_votes' => $total_votes, 'poll' => $poll, 'answers' => $answers, 'js' => $js  ));
     }
 
     /**

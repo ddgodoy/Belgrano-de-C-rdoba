@@ -17,7 +17,7 @@
 
 
     <div class="row">
-       
+
         <div class="col-lg-4">
             <ul class="list-group">
                 <li class="list-group-item">
@@ -34,57 +34,74 @@
                 </li>
             </ul>
         </div>
-        
+
+        <div class="col-lg-4">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    {% if total_votes|length > 0 %}
+                        <span class="badge">{{ total_votes|length }}</span>
+                        Votos
+                    {% else %}
+
+                        <span class="badge">0</span>
+                        Sin Votos Aún
+                    {% endif %}
+
+
+                </li>
+            </ul>
+        </div>       
+
         {%if answers is not empty %} 
             <div class="col-lg-12">
                 <h2 class="page-header">Respuestas</h2>
                 <div class="row">
                     <div class="col-lg-12 page-actions">
-                        <button onclick="add_answer_modal( {{ entity.id }},{{ poll.id }} );" class="btn btn-primary pull-right"><i class="fa fa-plus-circle margin-right-5"></i>Agregar Respuesta</button>
+                        <button onclick="add_answer_modal({{ entity.id }},{{ poll.id }} );" class="btn btn-primary pull-right"><i class="fa fa-plus-circle margin-right-5"></i>Agregar Respuesta</button>
 
                     </div>
                 </div>
                 <div class="col-lg-8">        
-                <ul class="list-group">
-                    {% for a in answers %}
-                        <li class="list-group-item">{{ a.answer }} 
-                            <div class="pull-right">
-                                         
-                            <a onclick="edit_answer_modal({{a.id}},{{entity.id}},{{poll.id}},'{{a.answer}}');"><i class="fa fa-pencil"></i></a> |
-                            <a onclick="delete_answer_modal({{a.id}},'{{a.answer}}');"><i class="fa fa-trash-o"></i></a> 
-                            </div>
-                        </li>
+                    <ul class="list-group">
+                        {% for a in answers %}
+                            <li class="list-group-item">{{ a.answer }} 
+                                <div class="pull-right">
+
+                                    <a onclick="edit_answer_modal({{a.id}},{{entity.id}} ,{{poll.id}} , '{{a.answer}}');"><i class="fa fa-pencil"></i></a> |
+                                    <a onclick="delete_answer_modal({{a.id}}, '{{a.answer}}');"><i class="fa fa-trash-o"></i></a> 
+                                </div>
+                            </li>
                         {% endfor %}
-                </ul>
+                    </ul>
                 </div>
             </div>
-            
+
             {% if votes|length > 0 %}
 
                 <div class="col-lg-12">
                     <h2 class="page-header">Reportes</h2>
-                   
-                   
-                            <div class="panel panel-info">
-                                <div class="panel-heading">
-                                    Estadísticas Generales
-                                </div>
-                                <div class="panel-body">
-                                    <div id="pie-chart"></div>
-                                </div>
-                                
-                            </div>
-                        
-                             <div class="panel panel-info">
-                                <div class="panel-heading">
-                                    Estadísticas Agrupadas por Tipo de Socio
-                                </div>
-                                <div class="panel-body">
-                                    <div id='bar-chart'></div>
-                                </div>
-                                
-                            </div>
-                        
+
+
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            Estadísticas Generales
+                        </div>
+                        <div class="panel-body">
+                            <div id="pie-chart"></div>
+                        </div>
+
+                    </div>
+
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            Estadísticas Agrupadas por Tipo de Socio
+                        </div>
+                        <div class="panel-body">
+                            <div id='bar-chart'></div>
+                        </div>
+
+                    </div>
+
 
 
 
@@ -97,8 +114,8 @@
         {% else %}
             <div class="col-lg-6">
                 <div class="alert alert-info">
-                    Todavía no has agregado ninguna respuesta, <a href="#" onclick="add_answer_modal( {{ entity.id }}, {{ poll.id }} );
-                            return false;" class="alert-link">agregar la primera respuesta</a>.
+                    Todavía no has agregado ninguna respuesta, <a href="#" onclick="add_answer_modal({{ entity.id }}, {{ poll.id }} );
+                                        return false;" class="alert-link">agregar la primera respuesta</a>.
                 </div>
             </div>
         {% endif %}
@@ -130,7 +147,7 @@
         <!-- /.modal-dialog -->
     </div>
     <!-- /.modal -->
-    
+
     <div class="modal fade" id="form-modal-edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabelEdit" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -158,8 +175,8 @@
         <!-- /.modal-dialog -->
     </div>
     <!-- /.modal -->
-    
-     <div class="modal fade" id="form-modal-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabelDelete" aria-hidden="true">
+
+    <div class="modal fade" id="form-modal-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabelDelete" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -180,7 +197,7 @@
         <!-- /.modal-dialog -->
     </div>
     <!-- /.modal -->
-<input type="hidden" id="id" name="id" value="{{entity.id}}" />
+    <input type="hidden" id="id" name="id" value="{{entity.id}}" />
 {% endblock %}
 
 

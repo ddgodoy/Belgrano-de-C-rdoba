@@ -2,7 +2,9 @@
 
 namespace BDC\PollBundle\Service;
 
+
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class BDCUtils {
 
@@ -37,7 +39,7 @@ class BDCUtils {
     }
 
     function pie_chart_data($votes, $answers) {
-
+       
         $output = array();
 
         foreach ($answers as $a) {
@@ -45,10 +47,11 @@ class BDCUtils {
             $total_votes = 0;
             foreach ($votes as $v) {
                 if ($v['answer'] === $a->answer) {
-                    $total_votes += 1;
+                   $answer_result['data'] = $v['total_votes'];
+                   break;
                 }
             }
-            $answer_result['data'] = $total_votes;
+            
             $output[] = $answer_result;
         }
 
@@ -91,6 +94,29 @@ class BDCUtils {
         }
         $output = array('data' => $data, 'labels' => $labels, 'ykeys' => array_values($ykeys));
         return json_encode($output);
+    }
+    
+    function generate_form_code($poll, $questions, $answers, $action) {
+       
+        $new_line = "\r\n";
+        $output= '<table>'.$new_line.'<tr>'.$new_line.'<td>'.$new_line.'<h2 style="color: #009DD4; font-family: arial;">Encuesta: '.$poll->name.'</h2>'.$new_line.'</td></tr>'.$new_line.'</table>'.$new_line;
+        $output.= '<form method="post" action="'.$action.'">'.$new_line.'<input type="hidden" name="email" id="email" value="mgimenez@localhost" /><input type="hidden" name="id_poll" id="id_poll" value="'.$poll->id.'" />'.$new_line;
+        
+        foreach ($questions as $q) {
+            $output.= '<table style="margin-top: 20px">'.$new_line.'<tr><td style="color: #009DD4; font-family: arial;">'.htmlentities($q->question).'</td></tr>'.$new_line.'</table>'.$new_line;
+            $output.='<table>';
+            foreach ($answers as $a) {
+                if ($a->id_question == $q->id) {
+                    $output.= $new_line.'<tr><td><label><input type="radio" name="answers['.$q->id.']" value="'.$a->id.'" style="font-family: arial" />'.htmlentities($a->answer).'</label></td></tr>';
+                }
+            }
+            $output.= $new_line.'</table>';
+            
+            
+        }
+        $output.= $new_line.'<br/><br/><input type="submit" value="Enviar"></form>';
+        return $output;
+        
     }
 
 }

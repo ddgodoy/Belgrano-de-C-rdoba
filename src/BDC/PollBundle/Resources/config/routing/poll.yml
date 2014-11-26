@@ -5,6 +5,10 @@ poll:
 poll_show:
     path:     /{id}/show
     defaults: { _controller: "BDCPollBundle:Poll:show" }
+ 
+poll_generate: 
+    path: /{id}/generate
+    defaults: { _controller: "BDCPollBundle:Poll:generate" }
 
 poll_delete:
     path:     /{id}/delete
@@ -17,3 +21,4 @@ poll_form:
 poll_form_edit:
     pattern:  /edit/{id}
     defaults: { _controller: BDCPollBundle:Poll:form }
+    

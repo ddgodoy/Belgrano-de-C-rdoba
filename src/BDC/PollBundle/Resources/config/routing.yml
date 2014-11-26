@@ -14,6 +14,9 @@ bdc_poll_homepage:
     resource: "@BDCPollBundle/Resources/config/routing/admin.yml"
     prefix:   /
 
+bdc_poll_front:
+    resource: "@BDCPollBundle/Resources/config/routing/front.yml"
+    prefix: /vote
 
 
 
