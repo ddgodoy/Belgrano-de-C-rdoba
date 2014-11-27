@@ -100,7 +100,7 @@ class BDCUtils {
        
         $new_line = "\r\n";
         $output= '<table>'.$new_line.'<tr>'.$new_line.'<td>'.$new_line.'<h2 style="color: #009DD4; font-family: arial;">Encuesta: '.$poll->name.'</h2>'.$new_line.'</td></tr>'.$new_line.'</table>'.$new_line;
-        $output.= '<form method="post" action="'.$action.'">'.$new_line.'<input type="hidden" name="email" id="email" value="mgimenez@localhost" /><input type="hidden" name="id_poll" id="id_poll" value="'.$poll->id.'" />'.$new_line;
+        $output.= '<form method="post" action="'.$action.'">'.$new_line.'<input type="hidden" name="email" id="email" value="*|EMAIL|*" /><input type="hidden" name="id_poll" id="id_poll" value="'.$poll->id.'" />'.$new_line;
         
         foreach ($questions as $q) {
             $output.= '<table style="margin-top: 20px">'.$new_line.'<tr><td style="color: #009DD4; font-family: arial;">'.htmlentities($q->question).'</td></tr>'.$new_line.'</table>'.$new_line;

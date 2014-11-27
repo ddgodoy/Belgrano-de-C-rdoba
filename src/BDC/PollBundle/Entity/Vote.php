@@ -42,7 +42,7 @@ class Vote
     /**
      * @var \DateTime
      */
-    private $created;
+    public $created;
 
      
    

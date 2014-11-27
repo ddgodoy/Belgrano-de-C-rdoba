@@ -247,6 +247,7 @@ class PollController extends Controller {
                 $vote->id_question = $id_question;
                 $vote->id_answer = $id_answer;
                 $vote->id_user = $associate->getId();
+                $vote->created = new \DateTime('now');
                
                 $em->persist($vote);
                 $em->flush();
