@@ -10,6 +10,11 @@ bdc_poll_question:
     resource: "@BDCPollBundle/Resources/config/routing/question.yml"
     prefix:   /admin/question
 
+bdc_poll_stats:
+    resource: "@BDCPollBundle/Resources/config/routing/stats.yml"
+    prefix:   /admin/stats
+
+
 bdc_poll_homepage:
     resource: "@BDCPollBundle/Resources/config/routing/admin.yml"
     prefix:   /

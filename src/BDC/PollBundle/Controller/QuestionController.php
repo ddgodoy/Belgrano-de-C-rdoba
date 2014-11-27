@@ -15,24 +15,6 @@ use BDC\PollBundle\Service\BDCUtils;
  */
 class QuestionController extends Controller {
 
-    /**
-     * Lists al Poll entities.
-     *
-     */
-    public function indexAction() {
-        
-        $utils = new BDCUtils;      
-        if ($utils->checkSession() === null) {
-            return $this->redirect($this->generateUrl('user_login'));
-        }
-        
-        $em = $this->getDoctrine()->getManager();
-        $entities = $em->getRepository('BDCPollBundle:Poll')->findAll();
-
-        return $this->render('BDCPollBundle:Poll:index.html.twig', array(
-                    'entities' => $entities, 'js' => array('js/poll/index.js'),
-        ));
-    }
 
     public function formAction(Request $request, $id = null) {
         

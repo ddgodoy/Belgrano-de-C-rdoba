@@ -1,0 +1,7 @@
+stats:
+    path:     /
+    defaults: { _controller: "BDCPollBundle:Stats:index" } 
+ 
+stats_show:
+    path:     /{id}/show
+    defaults: { _controller: "BDCPollBundle:Stats:show" }

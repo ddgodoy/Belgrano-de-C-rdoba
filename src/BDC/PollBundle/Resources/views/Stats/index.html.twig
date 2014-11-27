@@ -1,0 +1,58 @@
+
+{% extends 'BDCPollBundle::layout.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li class="active"><i class="fa fa-bar-chart-o"></i> Reportes de Encuestas</li>
+            </ol>
+        </div>
+    </div>    
+    <h1 class="page-header">Reportes de Encuestas</h1>
+
+
+    {% for entity in entities %}
+        <div class="col-lg-6">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <strong>{{ entity.name }}</strong>
+                </div>
+                <div class="panel-body">
+                    <ul class="list-unstyled">
+
+                        <li>Preguntas: {{ entity.total_questions}}</li>
+                        <li>Respuestas: {{ entity.total_answers }}</li>
+                        <li>Votos Realizados a la Fecha: {{entity.total_votes}} </li>                                                                                                                                                       
+                    </ul>
+                    <a href="{{ path('stats_show', { 'id': entity.id }) }}" class="btn btn-outline btn-primary btn-xs btn-action"><i class="fa fa-bar-chart-o"></i> Ver Reporte Detallado</a>   
+                </div>
+
+            </div>
+        </div>
+    {% endfor %}
+
+    <div class="modal fade" id="form-modal-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabelDelete" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabelDelete">Eliminar Encuesta</h4>
+                </div>
+                <div class="modal-body">
+
+                    <p>¿Está seguro que desea eliminar la encuesta?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" onclick="poll_delete_submit();">Confirmar</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+
+{% endblock %}

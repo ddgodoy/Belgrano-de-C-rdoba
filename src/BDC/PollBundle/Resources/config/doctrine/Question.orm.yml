@@ -17,6 +17,8 @@ BDC\PollBundle\Entity\Question:
         question:
             type: string
             length: 255
+    
+   
       
             
     lifecycleCallbacks: {  }

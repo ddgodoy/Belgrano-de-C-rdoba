@@ -29,6 +29,19 @@ class PollRepository extends EntityRepository {
         $answers = $query->getResult();
         return count($answers) > 0;
     }
+    
+    function getGeneralStats() {
+        $stmt = $this->getEntityManager()->getConnection()->prepare(
+                'SELECT p.id,p.name,count(q.id) as total_questions, (SELECT count(v.id) FROM Vote v WHERE id_poll = p.id) as total_votes,
+                (SELECT count(a.id) FROM Answer a WHERE a.id_poll = p.id) as total_answers
+                FROM Poll p
+                INNER JOIN Question q ON q.id_poll = p.id
+                GROUP by p.id,p.name');
+       
+        $stmt->execute();
+        
+        return $stmt->fetchAll();
+    }
 
     
 
