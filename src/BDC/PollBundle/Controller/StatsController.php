@@ -41,22 +41,24 @@ class StatsController extends Controller {
     public function showAction($id) {
 
       
-        
+        $error = '';
         $em = $this->getDoctrine()->getManager();
         
         $entity = $em->getRepository('BDCPollBundle:Poll')->find($id);
-        
         $questions = $em->getRepository('BDCPollBundle:Question')->findBy(array('id_poll' =>$id));
-       
-        $js = array('js/stats/show.js', 
-            'js/plugins/flot/excanvas.min.js',
-            'js/plugins/flot/jquery.flot.js',
-            'js/plugins/flot/jquery.flot.pie.js',
-            'js/plugins/flot/jquery.flot.resize.js',
-            'js/plugins/flot/jquery.flot.tooltip.min.js',
-            'js/plugins/morris/raphael.min.js',
-            'js/plugins/morris/morris.min.js');     
-                 
-        return $this->render('BDCPollBundle:Stats:show.html.twig', array('entity' => $entity, 'questions' => $questions, 'js' => $js  ));
+        if($questions){
+            $js = array('js/stats/show.js', 
+                'js/plugins/flot/excanvas.min.js',
+                'js/plugins/flot/jquery.flot.js',
+                'js/plugins/flot/jquery.flot.pie.js',
+                'js/plugins/flot/jquery.flot.resize.js',
+                'js/plugins/flot/jquery.flot.tooltip.min.js',
+                'js/plugins/morris/raphael.min.js',
+                'js/plugins/morris/morris.min.js');     
+
+            return $this->render('BDCPollBundle:Stats:show.html.twig', array('entity' => $entity, 'questions' => $questions, 'js' => $js  ));
+        }else{
+            return $this->render('BDCPollBundle:Stats:errors.html.twig');
+        }
     }
 }

@@ -39,10 +39,11 @@
                     <td>
                         <ul class="table-actions">
                             <li>
-                                <a href="{{ path('poll_show', { 'id': entity.id }) }}"><i class="fa fa-eye"></i></a> |
-                                <a href="{{ path('poll_form_edit', { 'id': entity.id }) }}"><i class="fa fa-pencil"></i></a> |
+                                <a href="{{ path('stats_show', { 'id': entity.id }) }}" title="reportes"><i class="fa fa-bar-chart-o fa-fw"></i></a> |
+                                <a href="{{ path('poll_show', { 'id': entity.id }) }}" title="ver"><i class="fa fa-eye"></i></a> |
+                                <a href="{{ path('poll_form_edit', { 'id': entity.id }) }}" title="editar"><i class="fa fa-pencil"></i></a> |
                                 <a href="#" onclick="poll_delete_modal('{{ path('poll_delete', { 'id': entity.id }) }}');
-                                        return false;"><i class="fa fa-trash-o"></i></a>
+                                        return false;" title="esliminar"><i class="fa fa-trash-o"></i></a>
                             </li>
                         </ul>
                     </td>
