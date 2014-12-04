@@ -10,17 +10,26 @@
         </div>
     </div>    
     <h1 class="page-header">Socios</h1>
+   
     <div class="row">
         <div class="col-lg-12 page-actions">
-             <a class="btn btn-primary pull-right"href="{{ path('user_form') }}">
-                 <i class="fa fa-plus-circle"></i>Agregar Socio
-            </a>
+            <ul class="list-unstyled list-inline pull-right">
+                <li><a class="btn btn-primary " href="{{ path('user_form') }}">
+                        <i class="fa fa-plus-circle"></i>Agregar Socio
+                    </a>
+                </li>
+                <li>
+                    <a class="btn btn-outline btn-primary btn-sm btn-action"  data-toggle="modal" data-target="#form-modal-import">
+                        <i class="fa fa-file-excel-o"></i>Importar Listado
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
     <table class="table table-striped">
         <thead>
             <tr>
-               
+
                 <th>Nombre</th>
                 <th>Apellido</th>
                 <th>DNI</th>
@@ -30,14 +39,14 @@
             </tr>
         </thead>
         <tbody>
-              {% for entity in entities %}
+            {% for entity in entities %}
                 <tr>
-                   
+
                     <td>{{ entity.name }}</td>
                     <td>{{ entity.lastname }}</td>
                     <td>{{ entity.dni }}</td>
                     <td>{{ entity.email }}</td>
-                    
+
                     <td>
                         {% if entity.associate.name is defined %}
                             {{ entity.associate.name }}
@@ -48,7 +57,8 @@
                             <li>
                                 <a href="{{ path('user_show', { 'id': entity.id }) }}"><i class="fa fa-eye"></i></a> |
                                 <a href="{{ path('user_form_edit', { 'id': entity.id }) }}"><i class="fa fa-pencil"></i></a> |
-                                <a href="#" onclick="user_delete_modal('{{ path('user_delete', { 'id': entity.id }) }}'); return false;"><i class="fa fa-trash-o"></i></a>
+                                <a href="#" onclick="user_delete_modal('{{ path('user_delete', { 'id': entity.id }) }}');
+                                        return false;"><i class="fa fa-trash-o"></i></a>
                             </li>
                         </ul>
                     </td>
@@ -56,22 +66,56 @@
             {% endfor %}
         </tbody>
     </table>
-        
-         <div class="modal fade" id="form-modal-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabelDelete" aria-hidden="true">
+
+    <div class="modal fade" id="form-modal-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabelDelete" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabelDelete">Eliminar Usuario</h4>
+                    <h4 class="modal-title" id="myModalLabelDelete">Eliminar Socio</h4>
                 </div>
                 <div class="modal-body">
 
-                    <p>¿Está seguro que desea eliminar el usuario?</p>
+                    <p>¿Está seguro que desea eliminar el socio seleccionado?</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                     <button type="button" class="btn btn-primary" onclick="user_delete_submit();">Confirmar</button>
                 </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+    <div class="modal fade" id="form-modal-import" tabindex="-1" role="dialog" aria-labelledby="myModalLabelImport" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="{{ path('user') }}" method="post" enctype="multipart/form-data" >
+                    <input type="hidden" id="import" name="import" value="1" />
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabelImport">Importar Socios</h4>
+                    </div>
+                    <div class="modal-body">
+
+                        <p class="text-info">Haga click en 'Seleccionar Archivo' para subir un archivo desde su PC, el mismo debe estar en formato CSV y debe contener los datos <strong>e-mail, nombre y apellido</strong> respetando ese orden. </p>
+                        <div class="fileinput fileinput-new" data-provides="fileinput">
+                            <span class="btn btn-default btn-file">
+                                <span class="fileinput-new">Seleccionar archivo...</span>
+                                <span class="fileinput-exists">Cambiar</span>
+                                <input type="file" name="csv_file" id="csv_file" />
+                            </span>
+                            <span class="fileinput-filename"></span>
+                            <a href="#" class="close fileinput-exists" data-dismiss="fileinput" style="float: none">&times;</a>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Confirmar</button>
+                    </div>
+                </form>
             </div>
             <!-- /.modal-content -->
         </div>

@@ -19,7 +19,7 @@ class QuestionController extends Controller {
     public function formAction(Request $request, $id = null) {
         
         $utils = new BDCUtils;      
-        if ($utils->checkSession() === null) {
+        if ($utils->check_session() === null) {
             return $this->redirect($this->generateUrl('user_login'));
         }
         
@@ -96,7 +96,7 @@ class QuestionController extends Controller {
     public function showAction($id) {
 
         $utils = new BDCUtils;      
-        if ($utils->checkSession() === null) {
+        if ($utils->check_session() === null) {
             return $this->redirect($this->generateUrl('user_login'));
         }
         
@@ -198,7 +198,7 @@ class QuestionController extends Controller {
     public function deleteAction(Request $request, $id) {
         
         $utils = new BDCUtils;      
-        if ($utils->checkSession() === null) {
+        if ($utils->check_session() === null) {
             return $this->redirect($this->generateUrl('user_login'));
         }
         

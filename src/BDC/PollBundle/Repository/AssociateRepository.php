@@ -26,5 +26,7 @@ class AssociateRepository extends EntityRepository
         
         return $array;
     }
+    
+
 
 }

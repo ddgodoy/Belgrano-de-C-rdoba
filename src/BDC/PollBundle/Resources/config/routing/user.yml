@@ -28,4 +28,6 @@ user_form_edit:
     
 user_profile_edit:
     pattern:  /edit/{id}/{profile}
-    defaults: { _controller: BDCPollBundle:User:form}      
+    defaults: { _controller: BDCPollBundle:User:form}  
+    
+    

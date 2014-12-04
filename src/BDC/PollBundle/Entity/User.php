@@ -243,7 +243,7 @@ class User
      */
     public function setAssociateId($associateId)
     {
-        $this->associate_id = $associateId;
+        $this->associate_id = intval($associateId);
 
         return $this;
     }

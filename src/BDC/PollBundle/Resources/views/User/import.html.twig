@@ -1,0 +1,25 @@
+
+{% extends 'BDCPollBundle::layout.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li><i class="fa fa-user"></i> <a href="{{ path('user') }}"> Socios</a></li>
+                <li class="active">Importar</li>
+            </ol>
+        </div>
+    </div>    
+    <h1 class="page-header">Importar Socios</h1>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="fileinput fileinput-new" data-provides="fileinput">
+                <span class="btn btn-default btn-file"><span class="fileinput-new">Seleccionar archivo...</span><span class="fileinput-exists">Cambiar</span><input type="file" name="..."></span>
+                <span class="fileinput-filename"></span>
+                <a href="#" class="close fileinput-exists" data-dismiss="fileinput" style="float: none">&times;</a>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

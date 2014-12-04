@@ -10,35 +10,53 @@ use BDC\PollBundle\Service\PasswordEncrypt;
 use BDC\PollBundle\Form\UserType;
 use Symfony\Component\HttpFoundation\Session\Session;
 use BDC\PollBundle\Service\BDCUtils;
+
 /**
  * User controller.
  *
  */
 class UserController extends Controller {
 
-    
-     
-    public function indexAction() {
-        
+    public function indexAction(Request $request) {
+
+        $utils = new BDCUtils;
+
+
         //no encontré manera mas simple que chequear la sesión en cada action!!
-        $utils = new BDCUtils;      
-        if ($utils->checkSession() === null) {
+
+        if ($utils->check_session() === null) {
             return $this->redirect($this->generateUrl('user_login'));
         }
-        
-        $em = $this->getDoctrine()->getManager();
-        $entities = $em->getRepository('BDCPollBundle:User')->getPartners();
 
-        return $this->render('BDCPollBundle:User:index.html.twig', array(
-                    'entities' => $entities, 'js' => array('js/user/index.js'),
-        ));
+        $js = array('js/plugins/jasny-bootstrap/js/jasny-bootstrap.min.js', 'js/user/index.js');
+        $css = array('js/plugins/jasny-bootstrap/css/jasny-bootstrap.min.css');
+
+        $variables = array('js' => $js, 'css' => $css);
+        $em = $this->getDoctrine()->getManager();
+
+        if ($request->get('import') !== null) {
+            $file = $request->files->get('csv_file');
+            $import_result = $utils->import_users($file->getPathName(), $em);
+            if ($import_result !== false) {
+                $variables['message'] = array('status' => 'success', 'text' => 'Importación finalizada. Se han agregado los socios a la base.');
+            } else {
+                $variables['message'] = array('status' => 'danger', 'text' => 'Ha ocurrido un error. No se han agregado los socios a la base, por favor verifíque que el formato del archivo sea un .CSV válido.');
+            }
+        }
+
+
+        $variables['entities'] = $em->getRepository('BDCPollBundle:User')->getPartners();
+
+        
+
+        return $this->render('BDCPollBundle:User:index.html.twig', $variables);
     }
 
     public function formAction(Request $request, $id = null, $profile = null) {
 
-        
-        $utils = new BDCUtils;      
-        if ($utils->checkSession() === null) {
+
+        $utils = new BDCUtils;
+        if ($utils->check_session() === null) {
             return $this->redirect($this->generateUrl('user_login'));
         }
 
@@ -48,8 +66,8 @@ class UserController extends Controller {
         $url = $this->generateUrl($rute, $parameter);
         $em = $this->getDoctrine()->getManager();
         $user_repo = $em->getRepository('BDCPollBundle:User');
-        $user_pass = $profile?$request->get('pass'):uniqid();
-        $url = $profile?$this->generateUrl('user_profile_edit', ['id'=>7, 'profile'=>'profile']):$url;
+        $user_pass = $profile ? $request->get('pass') : uniqid();
+        $url = $profile ? $this->generateUrl('user_profile_edit', ['id' => 7, 'profile' => 'profile']) : $url;
 
 
         $js = array('js/plugins/jquery-validation/js/jquery.validate.min.js', 'js/plugins/jquery-validation/js/localization/messages_es_AR.js');
@@ -77,7 +95,7 @@ class UserController extends Controller {
             'url' => $url,
             'id' => $id,
             'js' => $js,
-            'profile'=>$profile);
+            'profile' => $profile);
 
         $associate = $em->getRepository('BDCPollBundle:Associate')->findOneById($user->getAssociateId());
         $user->setAssociate($associate);
@@ -91,7 +109,7 @@ class UserController extends Controller {
             $duplicate_email = $user_repo->duplicateEmail($email, $id);
 
             $validate = true;
-            $change_pass = $profile?false:true;
+            $change_pass = $profile ? false : true;
 
             if ($duplicate_email === true) {
                 $validate = false;
@@ -104,8 +122,8 @@ class UserController extends Controller {
                 $validate = false;
                 $error_message = 'Ya existe un usuario con el DNI "' . $dni . '". ';
             }
-            
-            if($profile){
+
+            if ($profile) {
                 if (($request->get('pass') !== '') && ($validate === true)) {
                     $change_pass = true;
                     if ($request->get('pass2') !== $request->get('pass')) {
@@ -118,7 +136,7 @@ class UserController extends Controller {
                         $validate = false;
                     }
                 }
-            }    
+            }
 
             if ($validate === true) {
                 if (!$id) {
@@ -131,10 +149,10 @@ class UserController extends Controller {
                     $salt = uniqid(mt_rand());
                     $user->setSalt($salt);
                     $encoded = $enc->encodePassword($user_pass, $salt);
-                 
+
                     $user->setPassword($encoded);
                 }
-                $role = $profile?'admin':'partners';
+                $role = $profile ? 'admin' : 'partners';
                 $user->setRole($role);
                 $em->persist($user);
                 $em->flush();
@@ -155,12 +173,12 @@ class UserController extends Controller {
      *
      */
     public function showAction($id) {
-        
-        $utils = new BDCUtils;      
-        if ($utils->checkSession() === null) {
+
+        $utils = new BDCUtils;
+        if ($utils->check_session() === null) {
             return $this->redirect($this->generateUrl('user_login'));
         }
-        
+
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('BDCPollBundle:User')->find($id);
@@ -179,12 +197,12 @@ class UserController extends Controller {
      *
      */
     public function deleteAction(Request $request, $id) {
-        
-        $utils = new BDCUtils;      
-        if ($utils->checkSession() === null) {
+
+        $utils = new BDCUtils;
+        if ($utils->check_session() === null) {
             return $this->redirect($this->generateUrl('user_login'));
         }
-        
+
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('BDCPollBundle:User')->find($id);
 
@@ -200,8 +218,8 @@ class UserController extends Controller {
     }
 
     public function loginAction(Request $request) {
-        
-                
+
+
         $em = $this->getDoctrine()->getManager();
         $params = array('action' => $this->generateUrl('user_login'));
         if ($request->get('email')) {
@@ -217,13 +235,11 @@ class UserController extends Controller {
 
         return $this->render('BDCPollBundle:User:login.html.twig', $params);
     }
-    
+
     public function logoutAction(Request $request) {
         $session = new Session();
         $session->remove('user');
         return $this->redirect($this->generateUrl('user_login'));
     }
-    
-   
 
 }
