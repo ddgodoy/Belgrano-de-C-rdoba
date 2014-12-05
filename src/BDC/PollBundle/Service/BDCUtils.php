@@ -145,7 +145,59 @@ class BDCUtils {
             }
             $output.= $new_line . '</table>';
         }
-        $output.= $new_line . '<br/><br/><input type="submit" value="Enviar"></form>';
+        $output.= $new_line . '<br/><br/><input type="submit" value="Enviar"></form>' . $new_line;
+        $output.='</td>
+</tr>
+<tr align="center">
+<td align="center" height="10">
+&nbsp;</td>
+</tr>
+<!-- FOOTER_WRAP -->
+<tr align="center">
+<td align="center" colspan="2" valign="top">
+<table align="center" border="0" cellpadding="0" cellspacing="0"
+style="font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+font-size: 12px; color: #5F5F60; margin: 0px; padding: 0px; border-top: 1px
+dashed #A5A5A5;" width="550">
+<tbody>
+<tr align="center">
+<td align="center" height="10">
+&nbsp;</td>
+</tr>
+<tr align="center">
+<td align="left">
+<p style="margin: 0; padding: 0;">
+<b><font style="font-family: "Trebuchet MS", "Lucida Grande", "Lucida Sans
+Unicode", "Lucida Sans", Tahoma, sans-serif; font-size: 14px; color:
+#009DD4;">Seguinos en: <a href="https://www.facebook.com/ClubBelgranoCordoba"
+target="_blank"><img alt="Facebook" src="
+http://sendder.com.ar/templates/belgrano/img/facebook.png"
+style="margin-bottom: 2px; vertical-align: middle;" /></a> <a href="
+https://twitter.com/BelgranoCbaOk" target="_blank"><img alt="Twitter" src="
+http://sendder.com.ar/templates/belgrano/img/twitter.png"
+style="margin-bottom: 2px; vertical-align: middle;" /></a></font></b></p>
+</td>
+</tr>
+<tr align="center">
+<td align="center" height="10">
+&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<!-- /FOOTER_WRAP -->
+<tr align="center">
+<td align="center" height="10">
+&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<!-- /MAIN_WRAP -->
+</tbody>
+</table>' . $new_line;
         return $output;
     }
 
@@ -216,61 +268,5 @@ class BDCUtils {
 
             return array('added' => $added, 'invalid_email' => $invalid_email, 'existent' => $existent);
         }
-
-        $output.= $new_line . '<br/><br/><input type="submit" value="Enviar"></form>' . $new_line;
-        $output.='</td>
-</tr>
-<tr align="center">
-<td align="center" height="10">
-&nbsp;</td>
-</tr>
-<!-- FOOTER_WRAP -->
-<tr align="center">
-<td align="center" colspan="2" valign="top">
-<table align="center" border="0" cellpadding="0" cellspacing="0"
-style="font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
-font-size: 12px; color: #5F5F60; margin: 0px; padding: 0px; border-top: 1px
-dashed #A5A5A5;" width="550">
-<tbody>
-<tr align="center">
-<td align="center" height="10">
-&nbsp;</td>
-</tr>
-<tr align="center">
-<td align="left">
-<p style="margin: 0; padding: 0;">
-<b><font style="font-family: "Trebuchet MS", "Lucida Grande", "Lucida Sans
-Unicode", "Lucida Sans", Tahoma, sans-serif; font-size: 14px; color:
-#009DD4;">Seguinos en: <a href="https://www.facebook.com/ClubBelgranoCordoba"
-target="_blank"><img alt="Facebook" src="
-http://sendder.com.ar/templates/belgrano/img/facebook.png"
-style="margin-bottom: 2px; vertical-align: middle;" /></a> <a href="
-https://twitter.com/BelgranoCbaOk" target="_blank"><img alt="Twitter" src="
-http://sendder.com.ar/templates/belgrano/img/twitter.png"
-style="margin-bottom: 2px; vertical-align: middle;" /></a></font></b></p>
-</td>
-</tr>
-<tr align="center">
-<td align="center" height="10">
-&nbsp;</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-<!-- /FOOTER_WRAP -->
-<tr align="center">
-<td align="center" height="10">
-&nbsp;</td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-<!-- /MAIN_WRAP -->
-</tbody>
-</table>' . $new_line;
-        return $output;
     }
-
 }
