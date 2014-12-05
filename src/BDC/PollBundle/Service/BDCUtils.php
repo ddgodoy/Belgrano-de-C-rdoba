@@ -273,6 +273,8 @@ style="margin-bottom: 2px; vertical-align: middle;" /></a></font></b></p>
     function build_pagination_nav($total_pages, $current_page, $form_id) {
 
         $current_page = intval($current_page);
+        
+        
         $total_pages = intval($total_pages);
 
         $output = '<nav class="pull-right"><ul class="pagination">';

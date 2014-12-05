@@ -44,7 +44,7 @@ class UserController extends Controller {
             }
         }
 
-        $result = $em->getRepository('BDCPollBundle:User')->getPartners($request->get('page'), $request->get('amount'), $request->get('search'));
+        $result = $em->getRepository('BDCPollBundle:User')->getPartners($request->get('page'), $request->get('amount'), $request->get('search'),  $this->get('knp_paginator'));
         $variables['entities'] = $result['entities'];
         $variables['page'] = $result['page'];
         $variables['amount'] = $result['amount'];

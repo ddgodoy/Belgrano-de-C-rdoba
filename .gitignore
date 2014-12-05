@@ -6,3 +6,5 @@
 /build/
 /bin/
 /nbproject/private/
+composer.phar
+compose.json
