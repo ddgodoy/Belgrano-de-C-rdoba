@@ -221,7 +221,7 @@ style="margin-bottom: 2px; vertical-align: middle;" /></a></font></b></p>
 
                 $total_columns = count($data);
                 if ($total_columns > 0) {
-                    $email = str_replace("'", '', $data[0]);
+                    $email = trim(str_replace("'", '', $data[0]));
 
                     if (filter_var($email, FILTER_VALIDATE_EMAIL) !== false) {
                         $name = '';
