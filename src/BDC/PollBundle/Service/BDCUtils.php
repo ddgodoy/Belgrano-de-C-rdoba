@@ -273,4 +273,44 @@ style="margin-bottom: 2px; vertical-align: middle;" /></a></font></b></p>
         return $output;
     }
 
+    function build_pagination_nav($total_pages, $current_page, $form_id) {
+
+        $current_page = intval($current_page);
+        $total_pages = intval($total_pages);
+        
+        $output = '<nav class="pull-right"><ul class="pagination">';
+        if ($current_page === 1) {
+            $output .= '<li class="disabled"><a href="#"><span aria-hidden="true">&laquo;</span><span class="sr-only">Anterior</span></a></li>';
+        } else {
+            $previous = $current_page - 1;
+            $onclick = "go_to_page($previous, '$form_id')";
+            $output .= '<li><a href="#" onclick="' . $onclick . '"><span aria-hidden="true">&laquo;</span><span class="sr-only">Anterior</span></a></li>';
+        }
+
+        for ($i = 1; $i <= $total_pages; $i++) {
+
+            if ($i !== $current_page) {
+                $onclick = "go_to_page($i, '$form_id')";
+
+                $output .= '<li><a href="#" onclick="'.$onclick.'">'.$i.' <span class="sr-only"></span></a></li>';
+            } else {
+                $output.= '<li class="active"><a>'.$i.' <span class="sr-only">(current)</span></a></li>';
+            }
+        }
+        
+        if ($current_page === $total_pages) {
+            $output .= '<li class="disabled"><a href="#"><span aria-hidden="true">&raquo;</span><span class="sr-only">Siguiente</span></a></li>';
+        } else {
+            $next = $current_page + 1;
+            $onclick = "go_to_page($next, '$form_id');";
+            $output .= '<li><a href="#" onclick="' . $onclick . '"><span aria-hidden="true">&raquo;</span><span class="sr-only">Anterior</span></a></li>';
+        }
+        
+        $output.='</ul></nav>';
+        
+        return $output;
+        
+        
+    }
+
 }

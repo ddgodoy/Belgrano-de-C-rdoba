@@ -10,9 +10,15 @@
         </div>
     </div>    
     <h1 class="page-header">Socios</h1>
-   
+    <form method="post" id="paginate-form">
+    <input type="hidden" id="page" name="page" value="{{ page }}" />
     <div class="row">
         <div class="col-lg-12 page-actions">
+            <ul class="list-unstyled list-inline pull-left">
+                <li>
+                    <input type="text" id="search" placeholder="Buscar..." value="{{ search }}" name="search" class="form-control" value="" />
+                </li>
+            </ul>
             <ul class="list-unstyled list-inline pull-right">
                 <li><a class="btn btn-primary " href="{{ path('user_form') }}">
                         <i class="fa fa-plus-circle"></i>Agregar Socio
@@ -66,6 +72,8 @@
             {% endfor %}
         </tbody>
     </table>
+      {{ pagination_nav | raw }}
+    </form>
 
     <div class="modal fade" id="form-modal-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabelDelete" aria-hidden="true">
         <div class="modal-dialog">

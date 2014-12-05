@@ -75,17 +75,41 @@ class UserRepository extends EntityRepository {
     /**
      * get partners
      */
-    function getPartners()
+    function getPartners($page = null, $amount = null, $search = null)
     {
+        
+        
+        if ($page === null) {
+            $page = 1;
+        }
+        
+        if ($amount === null) {
+            $amount = 50;
+        }
+        
+        $start = ($page-1)*$amount;
+        
+        $where = 'WHERE u.role != :rol';
+        
+        if ($search !== null) {
+            $where.= " AND ( u.dni LIKE '$search%' OR concat(u.name,' ',u.last_name) LIKE '$search%' OR u.email LIKE '$search%') ";
+        }
+        
         $em = $this->getEntityManager();
-        $query = $em->createQuery(
-                        'SELECT u
-               FROM BDCPollBundle:User u
-              WHERE u.role != :rol'
+        
+        $count_query =  'SELECT count(u) FROM BDCPollBundle:User u '.$where;
+             
+        $total_records_query = $em->createQuery($count_query)->setParameter('rol', 'admin');
+        
+        $total_records = $total_records_query->getResult();
+        $total_records = intval($total_records[0][1]);
+        $total_pages = ceil($total_records / $amount);
+        
+        $final_query =  'SELECT u FROM BDCPollBundle:User u '.$where. ' ORDER BY u.name ASC, u.last_name ASC';
               
-                )->setParameter('rol', 'admin');
+        $query = $em->createQuery($final_query)->setParameter('rol', 'admin')->setMaxResults($amount)->setFirstResult($start);
 
-        return $query->getResult();
+        return array('entities' => $query->getResult(), 'total_records' => $total_records, 'total_pages' => $total_pages, 'amount' => $amount, 'page' => $page);
     }
 
 }

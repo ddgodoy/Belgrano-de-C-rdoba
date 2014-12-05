@@ -28,10 +28,10 @@ class UserController extends Controller {
             return $this->redirect($this->generateUrl('user_login'));
         }
 
-        $js = array('js/plugins/jasny-bootstrap/js/jasny-bootstrap.min.js', 'js/user/index.js');
+        $js = array('js/plugins/jasny-bootstrap/js/jasny-bootstrap.min.js', 'js/pagination.js', 'js/user/index.js');
         $css = array('js/plugins/jasny-bootstrap/css/jasny-bootstrap.min.css');
 
-        $variables = array('js' => $js, 'css' => $css);
+        $variables = array('js' => $js, 'css' => $css, 'search' => $request->get('search'));
         $em = $this->getDoctrine()->getManager();
 
         if ($request->get('import') !== null) {
@@ -44,11 +44,14 @@ class UserController extends Controller {
             }
         }
 
-
-        $variables['entities'] = $em->getRepository('BDCPollBundle:User')->getPartners();
-
+        $result = $em->getRepository('BDCPollBundle:User')->getPartners($request->get('page'), $request->get('amount'), $request->get('search'));
+        $variables['entities'] = $result['entities'];
+        $variables['page'] = $result['page'];
+        $variables['amount'] = $result['amount'];
+        $variables['total_records'] = $result['total_records'];
+        $variables['pagination_nav'] = $utils->build_pagination_nav($result['total_pages'], $result['page'], 'paginate-form');
         
-
+        
         return $this->render('BDCPollBundle:User:index.html.twig', $variables);
     }
 
