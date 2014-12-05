@@ -19,7 +19,8 @@ class StatsController extends Controller {
      */
     public function indexAction() {
 
-        $utils = new BDCUtils;
+        $utils = new BDCUtils;      
+
         if ($utils->check_session() === null) {
             return $this->redirect($this->generateUrl('user_login'));
         }
