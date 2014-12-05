@@ -4,7 +4,7 @@ namespace BDC\PollBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use BDC\PollBundle\Service\PasswordEncrypt;
-
+use Knp\Bundle\PaginatorBundle\KnpPaginatorBundle;
 
 /**
  * UserRepository
@@ -52,64 +52,65 @@ class UserRepository extends EntityRepository {
                         'SELECT u
                FROM BDCPollBundle:User u
               WHERE u.email = :email'
-              
                 )->setParameter('email', $email);
 
         $user = $query->getResult();
         if (count($user)) {
             $user = $user[0];
             $encodedPassword = $user->getPassword();
-          
+
             $salt = $user->getSalt();
-          
+
             $enc = new PasswordEncrypt();
-            
+
             if ($enc->isPasswordValid($encodedPassword, $password, $salt)) {
                 return $user;
             }
             return false;
         }
-        
     }
-    
+
     /**
      * get partners
      */
-    function getPartners($page = null, $amount = null, $search = null)
-    {
-        
-        
+    function getPartners($page = null, $amount = null, $search = null, $paginator) {
+
+
         if ($page === null) {
             $page = 1;
         }
-        
+
         if ($amount === null) {
-            $amount = 50;
+            $amount = 35;
         }
-        
-        $start = ($page-1)*$amount;
-        
+
+        $start = ($page - 1) * $amount;
+
         $where = 'WHERE u.role != :rol';
-        
+
         if ($search !== null) {
             $where.= " AND ( u.dni LIKE '$search%' OR concat(u.name,' ',u.last_name) LIKE '$search%' OR u.email LIKE '$search%') ";
         }
-        
+
         $em = $this->getEntityManager();
-        
-        $count_query =  'SELECT count(u) FROM BDCPollBundle:User u '.$where;
-             
+
+        $count_query = 'SELECT count(u) FROM BDCPollBundle:User u ' . $where;
+
         $total_records_query = $em->createQuery($count_query)->setParameter('rol', 'admin');
-        
+
         $total_records = $total_records_query->getResult();
         $total_records = intval($total_records[0][1]);
         $total_pages = ceil($total_records / $amount);
-        
-        $final_query =  'SELECT u FROM BDCPollBundle:User u '.$where. ' ORDER BY u.name ASC, u.last_name ASC';
-              
+
+        $final_query = 'SELECT u FROM BDCPollBundle:User u ' . $where . ' ORDER BY u.name ASC, u.last_name ASC';
+
         $query = $em->createQuery($final_query)->setParameter('rol', 'admin')->setMaxResults($amount)->setFirstResult($start);
 
-        return array('entities' => $query->getResult(), 'total_records' => $total_records, 'total_pages' => $total_pages, 'amount' => $amount, 'page' => $page);
+
+        $pagination = $paginator->paginate(
+                $query, $page, $amount);
+
+        return array('entities' => $pagination, 'total_records' => $total_records, 'total_pages' => $total_pages, 'amount' => $amount, 'page' => $page);
     }
 
 }

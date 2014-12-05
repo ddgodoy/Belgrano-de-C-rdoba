@@ -72,7 +72,10 @@
             {% endfor %}
         </tbody>
     </table>
-      {{ pagination_nav | raw }}
+      <div class="pull-right">  
+      {{ knp_pagination_render(entities) }}
+      </div>
+      
     </form>
 
     <div class="modal fade" id="form-modal-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabelDelete" aria-hidden="true">
