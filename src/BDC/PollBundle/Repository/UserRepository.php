@@ -103,7 +103,7 @@ class UserRepository extends EntityRepository {
         $total_pages = ceil($total_records / $amount);
 
         $final_query = 'SELECT u FROM BDCPollBundle:User u ' . $where . ' ORDER BY u.name ASC, u.last_name ASC';
-
+        
         $query = $em->createQuery($final_query)->setParameter('rol', 'admin')->setMaxResults($amount)->setFirstResult($start);
 
 
