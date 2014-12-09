@@ -222,22 +222,22 @@ class PollController extends Controller {
         
         
         $request_params = $this->get('request')->request->all();
-        $id_poll = $request_params['id_poll'];
-        $email = $request_params['email'];
-        $answers = $request_params['answers'];
+        $id_poll = !empty($request_params['id_poll'])?$request_params['id_poll']:'';
+        $email = !empty($request_params['email'])?$request_params['email']:'';
+        $answers = !empty($request_params['answers'])?$request_params['answers']:'';
         
-        if (empty($id_poll)) {
-             return $this->render('BDCPollBundle:Front:index.html.twig', array('message' => array('text' =>  'La Encuesta no puede encontrarse. Si considera que esto es un error por favor comuníquese con el administador del sitio.', 'status' => 'danger')));
+        if ($id_poll=='') {
+             return $this->render('BDCPollBundle:Front:vote.html.twig', array('text' =>  '<strong>La Encuesta no puede encontrarse.</strong><br/>Si considera que esto es un error por favor comuníquese con el administador del sitio.', 'vote_result' => 'danger'));
         }
         
         $em = $this->getDoctrine()->getManager();
         $poll = $em->getRepository('BDCPollBundle:Poll')->find($id_poll);
         if (count($poll) === 0) {
-             return $this->render('BDCPollBundle:Front:index.html.twig', array('message' => array('text' =>  'La Encuesta no puede encontrarse. Si considera que esto es un error por favor comuníquese con el administador del sitio.', 'status' => 'danger')));
+             return $this->render('BDCPollBundle:Front:vote.html.twig', array('<strong>La Encuesta no puede encontrarse.</strong><br/>Si considera que esto es un error por favor comuníquese con el administador del sitio.', 'vote_result' => 'danger'));
         }
         $associate = $em->getRepository('BDCPollBundle:User')->findOneBy(array('email' => $email ));
         if (count($associate) === 0) {
-             return $this->render('BDCPollBundle:Front:index.html.twig', array('message' => array('text' =>  'El e-mail no pertenece a ningún socio. Si considera que esto es un error por favor comuníquese con el administador del sitio.', 'status' => 'danger')));
+             return $this->render('BDCPollBundle:Front:vote.html.twig', array('text' =>  '<strong>El e-mail no pertenece a ningún socio.</strong><br/> Si considera que esto es un error por favor comuníquese con el administador del sitio.', 'vote_result' => 'danger'));
         }
         
      

@@ -16,5 +16,11 @@
         
     </div>    
     {% endif %}
+    {% if vote_result == 'danger' %} 
+    <div class="alert alert-info col-lg-6" style="margin-top: 30px">
+        {{text|raw}}
+        
+    </div>    
+    {% endif %}
         
 {% endblock %}
