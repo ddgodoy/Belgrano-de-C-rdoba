@@ -226,6 +226,10 @@ class PollController extends Controller {
         $email = $request_params['email'];
         $answers = $request_params['answers'];
         
+        if (count($id_poll) === 0) {
+             return $this->render('BDCPollBundle:Front:index.html.twig', array('message' => array('text' =>  'La Encuesta no puede encontrarse. Si considera que esto es un error por favor comuníquese con el administador del sitio.', 'status' => 'danger')));
+        }
+        
         $em = $this->getDoctrine()->getManager();
         $poll = $em->getRepository('BDCPollBundle:Poll')->find($id_poll);
         if (count($poll) === 0) {
