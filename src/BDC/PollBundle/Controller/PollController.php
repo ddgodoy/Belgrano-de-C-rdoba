@@ -259,15 +259,28 @@ class PollController extends Controller {
         if ($voted === false) {
             $vote_result = 'already_voted';
         }
-        return $this->render('BDCPollBundle:Front:vote.html.twig', array('vote_result' => $vote_result));
-        
-        
-        
-        
+        return $this->render('BDCPollBundle:Front:vote.html.twig', array('vote_result' => $vote_result)); 
+    }
+    
+    function front_showAction($token) {
+        $token_array = explode(':', $token);
+        $id_user_token = $token_array[0];
+        $id_poll_token = $token_array[1];
+            
+        $em = $this->getDoctrine()->getManager();
+        $poll = $em->getRepository('BDCPollBundle:Poll')->getByMD5Id($id_poll_token);
+        $user = $em->getRepository('BDCPollBundle:User')->getByMD5Id($id_user_token);
+
+        if ( ($poll !== false) && ($user !== false) ) {
+            $questions = $em->getRepository('BDCPollBundle:Question')->findBY(array('id_poll' => $poll['id']));
+            $answers = $em->getRepository('BDCPollBundle:Answer')->findBY(array('id_poll' => $poll['id']));
+            $utils = new BDCUtils;
+            
+            $form = $utils->generate_form_code_web($questions, $answers);
+            
+            return $this->render('BDCPollBundle:Front:show.html.twig', array('form' => $form, 'poll' => $poll, 'user' => $user));         
+        }
+             
     }
         
-     
-        
-    
-
 }

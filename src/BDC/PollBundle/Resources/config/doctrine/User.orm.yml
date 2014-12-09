@@ -22,6 +22,9 @@ BDC\PollBundle\Entity\User:
         dni:
             type: string
             length: 255
+        gender:
+             type: string
+             length: 2
         associate_id:
             type: integer
         role:

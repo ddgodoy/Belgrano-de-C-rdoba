@@ -112,5 +112,14 @@ class UserRepository extends EntityRepository {
 
         return array('entities' => $pagination, 'total_records' => $total_records, 'total_pages' => $total_pages, 'amount' => $amount, 'page' => $page);
     }
+    
+    function getByMD5Id($md5_id) {
+        $stmt = $this->getEntityManager()->getConnection()->prepare(
+                "SELECT * from User WHERE MD5(id) = '$md5_id'");
+       
+        $stmt->execute();
+        
+        return $stmt->fetch();
+    }
 
 }

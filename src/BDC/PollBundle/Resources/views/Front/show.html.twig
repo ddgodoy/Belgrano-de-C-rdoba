@@ -1,0 +1,18 @@
+{% extends 'BDCPollBundle::frontlayout.html.twig' %}
+{% block body %}
+    <div class="row">
+    <h2 class="page-header">{{ poll.name }}</h2>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <form action="{{ path('front_vote') }}" method="post" >
+                <input type="hidden" name="id_poll" id="id_poll" value="{{ poll.id }}" />
+                <input type="hidden" name="email" id="email" value="{{ user.email }}" />
+                {{ form | raw}}
+                <br />
+                <button class="btn btn-primary pull-left" type="submit">Votar</button>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

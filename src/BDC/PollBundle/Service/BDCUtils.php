@@ -269,6 +269,28 @@ style="margin-bottom: 2px; vertical-align: middle;" /></a></font></b></p>
             return array('added' => $added, 'invalid_email' => $invalid_email, 'existent' => $existent);
         }
     }
+    
+    function generate_form_code_web($questions, $answers) {
+         $output = '';
+         foreach ($questions as $q) {
+            $output.= '<h3 class="page-header">'.$q->question.'</h3>';
+            
+            
+            foreach ($answers as $a) {
+                if ($a->id_question == $q->id) {
+                    $output.= '<div class="form-group">';
+                    $output.= '<label class="control-label">';
+                    $output.= '<input type="radio" name="answers[' . $q->id . ']" value="' . $a->id . '" style="font-family: arial" />' . htmlentities($a->answer) . '</label></div>';
+                }
+            }
+            
+        }
+        
+        return $output;
+        
+        
+        
+    }
 
     function build_pagination_nav($total_pages, $current_page, $form_id) {
 

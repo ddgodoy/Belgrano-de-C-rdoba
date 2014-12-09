@@ -25,6 +25,11 @@ class User
      * @var string
      */
     private $email;
+    
+     /**
+     * @var string
+     */
+    private $gender;
 
     /**
      * @var string
@@ -117,6 +122,29 @@ class User
     public function getEmail()
     {
         return $this->email;
+    }
+    
+      /**
+     * Set gender
+     *
+     * @param string $gender
+     * @return User
+     */
+    public function setGender($gender)
+    {
+        $this->gender = $gender;
+
+        return $this;
+    }
+
+    /**
+     * Get gender
+     *
+     * @return string 
+     */
+    public function getGender()
+    {
+        return $this->gender;
     }
 
     /**

@@ -42,6 +42,15 @@ class PollRepository extends EntityRepository {
         
         return $stmt->fetchAll();
     }
+    
+    function getByMD5Id($md5_id) {
+        $stmt = $this->getEntityManager()->getConnection()->prepare(
+                "SELECT * from Poll WHERE MD5(id) = '$md5_id'");
+       
+        $stmt->execute();
+        
+        return $stmt->fetch();
+    }
 
     
 
