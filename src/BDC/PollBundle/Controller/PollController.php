@@ -228,6 +228,9 @@ class PollController extends Controller {
         
         $em = $this->getDoctrine()->getManager();
         $poll = $em->getRepository('BDCPollBundle:Poll')->find($id_poll);
+        if (count($poll) === 0) {
+             return $this->render('BDCPollBundle:Front:index.html.twig', array('message' => array('text' =>  'La Encuesta no puede encontrarse. Si considera que esto es un error por favor comuníquese con el administador del sitio.', 'status' => 'danger')));
+        }
         $associate = $em->getRepository('BDCPollBundle:User')->findOneBy(array('email' => $email ));
         if (count($associate) === 0) {
              return $this->render('BDCPollBundle:Front:index.html.twig', array('message' => array('text' =>  'El e-mail no pertenece a ningún socio. Si considera que esto es un error por favor comuníquese con el administador del sitio.', 'status' => 'danger')));
