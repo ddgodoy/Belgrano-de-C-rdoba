@@ -12,6 +12,9 @@ BDC\PollBundle\Entity\Associate:
         name:
             type: string
             length: 150
+        code:
+            type: string
+            length: 150    
     
     oneToMany:
         user:

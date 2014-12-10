@@ -10,6 +10,7 @@ use BDC\PollBundle\Service\PasswordEncrypt;
 use BDC\PollBundle\Form\UserType;
 use Symfony\Component\HttpFoundation\Session\Session;
 use BDC\PollBundle\Service\BDCUtils;
+use BDC\PollBundle\Entity\Associate;
 
 /**
  * User controller.
@@ -221,7 +222,6 @@ class UserController extends Controller {
     }
 
     public function loginAction(Request $request) {
-
 
         $em = $this->getDoctrine()->getManager();
         $params = array('action' => $this->generateUrl('user_login'));

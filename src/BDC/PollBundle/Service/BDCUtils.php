@@ -205,59 +205,78 @@ style="margin-bottom: 2px; vertical-align: middle;" /></a></font></b></p>
 
 
         if (($h = fopen($file, "r")) !== false) {
-
-            $associate = $em->getRepository('BDCPollBundle:Associate')->findOneBy(array('name' => 'Sin Categorizar'));
-
-
-            $associate_id = $associate->getId();
-
             $added = 0;
-
-            $existent = array();
+            $existent = 0;
             $invalid_email = array();
 
             while (($data = fgetcsv($h, 1000, ",")) !== false) {
-
-
                 $total_columns = count($data);
-                if ($total_columns > 0) {
+                if ($total_columns > 0) {                    
                     $email = trim(str_replace("'", '', $data[0]));
-
                     if (filter_var($email, FILTER_VALIDATE_EMAIL) !== false) {
-                        $name = '';
-                        $last_name = '';
-                        $exists = $em->getRepository('BDCPollBundle:User')->findBy(array('email' => $email));
-
-                        if (count($exists) === 0) {
-
-                            $added+=1;
-
-                            if (isset($data[1])) {
-                                $name = str_replace("'", '', $data[1]);
-                            }
-
-                            if (isset($data[2])) {
-                                $last_name = str_replace("'", '', $data[2]);
-                            }
-
-                            $user = new User();
-                            $user->setEmail($email);
-                            $user->setName($name);
-                            $user->setLastName($last_name);
-                            //$user->setAssociateId($associate_id);
-                            $user->setAssociate($associate);
-                            $user->setDNI(0);
-                            $user->setRole('partners');
-                            $user->setPassword('1');
-                            $user->setSalt('1');
-                            $user->setCreated(new \DateTime());
-                            $user->setModified(new \DateTime());
-
-                            $em->persist($user);
-                            $em->flush();
-                        } else {
-                            $existent[] = $email;
+                        $name                   = '';
+                        $last_name              = '';
+                        $sex                    = '';
+                        $assciate_code_name     = '';
+                        $assciate_name          = '';
+                        $exists = $em->getRepository('BDCPollBundle:User')->findOneByEmail($email);
+                        
+                        if (isset($data[1])) {
+                            $name = str_replace("'", '', $data[1]);
                         }
+
+                        if (isset($data[2])) {
+                            $last_name = str_replace("'", '', $data[2]);
+                        }
+                        
+                        if (isset($data[3])) {
+                            $sex = str_replace("'", '', $data[3]);
+                        }
+                        
+                        if (isset($data[4])) {
+                            $assciate_name = str_replace("'", '', $data[4]);
+                        }else{
+                            $assciate_name = 'Sin Categorizar';
+                        }
+                        $assciate_name =  $assciate_name === '' ?'Sin Categorizar':$assciate_name;
+                        $assciate_code_name = $this->slugify($assciate_name);
+                        $assciate = $em->getRepository('BDCPollBundle:Associate')->findOneByCode($assciate_code_name);
+                        
+                        if($assciate){
+                           $assciate_id = $assciate->getId();   
+                        }else{
+                            $assciate = new Associate();
+                            $assciate->setName($assciate_name);
+                            $assciate->setCode($assciate_code_name);
+                            $em->persist($assciate);
+                            $em->flush();    
+                            $assciate_id = $assciate->getId();  
+                        }
+                        
+                        if(count($exists)>0){
+                            $user = $exists;
+                            $existent+=1;
+                        }else{
+                            $user = new User();
+                            $added+=1;
+                        }    
+ 
+                        $user->setEmail($email);
+                        $user->setName($name);
+                        $user->setLastName($last_name);
+                        $user->setAssociateId($assciate_id);
+                        $user->setAssociate($assciate);
+                        $user->setDNI(0);
+                        $user->setRole('partners');
+                        $user->setPassword('1');
+                        $user->setSalt('1');
+                        $user->setGender($sex);
+                        $user->setCreated(new \DateTime());
+                        $user->setModified(new \DateTime());
+
+                        $em->persist($user);
+                        $em->flush();
+                        
                     } else {
 
                         $invalid_email[] = $email;
