@@ -236,9 +236,9 @@ style="margin-bottom: 2px; vertical-align: middle;" /></a></font></b></p>
                         if (isset($data[4])) {
                             $assciate_name = str_replace("'", '', $data[4]);
                         }else{
-                            $assciate_name = 'Sin Categorizar';
+                            $assciate_name = 'Activo sin ubicación';
                         }
-                        $assciate_name =  $assciate_name === '' ?'Sin Categorizar':$assciate_name;
+                        $assciate_name =  $assciate_name === '' ?'Activo sin ubicación':$assciate_name;
                         $assciate_code_name = $this->slugify($assciate_name);
                         $assciate = $em->getRepository('BDCPollBundle:Associate')->findOneByCode($assciate_code_name);
                         
