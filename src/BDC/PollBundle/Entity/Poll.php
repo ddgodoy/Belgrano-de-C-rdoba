@@ -32,6 +32,11 @@ class Poll
     public $status;
 
     /**
+     * @var string
+     */
+    public $id_user;
+    
+    /**
      * @var \DateTime
      */
     public $created;
@@ -40,7 +45,5 @@ class Poll
      * @var \DateTime
      */
     public $modified;
-    
-  
    
 }

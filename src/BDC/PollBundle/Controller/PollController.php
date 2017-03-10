@@ -9,6 +9,7 @@ use BDC\PollBundle\Entity\Question;
 use BDC\PollBundle\Entity\Vote;
 use BDC\PollBundle\Form\PollType;
 use BDC\PollBundle\Service\BDCUtils;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * Poll controller.
@@ -22,13 +23,16 @@ class PollController extends Controller {
      */
     public function indexAction() {
         
+        $session = new Session();
+        $user    = $session->get('user');
+        
         $utils = new BDCUtils;      
         if ($utils->check_session() === null) {
             return $this->redirect($this->generateUrl('user_login'));
         }
         
         $em = $this->getDoctrine()->getManager();
-        $entities = $em->getRepository('BDCPollBundle:Poll')->findAll();
+        $entities = $em->getRepository('BDCPollBundle:Poll')->findBy(['id_user'=>$user->getId()]);
 
         return $this->render('BDCPollBundle:Poll:index.html.twig', array(
                     'entities' => $entities, 'js' => array('js/poll/index.js'),

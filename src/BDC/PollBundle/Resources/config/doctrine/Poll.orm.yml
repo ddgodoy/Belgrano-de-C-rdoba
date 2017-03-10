@@ -19,6 +19,8 @@ BDC\PollBundle\Entity\Poll:
         status:
             type: string
             length: 50
+        id_user:
+            type: integer    
         created:
             type: datetime
         modified:
