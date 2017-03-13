@@ -176,7 +176,7 @@ class PollController extends Controller {
                     'votes' => $votes,
                     'js' => $js,
                     'token'=> $token,
-                    'link'=>$request->getSchemeAndHttpHost().'/show/'.$token.'/*|EMAIL|*/')
+                    'link'=>$request->getSchemeAndHttpHost().'/vote/show/'.$token.'/*|EMAIL|*/')
         );
     }
 
