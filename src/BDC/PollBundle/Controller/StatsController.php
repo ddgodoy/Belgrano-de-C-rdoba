@@ -28,11 +28,10 @@ class StatsController extends Controller {
 
         $session = new Session();
         $user    = $session->get('user');
-        
-        
+                
         
         $em = $this->getDoctrine()->getManager();
-        $entities = $em->getRepository('BDCPollBundle:Poll')->getGeneralStats();
+        $entities = $em->getRepository('BDCPollBundle:Poll')->getGeneralStats($user->getId());
 
         return $this->render('BDCPollBundle:Stats:index.html.twig', array(
                     'entities' => $entities,
