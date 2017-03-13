@@ -205,7 +205,7 @@ class PollController extends Controller {
         return $this->redirect($this->generateUrl('poll'));
     }
     
-    function generateAction($id) {
+    public function generateAction($id) {
         
         $utils = new BDCUtils();
         
@@ -228,7 +228,7 @@ class PollController extends Controller {
         );
     } 
     
-    function voteAction(Request $request) {
+    public function voteAction(Request $request) {
         
         
         $request_params = $this->get('request')->request->all();
@@ -278,7 +278,7 @@ class PollController extends Controller {
         return $this->render('BDCPollBundle:Front:vote.html.twig', array('vote_result' => $vote_result)); 
     }
     
-    function front_showAction(Request $request) {
+    public function front_showAction(Request $request) {
         $user_email = $request->get('email');
         $id_poll_token = $request->get('token');
             
