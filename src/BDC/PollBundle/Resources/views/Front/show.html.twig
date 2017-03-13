@@ -1,6 +1,6 @@
 {% extends 'BDCPollBundle::frontlayout.html.twig' %}
 {% block body %}
-    <div class="row">
+    <!--<div class="row">
     <h2 class="page-header">{{ poll.name }}</h2>
     </div>
     <div class="row">
@@ -13,6 +13,8 @@
                 <button class="btn btn-primary pull-left" type="submit">Votar</button>
             </form>
         </div>
-    </div>
+    </div>-->
+                
+    {{ form_code | raw}}            
 
 {% endblock %}

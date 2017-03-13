@@ -287,13 +287,23 @@ class PollController extends Controller {
         $user = $em->getRepository('BDCPollBundle:User')->findOneByEmail($user_email);
 
         if ( ($poll !== false) && ($user !== false) ) {
-            $questions = $em->getRepository('BDCPollBundle:Question')->findBY(array('id_poll' => $poll['id']));
-            $answers = $em->getRepository('BDCPollBundle:Answer')->findBY(array('id_poll' => $poll['id']));
+            /*$questions = $em->getRepository('BDCPollBundle:Question')->findBY(array('id_poll' => $poll['id']));
+            $answers = $em->getRepository('BDCPollBundle:Answer')->findBY(array('id_poll' => $poll['id']));*/
             $utils = new BDCUtils;
             
-            $form = $utils->generate_form_code_web($questions, $answers);
+            //$form = $utils->generate_form_code_web($questions, $answers);
             
-            return $this->render('BDCPollBundle:Front:show.html.twig', array('form' => $form, 'poll' => $poll, 'user' => $user));         
+            $js = array('js/plugins/prism/prism.js','js/poll/generate.js');
+            $css = array('js/plugins/prism/prism.css'); 
+            $entity = $em->getRepository('BDCPollBundle:Poll')->find($poll['id']);
+            $questions = $em->getRepository('BDCPollBundle:Question')->findBy(array('id_poll' => $poll['id']));
+            $answers = $em->getRepository('BDCPollBundle:Answer')->findBy(array('id_poll' => $poll['id']));
+
+            $action =  $url = $this->generateUrl('front_vote',array(), true);
+            $form_code = $utils->generate_form_code($entity, $questions, $answers, $action);
+            
+            return $this->render('BDCPollBundle:Front:show.html.twig', 
+                    array('form_code' => $form_code ,'js' => $js, 'css' => $css));         
         }
              
     }
