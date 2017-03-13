@@ -46,8 +46,8 @@ class PollController extends Controller {
             return $this->redirect($this->generateUrl('user_login'));
         }
 
-       
-
+        $session = new Session();
+        $user    = $session->get('user');
 
         $str_action = $id ? 'Editar' : 'Nueva';
         $rute = $id ? 'poll_form_edit' : 'poll_form';
@@ -80,7 +80,8 @@ class PollController extends Controller {
             'str_action' => $str_action,
             'url' => $url,
             'id' => $id,
-            'js' => $js);
+            'js' => $js,
+            'id_user'=>$user->getId());
 
 
 

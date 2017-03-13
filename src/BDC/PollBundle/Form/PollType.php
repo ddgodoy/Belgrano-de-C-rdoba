@@ -25,7 +25,8 @@ class PollType extends AbstractType
         
         $builder
             ->add('name')
-            ->add('status', 'choice', ['choices' =>['active'=>'Activa', 'inactive'=>'Inactiva', 'ended' => 'Finalizada']]);
+            ->add('status', 'choice', ['choices' =>['active'=>'Activa', 'inactive'=>'Inactiva', 'ended' => 'Finalizada']])
+            ->add('id_user', 'hidden');
             
                     
         
