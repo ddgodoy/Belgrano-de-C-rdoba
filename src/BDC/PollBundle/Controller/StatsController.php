@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use BDC\PollBundle\Entity\Poll;
 use BDC\PollBundle\Entity\Answer;
 use BDC\PollBundle\Service\BDCUtils;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 /**
  * Poll controller.
