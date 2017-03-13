@@ -176,7 +176,7 @@ class PollController extends Controller {
                     'votes' => $votes,
                     'js' => $js,
                     'token'=> md5($id),
-                    'link'=>$request->getRequestUri())
+                    'link'=>$request->getSchemeAndHttpHost())
         );
     }
 
