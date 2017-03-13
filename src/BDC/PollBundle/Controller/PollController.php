@@ -168,15 +168,15 @@ class PollController extends Controller {
         
         $js = array('js/plugins/jquery-validation/js/jquery.validate.min.js', 'js/plugins/jquery-validation/js/localization/messages_es_AR.js', 'js/poll/show.js');
         
-        
+        $token = md5($id);
 
         return $this->render('BDCPollBundle:Poll:show.html.twig', array(
                     'entity' => $entity,
                     'questions' => $questions,
                     'votes' => $votes,
                     'js' => $js,
-                    'token'=> md5($id),
-                    'link'=>$request->getSchemeAndHttpHost())
+                    'token'=> $token,
+                    'link'=>$request->getSchemeAndHttpHost().'/'.$token.'/*|email|*/')
         );
     }
 
