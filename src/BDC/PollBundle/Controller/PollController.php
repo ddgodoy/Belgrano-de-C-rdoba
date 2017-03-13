@@ -117,7 +117,7 @@ class PollController extends Controller {
      * Finds and displays a Poll entity.
      *
      */
-    public function showAction($id) {
+    public function showAction(Request $request, $id) {
         
         $utils = new BDCUtils;      
         if ($utils->check_session() === null) {
@@ -171,7 +171,12 @@ class PollController extends Controller {
         
 
         return $this->render('BDCPollBundle:Poll:show.html.twig', array(
-                    'entity' => $entity, 'questions' => $questions, 'votes' => $votes, 'js' => $js, 'token'=> md5($id))
+                    'entity' => $entity,
+                    'questions' => $questions,
+                    'votes' => $votes,
+                    'js' => $js,
+                    'token'=> md5($id),
+                    'link'=>$request->getRequestUri())
         );
     }
 
