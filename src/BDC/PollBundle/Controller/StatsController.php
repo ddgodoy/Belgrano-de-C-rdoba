@@ -25,6 +25,11 @@ class StatsController extends Controller {
             return $this->redirect($this->generateUrl('user_login'));
         }
 
+        $session = new Session();
+        $user    = $session->get('user');
+        
+        
+        
         $em = $this->getDoctrine()->getManager();
         $entities = $em->getRepository('BDCPollBundle:Poll')->getGeneralStats();
 
