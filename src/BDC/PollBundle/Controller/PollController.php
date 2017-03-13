@@ -171,7 +171,7 @@ class PollController extends Controller {
         
 
         return $this->render('BDCPollBundle:Poll:show.html.twig', array(
-                    'entity' => $entity, 'questions' => $questions, 'votes' => $votes, 'js' => $js)
+                    'entity' => $entity, 'questions' => $questions, 'votes' => $votes, 'js' => $js, 'token'=> md5($id))
         );
     }
 
