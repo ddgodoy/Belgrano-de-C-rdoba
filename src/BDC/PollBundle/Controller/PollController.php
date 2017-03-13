@@ -176,7 +176,7 @@ class PollController extends Controller {
                     'votes' => $votes,
                     'js' => $js,
                     'token'=> $token,
-                    'link'=>$request->getSchemeAndHttpHost().'/'.$token.'/*|email|*/')
+                    'link'=>$request->getSchemeAndHttpHost().'/show/'.$token.'/*|EMAIL|*/')
         );
     }
 
@@ -278,14 +278,13 @@ class PollController extends Controller {
         return $this->render('BDCPollBundle:Front:vote.html.twig', array('vote_result' => $vote_result)); 
     }
     
-    function front_showAction($token) {
-        $token_array = explode(':', $token);
-        $id_user_token = $token_array[0];
-        $id_poll_token = $token_array[1];
+    function front_showAction(Request $request) {
+        $user_email = $request->get('email');
+        $id_poll_token = $request->get('token');
             
         $em = $this->getDoctrine()->getManager();
         $poll = $em->getRepository('BDCPollBundle:Poll')->getByMD5Id($id_poll_token);
-        $user = $em->getRepository('BDCPollBundle:User')->getByMD5Id($id_user_token);
+        $user = $em->getRepository('BDCPollBundle:User')->findOneByEmail($user_email);
 
         if ( ($poll !== false) && ($user !== false) ) {
             $questions = $em->getRepository('BDCPollBundle:Question')->findBY(array('id_poll' => $poll['id']));

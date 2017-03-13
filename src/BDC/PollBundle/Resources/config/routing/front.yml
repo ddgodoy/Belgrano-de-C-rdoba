@@ -3,6 +3,6 @@ front_vote:
     defaults: { _controller: "BDCPollBundle:Poll:vote" }
 
 front_show:
-    path:      /show/{token}
+    path:      /show/{token}/{email}
     defaults: { _controller: "BDCPollBundle:Poll:front_show" }
     
