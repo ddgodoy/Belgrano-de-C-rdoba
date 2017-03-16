@@ -15,12 +15,11 @@ class VoteRepository extends EntityRepository {
     function getCountPartnersVote($id_poll){
         
         $em = $this->getEntityManager();
-        $query = $em->createQueryBuilder(
-                        'SELECT COUNT(v.id_user) AS count_s
-                         FROM BDCPollBundle:Vote v
-                         WHERE v.id_poll = 5
-                         GROUP BY v.id_poll'
-                );
+        $query = $em->createQueryBuilder()
+                ->select('COUNT(v.id_user)') 
+                ->from('Vote', 'v')
+                ->where('v.id_poll = 5')
+                ->groupBy('v.id_poll');
 
         $count_partner = $query->getQuery()->getSingleScalarResult();
         
