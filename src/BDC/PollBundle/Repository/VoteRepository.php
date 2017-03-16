@@ -18,7 +18,7 @@ class VoteRepository extends EntityRepository {
         $query = $em->createQuery(
                         'SELECT COUNT(v.id_user) AS count_s
                          FROM BDCPollBundle:Vote v
-                         WHERE v.id_poll = :id_poll
+                         WHERE v.id_poll = 5
                          GROUP BY v.id_poll'
                 )->setMaxResults(1)->setParameter('id_poll', $id_poll);
 
