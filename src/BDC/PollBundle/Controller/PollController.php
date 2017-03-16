@@ -300,7 +300,7 @@ class PollController extends Controller {
             $answers = $em->getRepository('BDCPollBundle:Answer')->findBy(array('id_poll' => $poll['id']));
 
             $action =  $url = $this->generateUrl('front_vote',array(), true);
-            $form_code = $utils->generate_form_code($entity, $questions, $answers, $action);
+            $form_code = $utils->generate_form_code($entity, $questions, $answers, $action, $user);
             
             return $this->render('BDCPollBundle:Front:show.html.twig', 
                     array('form_code' => $form_code ,'js' => $js, 'css' => $css));         
