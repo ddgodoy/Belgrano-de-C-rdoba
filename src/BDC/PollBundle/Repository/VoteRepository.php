@@ -22,8 +22,8 @@ class VoteRepository extends EntityRepository {
                          GROUP BY v.id_poll'
                 )->setParameter('id_poll', $id_poll);
 
-        $count_partner = $query->getResult();
+        $count_partner = $query->execute();
         
-        return $count_partner;
+        return $count_partner->fetch();
     }
 }
