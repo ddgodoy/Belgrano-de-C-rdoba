@@ -97,10 +97,12 @@ class BDCUtils {
         return json_encode($output);
     }
 
-    function generate_form_code($poll, $questions, $answers, $action) {
+    function generate_form_code($poll, $questions, $answers, $action, $user = null) {
 
         $new_line = "\r\n";
 
+        $email = $user != null?$user->getEmail():"*|EMAIL|*";
+        
         $output = '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><table align="center" bgcolor="00BCFF" border="0" cellpadding="0" cellspacing="0" style="width: 100%; font-family: Arial, "Helvetica Neue", Helvetica, sans-serif; font-size: 12px; color: #F8F8F8; margin: 0px; padding: 0px">' . $new_line;
         $output.='<tbody>' . $new_line;
         $output.='<tr align="center">' . $new_line;
@@ -132,15 +134,15 @@ class BDCUtils {
                 . '<td height="10" style="padding-left: 15px;">' . $new_line;
         $output.='<table>' . $new_line . '<tr>' . $new_line . '<td>' . $new_line . '<h2 style="color: #009DD4; font-family: arial;">Encuesta: ' . htmlentities($poll->name) . '</h2>' . $new_line . '</td></tr>' . $new_line . '</table>' . $new_line;
 
-        $output.= '<form method="post" action="' . $action . '">' . $new_line . '<input type="hidden" name="email" id="email" value="*|EMAIL|*" /><input type="hidden" name="id_poll" id="id_poll" value="' . $poll->id . '" />' . $new_line;
+        $output.= '<form method="post" action="' . $action . '">' . $new_line . '<input type="hidden" name="email" id="email" value="'.$email.'" /><input type="hidden" name="id_poll" id="id_poll" value="' . $poll->id . '" />' . $new_line;
 
 
         foreach ($questions as $q) {
-            $output.= '<table style="margin-top: 20px">' . $new_line . '<tr><td style="color: #009DD4; font-family: arial;">' . htmlentities($q->question) . '</td></tr>' . $new_line . '</table>' . $new_line;
+            $output.= '<table style="margin-top: 20px">' . $new_line . '<tr><td style="color: #009DD4; font-family: arial; font-size: 24px;">' . htmlentities($q->question) . '</td></tr>' . $new_line . '</table>' . $new_line;
             $output.='<table>';
             foreach ($answers as $a) {
                 if ($a->id_question == $q->id) {
-                    $output.= $new_line . '<tr><td><label><input type="radio" name="answers[' . $q->id . ']" value="' . $a->id . '" style="font-family: arial; font-size: 24px;" />&nbsp;&nbsp;<b>' . htmlentities($a->answer) . '<b></label></td></tr>';
+                    $output.= $new_line . '<tr><td><label><input type="radio" name="answers[' . $q->id . ']" value="' . $a->id . '" style="font-family: arial;" />&nbsp;&nbsp;<b>' . htmlentities($a->answer) . '<b></label></td></tr>';
                 }
             }
             $output.= $new_line . '</table>';
@@ -163,20 +165,6 @@ dashed #A5A5A5;" width="550">
 <tr align="center">
 <td align="center" height="10">
 &nbsp;</td>
-</tr>
-<tr align="center">
-<td align="left">
-<p style="margin: 0; padding: 0;">
-<b><font style="font-family: "Trebuchet MS", "Lucida Grande", "Lucida Sans
-Unicode", "Lucida Sans", Tahoma, sans-serif; font-size: 14px; color:
-#009DD4;">Seguinos en: <a href="https://www.facebook.com/ClubBelgranoCordoba"
-target="_blank"><img alt="Facebook" src="
-http://sendder.com.ar/templates/belgrano/img/facebook.png"
-style="margin-bottom: 2px; vertical-align: middle;" /></a> <a href="
-https://twitter.com/BelgranoCbaOk" target="_blank"><img alt="Twitter" src="
-http://sendder.com.ar/templates/belgrano/img/twitter.png"
-style="margin-bottom: 2px; vertical-align: middle;" /></a></font></b></p>
-</td>
 </tr>
 <tr align="center">
 <td align="center" height="10">
