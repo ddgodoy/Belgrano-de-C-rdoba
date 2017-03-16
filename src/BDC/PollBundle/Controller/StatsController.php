@@ -53,6 +53,7 @@ class StatsController extends Controller {
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('BDCPollBundle:Poll')->find($id);
+        $count_partner = $em->getRepository('BDCPollBundle:Vote')->getCountPartnersVote($id);
         $questions = $em->getRepository('BDCPollBundle:Question')->findBy(array('id_poll' => $id));
         if ($questions) {
             $js = array('js/stats/show.js',
@@ -64,7 +65,11 @@ class StatsController extends Controller {
                 'js/plugins/morris/raphael.min.js',
                 'js/plugins/morris/morris.min.js');
 
-            return $this->render('BDCPollBundle:Stats:show.html.twig', array('entity' => $entity, 'questions' => $questions, 'js' => $js));
+            return $this->render('BDCPollBundle:Stats:show.html.twig', 
+                    array(  'entity' => $entity, 
+                            'questions' => $questions,
+                            'js' => $js,
+                            'count_partner'=>$count_partner));
         } else {
             return $this->render('BDCPollBundle:Stats:errors.html.twig');
         }
