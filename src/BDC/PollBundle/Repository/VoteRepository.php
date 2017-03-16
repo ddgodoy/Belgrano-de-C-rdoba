@@ -20,7 +20,7 @@ class VoteRepository extends EntityRepository {
                          FROM BDCPollBundle:Vote v
                          WHERE v.id_poll = :id_poll
                          GROUP BY v.id_poll'
-                )->setParameter('id_poll', $id_poll);
+                )->setMaxResults(1)->setParameter('id_poll', $id_poll);
 
         $count_partner = $query->getResult();
         
