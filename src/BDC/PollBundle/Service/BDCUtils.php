@@ -109,13 +109,6 @@ class BDCUtils {
         $output.='<td align="center">' . $new_line;
         $output.='<table align="center" border="0" cellpadding="0" cellspacing="0" style="font-family: Arial, "Helvetica Neue", Helvetica, sans-serif; font-size: 12px; color: #F8F8F8; margin: 0px; padding: 0px" width="600">' . $new_line;
         $output.='<tbody>' . $new_line;
-        $output.='<tr align="center">' . $new_line;
-        $output.='<td align="center">' . $new_line;
-        $output.='<a href="http://www.belgranocordoba.com/" style="display: block;" target="_blank">' . $new_line;
-        $output.='<img alt="Club Atlético Belgrano" height="80" src="http://sendder.com.ar/templates/belgrano/img/top.png" style="display: block;" width="600" />' . $new_line;
-        $output.='</a>' . $new_line;
-        $output.='</td>' . $new_line;
-        $output.='</tr>' . $new_line;
         $output.='<tr bgcolor="#121211">' . $new_line;
         $output.='<td align="center" valign="middle">' . $new_line;
         $output.='<font style="font-family: "Trebuchet MS", "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Tahoma, sans-serif; font-size: 15px; color: #FFFFFF; display: block; padding: 5px;">Bolet&iacute;n de Noticias para socios de Belgrano</font>' . $new_line;
@@ -149,8 +142,15 @@ class BDCUtils {
         }
         $output.= $new_line . '<br/><br/><input type="submit" value="Enviar"></form>' . $new_line;
         $output.='</td>
-</tr>
-<tr align="center">
+</tr>';
+$output.='<tr align="center">' . $new_line;
+$output.='<td align="center">' . $new_line;
+$output.='<a href="http://www.belgranocordoba.com/" style="display: block;" target="_blank">' . $new_line;
+$output.='<img alt="Club Atlético Belgrano" height="80" src="http://sendder.com.ar/templates/belgrano/img/top.png" style="display: block;" width="600" />' . $new_line;
+$output.='</a>' . $new_line;
+$output.='</td>' . $new_line;
+$output.='</tr>' . $new_line;        
+$output.='<tr align="center">
 <td align="center" height="10">
 &nbsp;</td>
 </tr>
