@@ -1,13 +1,12 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.10.14
--- http://www.phpmyadmin.net
+-- version 4.6.6
+-- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Mar 10, 2017 at 12:25 PM
--- Server version: 5.5.52-cll
--- PHP Version: 5.4.31
+-- Generation Time: Mar 16, 2017 at 03:24 PM
+-- Server version: 5.5.54-0ubuntu0.14.04.1
+-- PHP Version: 5.6.27
 
-SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
@@ -15,10 +14,10 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `belgrano_enc`
+-- Database: `staging_belgrano`
 --
 
 -- --------------------------------------------------------
@@ -27,13 +26,12 @@ SET time_zone = "+00:00";
 -- Table structure for table `Answer`
 --
 
-CREATE TABLE IF NOT EXISTS `Answer` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `Answer` (
+  `id` int(11) NOT NULL,
   `id_poll` int(11) NOT NULL,
   `answer` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `id_question` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=123 ;
+  `id_question` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `Answer`
@@ -159,7 +157,14 @@ INSERT INTO `Answer` (`id`, `id_poll`, `answer`, `id_question`) VALUES
 (119, 11, 'El inicio de obras en el Gigante', 34),
 (120, 11, 'Sí, deben continuar', 35),
 (121, 11, 'Sí, pero incorporando nuevos integrantes para renovar la CD con ideas nuevas', 35),
-(122, 11, 'No, no deben continuar', 35);
+(122, 11, 'No, no deben continuar', 35),
+(123, 12, 'bien', 36),
+(124, 12, 'mal', 36),
+(125, 12, 'Si', 37),
+(126, 12, 'No', 37),
+(127, 12, 'muy bien ', 38),
+(128, 12, 'muy mal', 38),
+(129, 12, 'regular', 38);
 
 -- --------------------------------------------------------
 
@@ -167,12 +172,11 @@ INSERT INTO `Answer` (`id`, `id_poll`, `answer`, `id_question`) VALUES
 -- Table structure for table `Associate`
 --
 
-CREATE TABLE IF NOT EXISTS `Associate` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `Associate` (
+  `id` int(11) NOT NULL,
   `name` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
-  `code` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=12 ;
+  `code` varchar(150) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `Associate`
@@ -192,29 +196,30 @@ INSERT INTO `Associate` (`id`, `name`, `code`) VALUES
 -- Table structure for table `Poll`
 --
 
-CREATE TABLE IF NOT EXISTS `Poll` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `Poll` (
+  `id` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `slug` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `status` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `id_user` int(11) NOT NULL,
   `created` datetime NOT NULL,
-  `modified` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=12 ;
+  `modified` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `Poll`
 --
 
-INSERT INTO `Poll` (`id`, `name`, `slug`, `status`, `created`, `modified`) VALUES
-(4, '1° Encuesta', '1-encuesta', 'ended', '2014-11-18 10:10:54', '2015-01-05 11:19:23'),
-(5, 'Encuesta de Prueba', 'encuesta-de-prueba', 'inactive', '2014-11-28 13:24:17', '2015-09-24 17:19:56'),
-(6, 'Encuesta 2', 'encuesta-2', 'inactive', '2015-09-22 15:52:57', '2015-09-24 17:19:53'),
-(7, 'Encuesta CAB | Septiembre 2015', 'encuesta-cab-septiembre-2015', 'inactive', '2015-09-23 15:55:10', '2015-09-24 17:19:51'),
-(8, 'Encuesta 2015', 'encuesta-2015', 'active', '2015-09-24 14:33:04', '2015-09-24 14:33:04'),
-(9, 'Consulta sobre la futura AFA', 'consulta-sobre-la-futura-afa', 'active', '2016-04-25 16:27:13', '2016-04-25 16:29:05'),
-(10, 'Encuesta Despertemos Al Gigante', 'encuesta-despertemos-al-gigante', 'active', '2016-10-19 14:53:27', '2016-10-19 15:59:28'),
-(11, 'Encuesta Socios 2017', 'encuesta-socios-2017', 'active', '2017-02-13 17:37:33', '2017-02-13 17:51:34');
+INSERT INTO `Poll` (`id`, `name`, `slug`, `status`, `id_user`, `created`, `modified`) VALUES
+(4, '1° Encuesta', '1-encuesta', 'ended', 17222, '2014-11-18 10:10:54', '2015-01-05 11:19:23'),
+(5, 'Encuesta de Prueba', 'encuesta-de-prueba', 'inactive', 17222, '2014-11-28 13:24:17', '2015-09-24 17:19:56'),
+(6, 'Encuesta 2', 'encuesta-2', 'inactive', 17222, '2015-09-22 15:52:57', '2015-09-24 17:19:53'),
+(7, 'Encuesta CAB | Septiembre 2015', 'encuesta-cab-septiembre-2015', 'inactive', 17222, '2015-09-23 15:55:10', '2015-09-24 17:19:51'),
+(8, 'Encuesta 2015', 'encuesta-2015', 'active', 17222, '2015-09-24 14:33:04', '2015-09-24 14:33:04'),
+(9, 'Consulta sobre la futura AFA', 'consulta-sobre-la-futura-afa', 'active', 17222, '2016-04-25 16:27:13', '2016-04-25 16:29:05'),
+(10, 'Encuesta Despertemos Al Gigante', 'encuesta-despertemos-al-gigante', 'active', 17222, '2016-10-19 14:53:27', '2016-10-19 15:59:28'),
+(11, 'Encuesta Socios 2017', 'encuesta-socios-2017', 'active', 17222, '2017-02-13 17:37:33', '2017-02-13 17:51:34'),
+(12, 'Encueta Test Socios', 'encueta-test-socios', 'inactive', 17221, '2017-03-13 13:35:57', '2017-03-16 15:07:55');
 
 -- --------------------------------------------------------
 
@@ -222,12 +227,11 @@ INSERT INTO `Poll` (`id`, `name`, `slug`, `status`, `created`, `modified`) VALUE
 -- Table structure for table `Question`
 --
 
-CREATE TABLE IF NOT EXISTS `Question` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `Question` (
+  `id` int(11) NOT NULL,
   `id_poll` int(11) NOT NULL,
-  `question` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=36 ;
+  `question` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `Question`
@@ -267,7 +271,10 @@ INSERT INTO `Question` (`id`, `id_poll`, `question`) VALUES
 (31, 11, '¿Qué opinión le merece la decisión de ampliar el Gigante de Alberdi?'),
 (32, 11, 'Haber postergado el inicio de obra para optimizar las condiciones de licitación y obtener mejores precios fue:'),
 (33, 11, ' En los últimos 3 mercados de pases, se contrataron, entre otros,  los siguientes jugadores. ¿Cuál considera que fue la mejor inversión teniendo en cuenta las necesidades de cada momento?'),
-(34, 11, ' El hecho más destacado de Belgrano en el 2016 fue:');
+(34, 11, ' El hecho más destacado de Belgrano en el 2016 fue:'),
+(36, 12, 'hola que tal?'),
+(37, 12, 'todo bien?'),
+(38, 12, 'como estas?');
 
 -- --------------------------------------------------------
 
@@ -275,8 +282,8 @@ INSERT INTO `Question` (`id`, `id_poll`, `question`) VALUES
 -- Table structure for table `User`
 --
 
-CREATE TABLE IF NOT EXISTS `User` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `User` (
+  `id` int(11) NOT NULL,
   `associate_id` int(11) NOT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `last_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -287,10 +294,8 @@ CREATE TABLE IF NOT EXISTS `User` (
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
   `salt` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `gender` varchar(2) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `IDX_2DA179772B0E8D99` (`associate_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=17221 ;
+  `gender` varchar(2) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `User`
@@ -1002,9 +1007,9 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 (702, 11, 'AGUSTIN ALEJANDRO', 'ARIAS', 'AGUS_DLE15@HOTMAIL.COM.AR', '0', 'partners', '1', '2017-02-21 15:36:31', '2017-02-21 15:36:31', '1', ''),
 (703, 11, 'AGUSTIN S.', 'ARIAS', 'agustin_sergio@hotmail.com', '0', 'partners', '1', '2017-02-21 15:36:31', '2017-02-21 15:36:31', '1', ''),
 (704, 1, 'ARNALDO ARIEL', 'ARIAS', 'xxx@xx.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
-(705, 11, 'DANIEL EDGARDO', 'ARIAS', 'darias@sancorseguros.com', '0', 'partners', '1', '2017-02-21 15:36:31', '2017-02-21 15:36:31', '1', '');
+(705, 11, 'DANIEL EDGARDO', 'ARIAS', 'darias@sancorseguros.com', '0', 'partners', '1', '2017-02-21 15:36:31', '2017-02-21 15:36:31', '1', ''),
+(706, 11, 'DANIELA DEL VALLE', 'ARIAS', 'uriel73@hotmail.com', '0', 'partners', '1', '2017-02-21 15:36:31', '2017-02-21 15:36:31', '1', '');
 INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
-(706, 11, 'DANIELA DEL VALLE', 'ARIAS', 'uriel73@hotmail.com', '0', 'partners', '1', '2017-02-21 15:36:31', '2017-02-21 15:36:31', '1', ''),
 (707, 11, 'DANIELA SOLEDAD', 'ARIAS', 'danisolarias@hotmail.com', '0', 'partners', '1', '2017-02-21 15:36:31', '2017-02-21 15:36:31', '1', ''),
 (708, 11, 'DIEGO RICARDO', 'ARIAS', 'DIEGOARIAS@YAHOO.COM', '0', 'partners', '1', '2017-02-21 15:36:32', '2017-02-21 15:36:32', '1', ''),
 (709, 11, 'NORMA BEATRIZ', 'CEPEDA', 'arq-arielarias812@hotmail.com', '0', 'partners', '1', '2017-02-21 15:40:54', '2017-02-21 15:40:54', '1', ''),
@@ -1356,9 +1361,9 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 (1055, 11, 'NICOLAS', 'BARRERA', 'nicolasbarrera86@gmail.com', '0', 'partners', '1', '2017-02-21 15:38:08', '2017-02-21 15:38:08', '1', ''),
 (1056, 11, 'CHRISTIAN FEDERICO', 'BARRERA', 'fedebarrera93@gmail.com', '0', 'partners', '1', '2017-02-21 15:38:07', '2017-02-21 15:38:07', '1', ''),
 (1057, 11, 'TANIA FERNANDA', 'MERLO', 'xxx@hotmail.com', '0', 'partners', '1', '2017-02-21 16:00:36', '2017-02-21 16:00:36', '1', ''),
-(1058, 11, 'EUNICE KARINA', 'BARRERA', 'eunicebarrera@hotmail.com', '0', 'partners', '1', '2017-02-21 15:38:07', '2017-02-21 15:38:07', '1', '');
+(1058, 11, 'EUNICE KARINA', 'BARRERA', 'eunicebarrera@hotmail.com', '0', 'partners', '1', '2017-02-21 15:38:07', '2017-02-21 15:38:07', '1', ''),
+(1059, 11, 'FLAVIA VERONICA', 'BARRERA', 'flavia_barrera14@hotmail.com', '0', 'partners', '1', '2017-02-21 15:38:07', '2017-02-21 15:38:07', '1', '');
 INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
-(1059, 11, 'FLAVIA VERONICA', 'BARRERA', 'flavia_barrera14@hotmail.com', '0', 'partners', '1', '2017-02-21 15:38:07', '2017-02-21 15:38:07', '1', ''),
 (1060, 11, 'FLORENCIA CELESTE', 'BARRERA', 'celescomastri@gmail.com', '0', 'partners', '1', '2017-02-21 15:38:07', '2017-02-21 15:38:07', '1', ''),
 (1061, 11, 'GASTON', 'BARRERA', 'GASTBAR@hotmail.com', '0', 'partners', '1', '2017-02-21 15:38:08', '2017-02-21 15:38:08', '1', ''),
 (1062, 11, 'GUSTAVO ADOLFO', 'BARRERA', 'gusbarrera@hotmail.com', '0', 'partners', '1', '2017-02-21 15:38:08', '2017-02-21 15:38:08', '1', ''),
@@ -1705,9 +1710,9 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 (1403, 11, 'CLAUDIO EMILIANO', 'BINETTI', 'gringo_la6@hotmail.com', '0', 'partners', '1', '2017-02-21 15:38:35', '2017-02-21 15:38:35', '1', ''),
 (1404, 11, 'MARIA FLORENCIA', 'LAGORIO', 'heberbio11@hotmail.com', '0', 'partners', '1', '2017-02-21 15:59:28', '2017-02-21 15:59:28', '1', ''),
 (1405, 1, 'MAGDALENA', 'BIO', 'heberbio11@hotmail.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
-(1406, 1, 'VICTOR HEBER', 'BIO', 'heberbio11@hotmail.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', '');
+(1406, 1, 'VICTOR HEBER', 'BIO', 'heberbio11@hotmail.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
+(1407, 11, 'SANTIAGO BENJAMIN', 'BIONDI', 'andy_lubi@hotmail.com', '0', 'partners', '1', '2017-02-21 15:38:35', '2017-02-21 15:38:35', '1', '');
 INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
-(1407, 11, 'SANTIAGO BENJAMIN', 'BIONDI', 'andy_lubi@hotmail.com', '0', 'partners', '1', '2017-02-21 15:38:35', '2017-02-21 15:38:35', '1', ''),
 (1408, 1, 'SANTIAGO BENJAMIN', 'BIONDI', 'andy_lubi@hotmail.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
 (1409, 11, 'CATERINA', 'BIONDO', 'caty_717@hotmail.com', '0', 'partners', '1', '2017-02-21 15:38:35', '2017-02-21 15:38:35', '1', ''),
 (1410, 11, 'DAVID EDUARDO', 'BIROLO', 'david.birolo@gmail.com', '0', 'partners', '1', '2017-02-21 15:38:35', '2017-02-21 15:38:35', '1', ''),
@@ -2057,9 +2062,9 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 (1754, 11, 'HUGO EDILIO', 'BUSTOS', 'DIEGOBUSTOS.023@HOTMAIL.COM', '0', 'partners', '1', '2017-02-21 15:38:50', '2017-02-21 15:38:50', '1', ''),
 (1755, 11, 'JAVIER ANDRES', 'BUSTOS', 'bustos.javier@hotmail.com.ar', '0', 'partners', '1', '2017-02-21 15:38:50', '2017-02-21 15:38:50', '1', ''),
 (1756, 11, 'JESUS EMILIO', 'BUSTOS', 'jbustos.235@gmail.com', '0', 'partners', '1', '2017-02-21 15:38:50', '2017-02-21 15:38:50', '1', ''),
-(1757, 11, 'JORGE ANTONIO', 'BUSTOS', 'JORGEBUSTOS352@GMAIL.COM', '0', 'partners', '1', '2017-02-21 15:38:50', '2017-02-21 15:38:50', '1', '');
+(1757, 11, 'JORGE ANTONIO', 'BUSTOS', 'JORGEBUSTOS352@GMAIL.COM', '0', 'partners', '1', '2017-02-21 15:38:50', '2017-02-21 15:38:50', '1', ''),
+(1758, 11, 'JULIETA VALENTINA', 'BUSTOS', 'sebasebustos@hotmail.com', '0', 'partners', '1', '2017-02-21 15:38:50', '2017-02-21 15:38:50', '1', '');
 INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
-(1758, 11, 'JULIETA VALENTINA', 'BUSTOS', 'sebasebustos@hotmail.com', '0', 'partners', '1', '2017-02-21 15:38:50', '2017-02-21 15:38:50', '1', ''),
 (1759, 11, 'LUCAS', 'BUSTOS', 'lucasgastonbustos@outlook.com', '0', 'partners', '1', '2017-02-21 15:38:50', '2017-02-21 15:38:50', '1', ''),
 (1760, 11, 'LUCAS ALBERTO', 'BUSTOS', 'lucasbustosth@hotmail.com', '0', 'partners', '1', '2017-02-21 15:38:50', '2017-02-21 15:38:50', '1', ''),
 (1761, 11, 'LUCIANA MARIA', 'BUSTOS', 'luciana_29_06@hotmail.com', '0', 'partners', '1', '2017-02-21 15:38:50', '2017-02-21 15:38:50', '1', ''),
@@ -2407,9 +2412,9 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 (2103, 11, 'LAUTARO GASTON', 'CARDOZO', 'tata_lbc@hotmail.com', '0', 'partners', '1', '2017-02-21 15:39:19', '2017-02-21 15:39:19', '1', ''),
 (2104, 11, 'TOMAS AGUSTIN', 'LUQUE', 'crisluque80@hotmail.com', '0', 'partners', '1', '2017-02-21 15:58:40', '2017-02-21 15:58:40', '1', ''),
 (2105, 11, 'MRIELA ALEJANDRA', 'CARDOZO', 'alecar1972@yahoo.com.ar', '0', 'partners', '1', '2017-02-21 15:39:19', '2017-02-21 15:39:19', '1', ''),
-(2106, 11, 'RODRIGO LUCIANO', 'CARDOZO', 'pirata_7cab@hotmail.com', '0', 'partners', '1', '2017-02-21 15:39:19', '2017-02-21 15:39:19', '1', '');
+(2106, 11, 'RODRIGO LUCIANO', 'CARDOZO', 'pirata_7cab@hotmail.com', '0', 'partners', '1', '2017-02-21 15:39:19', '2017-02-21 15:39:19', '1', ''),
+(2107, 11, 'LUCIANO JOSE', 'CARIDDI', 'lucianocariddi@gmail.com', '0', 'partners', '1', '2017-02-21 15:39:19', '2017-02-21 15:39:19', '1', '');
 INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
-(2107, 11, 'LUCIANO JOSE', 'CARIDDI', 'lucianocariddi@gmail.com', '0', 'partners', '1', '2017-02-21 15:39:19', '2017-02-21 15:39:19', '1', ''),
 (2108, 11, 'MARIA VALENTINA', 'MERLINO', 'cdmerlino@hotmail.com', '0', 'partners', '1', '2017-02-21 16:00:35', '2017-02-21 16:00:35', '1', ''),
 (2109, 11, 'IGNACIO GABRIEL', 'CARLE', 'nachocarle@hotmail.com', '0', 'partners', '1', '2017-02-21 15:39:19', '2017-02-21 15:39:19', '1', ''),
 (2110, 11, 'ANA MAGDALENA', 'CASTELLO', 'castellopablo@hotmail.com', '0', 'partners', '1', '2017-02-21 15:39:31', '2017-02-21 15:39:31', '1', ''),
@@ -2755,9 +2760,9 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 (2450, 1, 'ALEXIS DANIEL', 'CELIZ', 'XX.XX@GMAIL.COM', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
 (2451, 11, 'RAFAEL FERNANDO', 'CELIZ', 'rafa_lizce@hotmail.com', '0', 'partners', '1', '2017-02-21 15:40:53', '2017-02-21 15:40:53', '1', ''),
 (2452, 11, 'DAHYANA NAHIR', 'CELIZ', 'DAHYCELIZ@HOTMAIL.COM', '0', 'partners', '1', '2017-02-21 15:40:53', '2017-02-21 15:40:53', '1', ''),
-(2453, 1, 'DANIEL DEL VALLE', 'CELIZ', 'XX.XX@GMAIL.COM', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', '');
+(2453, 1, 'DANIEL DEL VALLE', 'CELIZ', 'XX.XX@GMAIL.COM', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
+(2454, 11, 'JESICA MICAELA', 'CELIZ', 'yesi_diegotkm@hotmail.com', '0', 'partners', '1', '2017-02-21 15:40:53', '2017-02-21 15:40:53', '1', '');
 INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
-(2454, 11, 'JESICA MICAELA', 'CELIZ', 'yesi_diegotkm@hotmail.com', '0', 'partners', '1', '2017-02-21 15:40:53', '2017-02-21 15:40:53', '1', ''),
 (2455, 1, 'LARA MICAELA', 'CELIZ', 'XX.XX@GMAIL.COM', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
 (2456, 1, 'LUIS FERNANDO', 'CELIZ', 'XX@xx.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
 (2457, 11, 'RODRIGO ANDRES', 'CELIZ MERCADO', 'rola_lamona@hotmail.com', '0', 'partners', '1', '2017-02-21 15:40:53', '2017-02-21 15:40:53', '1', ''),
@@ -3105,9 +3110,9 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 (2799, 11, 'LORENA ALEJANDRA', 'CORDOBA', 'LORECORDOBA11113@GMAIL.COM', '0', 'partners', '1', '2017-02-21 15:41:21', '2017-02-21 15:41:21', '1', ''),
 (2800, 11, 'IGNACIO DANIEL', 'FRIAS', 'micahcordoba@hotmail.com', '0', 'partners', '1', '2017-02-21 15:43:44', '2017-02-21 15:43:44', '1', ''),
 (2801, 11, 'MARIANO', 'CORDOBA', 'marianocor2002@yahoo.com.ar', '0', 'partners', '1', '2017-02-21 15:41:22', '2017-02-21 15:41:22', '1', ''),
-(2802, 11, 'RICARDO ENRIQUE', 'CORDOBA', 'ricardo_cordoba7@hotmail.com', '0', 'partners', '1', '2017-02-21 15:41:22', '2017-02-21 15:41:22', '1', '');
+(2802, 11, 'RICARDO ENRIQUE', 'CORDOBA', 'ricardo_cordoba7@hotmail.com', '0', 'partners', '1', '2017-02-21 15:41:22', '2017-02-21 15:41:22', '1', ''),
+(2803, 11, 'MARCOS', 'CORDOVERO', 'mcordovero@tamarindosa.com.ar', '0', 'partners', '1', '2017-02-21 15:41:22', '2017-02-21 15:41:22', '1', '');
 INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
-(2803, 11, 'MARCOS', 'CORDOVERO', 'mcordovero@tamarindosa.com.ar', '0', 'partners', '1', '2017-02-21 15:41:22', '2017-02-21 15:41:22', '1', ''),
 (2804, 11, 'MATIAS', 'CORDOVERO', 'matias.cordovero@hotmail.com', '0', 'partners', '1', '2017-02-21 15:41:22', '2017-02-21 15:41:22', '1', ''),
 (2805, 11, 'GERMAN AGUSTIN', 'CORIA', 'GERMAN_PIRATA_CJS@HOTMAIL.COM', '0', 'partners', '1', '2017-02-21 15:41:22', '2017-02-21 15:41:22', '1', ''),
 (2806, 11, 'GUSTAVO EDUARDO', 'CORIA', 'GUSTAVO.IMPRESION@GMAIL.COM', '0', 'partners', '1', '2017-02-21 15:41:22', '2017-02-21 15:41:22', '1', ''),
@@ -3456,9 +3461,9 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 (3149, 11, 'GRECO MARCELO DARIO', 'DEL', 'machidelgreco@yahoo.com', '0', 'partners', '1', '2017-02-21 15:41:39', '2017-02-21 15:41:39', '1', ''),
 (3150, 11, 'RUBEN ANIBAL', 'DEL OLMO', 'rubendelolmo@hotmail.com', '0', 'partners', '1', '2017-02-21 15:41:39', '2017-02-21 15:41:39', '1', ''),
 (3151, 11, 'LISANDRO', 'DEL RIO', 'lisandrodelrio1@hotmail.com', '0', 'partners', '1', '2017-02-21 15:41:40', '2017-02-21 15:41:40', '1', ''),
-(3152, 11, 'IMANOL', 'DEL RIO', 'mamani23@hotmail.com', '0', 'partners', '1', '2017-02-21 15:41:40', '2017-02-21 15:41:40', '1', '');
+(3152, 11, 'IMANOL', 'DEL RIO', 'mamani23@hotmail.com', '0', 'partners', '1', '2017-02-21 15:41:40', '2017-02-21 15:41:40', '1', ''),
+(3153, 11, 'MARIA SOLEDAD', 'DEL RIO', 'soledadelrio@yahoo.com.ar', '0', 'partners', '1', '2017-02-21 15:41:40', '2017-02-21 15:41:40', '1', '');
 INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
-(3153, 11, 'MARIA SOLEDAD', 'DEL RIO', 'soledadelrio@yahoo.com.ar', '0', 'partners', '1', '2017-02-21 15:41:40', '2017-02-21 15:41:40', '1', ''),
 (3154, 11, 'MAXIMILIANO', 'DEL RIO', 'maximiliano-delrio@hotmail.com', '0', 'partners', '1', '2017-02-21 15:41:40', '2017-02-21 15:41:40', '1', ''),
 (3155, 11, 'NICOLAS', 'DEL RIO', 'inesvri@gmail.com', '0', 'partners', '1', '2017-02-21 15:41:40', '2017-02-21 15:41:40', '1', ''),
 (3156, 11, 'LINA PAOLA', 'LEON VANEGAS', 'RODRIGODELRIO_8@HOTMAIL.COM', '0', 'partners', '1', '2017-02-21 15:59:33', '2017-02-21 15:59:33', '1', ''),
@@ -3809,9 +3814,9 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 (3501, 11, 'SALUM HECTOR MATIAS', 'ELIAS', 'eliashector@hotmail.com', '0', 'partners', '1', '2017-02-21 15:42:07', '2017-02-21 15:42:07', '1', ''),
 (3502, 11, 'CHRISTIAN RICARDO', 'ELIZALDE', 'cr.elizaldenoya@gmail.com', '0', 'partners', '1', '2017-02-21 15:42:07', '2017-02-21 15:42:07', '1', ''),
 (3503, 11, 'PABLO DAVID', 'ELIZONDO', 'pablo_abercor@hotmail.com', '0', 'partners', '1', '2017-02-21 15:42:07', '2017-02-21 15:42:07', '1', ''),
-(3504, 11, 'DIEGO FRANCISCO', 'ELKIN', 'diegoelkin@hotmail.com', '0', 'partners', '1', '2017-02-21 15:42:07', '2017-02-21 15:42:07', '1', '');
+(3504, 11, 'DIEGO FRANCISCO', 'ELKIN', 'diegoelkin@hotmail.com', '0', 'partners', '1', '2017-02-21 15:42:07', '2017-02-21 15:42:07', '1', ''),
+(3505, 11, 'HUGO D.', 'ELLEMBERGER', 'DANIELELLEMBERGER_2@HOTMAIL.com', '0', 'partners', '1', '2017-02-21 15:42:07', '2017-02-21 15:42:07', '1', '');
 INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
-(3505, 11, 'HUGO D.', 'ELLEMBERGER', 'DANIELELLEMBERGER_2@HOTMAIL.com', '0', 'partners', '1', '2017-02-21 15:42:07', '2017-02-21 15:42:07', '1', ''),
 (3506, 11, 'JORGE ANTONIO', 'ELLENA', 'chuecoellena@hotmail.com', '0', 'partners', '1', '2017-02-21 15:42:07', '2017-02-21 15:42:07', '1', ''),
 (3507, 11, 'ANDREA FABIANA', 'LEON DE LA FUENTE', 'guusti.-@hotmail.com', '0', 'partners', '1', '2017-02-21 15:59:33', '2017-02-21 15:59:33', '1', ''),
 (3508, 11, 'TATIANA CANDELA', 'EMBEITA', 'agus.embeita@hotmail.com', '0', 'partners', '1', '2017-02-21 15:42:07', '2017-02-21 15:42:07', '1', ''),
@@ -4159,9 +4164,9 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 (3850, 11, 'SOSA MAXIMILIANO', 'FERREYRA', 'maisi_sr@hotmail.com', '0', 'partners', '1', '2017-02-21 15:43:32', '2017-02-21 15:43:32', '1', ''),
 (3851, 11, 'SOSA NICOLAS GABRIEL', 'FERREYRA', 'niko-sr@hotmail.com', '0', 'partners', '1', '2017-02-21 15:43:32', '2017-02-21 15:43:32', '1', ''),
 (3852, 11, 'VANESA BELEN', 'FERREYRA', 'belu_f86@hotmail.com', '0', 'partners', '1', '2017-02-21 15:43:32', '2017-02-21 15:43:32', '1', ''),
-(3853, 11, 'JUAN JOSE', 'FERRI', 'ferri.juanse@gmail.com', '0', 'partners', '1', '2017-02-21 15:43:32', '2017-02-21 15:43:32', '1', '');
+(3853, 11, 'JUAN JOSE', 'FERRI', 'ferri.juanse@gmail.com', '0', 'partners', '1', '2017-02-21 15:43:32', '2017-02-21 15:43:32', '1', ''),
+(3854, 11, 'JUAN JOSE', 'FERRI', 'juanjferri@hotmail.com', '0', 'partners', '1', '2017-02-21 15:43:32', '2017-02-21 15:43:32', '1', '');
 INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
-(3854, 11, 'JUAN JOSE', 'FERRI', 'juanjferri@hotmail.com', '0', 'partners', '1', '2017-02-21 15:43:32', '2017-02-21 15:43:32', '1', ''),
 (3855, 11, 'CAMILA CELESTE', 'FERRINO', 'cami_cele08@hotmail.com', '0', 'partners', '1', '2017-02-21 15:43:32', '2017-02-21 15:43:32', '1', ''),
 (3856, 11, 'EMMANUEL', 'FERRO GUZMAN', 'emmanuelpirata@hotmail.com', '0', 'partners', '1', '2017-02-21 15:43:32', '2017-02-21 15:43:32', '1', ''),
 (3857, 11, 'RAUL CARLOS', 'FERRO', 'raulcarlosferro@hotmail.com', '0', 'partners', '1', '2017-02-21 15:43:32', '2017-02-21 15:43:32', '1', ''),
@@ -4510,9 +4515,9 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 (4200, 1, 'LUCIANO MATIAS', 'GANZER', 'lucianoganzer@hotmail.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
 (4201, 8, 'ALBERTO ANGEL', 'GA', 'estudioaag@hotmail.com', '0', 'partners', '1', '2014-12-18 17:03:05', '2014-12-18 17:03:05', '1', 'M'),
 (4202, 11, 'ANGEL PABLO ENRIQUE', 'GAÑAN', 'pganan@hotmail.com', '0', 'partners', '1', '2017-02-21 15:45:27', '2017-02-21 15:45:27', '1', ''),
-(4203, 11, 'LUIS ENRIQUE', 'GAÑAN', 'luisenriqueganan@hotmail.com', '0', 'partners', '1', '2017-02-21 15:45:27', '2017-02-21 15:45:27', '1', '');
+(4203, 11, 'LUIS ENRIQUE', 'GAÑAN', 'luisenriqueganan@hotmail.com', '0', 'partners', '1', '2017-02-21 15:45:27', '2017-02-21 15:45:27', '1', ''),
+(4204, 11, 'MATIAS JAVIER', 'GAÑAN', 'matiasganan@hotmail.com', '0', 'partners', '1', '2017-02-21 15:45:27', '2017-02-21 15:45:27', '1', '');
 INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
-(4204, 11, 'MATIAS JAVIER', 'GAÑAN', 'matiasganan@hotmail.com', '0', 'partners', '1', '2017-02-21 15:45:27', '2017-02-21 15:45:27', '1', ''),
 (4205, 11, 'MACARENA SOLEDAD', 'GIORDANO', 'mauri45_1_53@hotmail.com', '0', 'partners', '1', '2017-02-21 15:45:44', '2017-02-21 15:45:44', '1', ''),
 (4206, 11, 'EMANUEL ALEJANDRO', 'GARAIZABAL', 'emanuelgaraizabal@hotmail.com', '0', 'partners', '1', '2017-02-21 15:45:27', '2017-02-21 15:45:27', '1', ''),
 (4207, 11, 'GONZALO FEDERICO', 'GARAIZABAL', 'GONZALO_ELGRINGOCELESTE@HOTMAIL.COM', '0', 'partners', '1', '2017-02-21 15:45:27', '2017-02-21 15:45:27', '1', ''),
@@ -4861,9 +4866,9 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 (4550, 11, 'FERNANDO GABRIEL', 'GODOY', 'fernando_godoy@arnet.com.ar', '0', 'partners', '1', '2017-02-21 15:45:47', '2017-02-21 15:45:47', '1', ''),
 (4551, 11, 'FRANCISCO', 'GODOY', 'r.pitavino@yahoo.com.ar', '0', 'partners', '1', '2017-02-21 15:45:47', '2017-02-21 15:45:47', '1', ''),
 (4552, 11, 'FRANCO GASTON', 'GODOY', 'franco95_godoy@hotmail.com', '0', 'partners', '1', '2017-02-21 15:45:47', '2017-02-21 15:45:47', '1', ''),
-(4553, 11, 'GERARDO', 'GODOY', 'gerardogodoyrc@hotmail.com', '0', 'partners', '1', '2017-02-21 15:45:47', '2017-02-21 15:45:47', '1', '');
+(4553, 11, 'GERARDO', 'GODOY', 'gerardogodoyrc@hotmail.com', '0', 'partners', '1', '2017-02-21 15:45:47', '2017-02-21 15:45:47', '1', ''),
+(4554, 11, 'HERNAN OSCAR', 'GODOY', 'henry_godoy@hotmail.com', '0', 'partners', '1', '2017-02-21 15:45:47', '2017-02-21 15:45:47', '1', '');
 INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
-(4554, 11, 'HERNAN OSCAR', 'GODOY', 'henry_godoy@hotmail.com', '0', 'partners', '1', '2017-02-21 15:45:47', '2017-02-21 15:45:47', '1', ''),
 (4555, 11, 'JOSE DANIEL', 'GODOY', 'josedaniel.cab@gmail.com', '0', 'partners', '1', '2017-02-21 15:45:47', '2017-02-21 15:45:47', '1', ''),
 (4556, 11, 'LUCAS D.', 'GODOY', 'lucas25_celeste@hotmail.com', '0', 'partners', '1', '2017-02-21 15:45:48', '2017-02-21 15:45:48', '1', ''),
 (4557, 11, 'LUIS HORACIO', 'GODOY', 'latomabar@hotmail.com', '0', 'partners', '1', '2017-02-21 15:45:48', '2017-02-21 15:45:48', '1', ''),
@@ -5210,9 +5215,9 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 (4898, 11, 'NICOLAS FRANCISCO HERNAN', 'GRUVERO', 'ngruvero@gmail.com', '0', 'partners', '1', '2017-02-21 15:46:17', '2017-02-21 15:46:17', '1', ''),
 (4899, 11, 'VALENTINO JOAQUIN', 'GRUVERO', 'nico_gruvero@hotmail.com', '0', 'partners', '1', '2017-02-21 15:46:17', '2017-02-21 15:46:17', '1', ''),
 (4900, 11, 'MARIANELA DEL CARMEN', 'GUAJARDO', 'guajardo.marianela@gmail.com', '0', 'partners', '1', '2017-02-21 15:46:17', '2017-02-21 15:46:17', '1', ''),
-(4901, 11, 'NESTOR ALCIDES', 'GUAJARDO', 'nestoralgua@hotmail.com', '0', 'partners', '1', '2017-02-21 15:46:18', '2017-02-21 15:46:18', '1', '');
+(4901, 11, 'NESTOR ALCIDES', 'GUAJARDO', 'nestoralgua@hotmail.com', '0', 'partners', '1', '2017-02-21 15:46:18', '2017-02-21 15:46:18', '1', ''),
+(4902, 11, 'LAUTARO AGUSTIN', 'GUALTIERI', 'chasqui_cabj_10@hotmail.com', '0', 'partners', '1', '2017-02-21 15:46:18', '2017-02-21 15:46:18', '1', '');
 INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
-(4902, 11, 'LAUTARO AGUSTIN', 'GUALTIERI', 'chasqui_cabj_10@hotmail.com', '0', 'partners', '1', '2017-02-21 15:46:18', '2017-02-21 15:46:18', '1', ''),
 (4903, 11, 'CRISTIAN', 'GUANCHICAY', 'gcristiancba@hotmail.com', '0', 'partners', '1', '2017-02-21 15:46:18', '2017-02-21 15:46:18', '1', ''),
 (4904, 1, 'CANDELA CELESTE', 'GUARDIA', 'xx@xxx.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
 (4905, 1, 'JOSE LUIS', 'GUARDIA', 'xx@xxx.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
@@ -5558,9 +5563,9 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 (5245, 11, 'MELINA SOLEDAD', 'IBARRA', 'IBARRAMELINA@HOTMAIL.COM', '0', 'partners', '1', '2017-02-21 15:56:28', '2017-02-21 15:56:28', '1', ''),
 (5246, 11, 'RODRIGO FABIAN', 'IBARRA', 'rfibarraa@gmail.com', '0', 'partners', '1', '2017-02-21 15:56:28', '2017-02-21 15:56:28', '1', ''),
 (5247, 1, 'RODRIGO MIGUEL', 'IBARRA', 'lospiratas_rb@hotmail.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
-(5248, 1, 'SANTIAGO TOBIAS', 'IBARRA', 'santiagoibarra@gmail.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', '');
+(5248, 1, 'SANTIAGO TOBIAS', 'IBARRA', 'santiagoibarra@gmail.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
+(5249, 11, 'PABLO GERMAN', 'IBARS', 'pablo_356_1@hotmail.com', '0', 'partners', '1', '2017-02-21 15:56:28', '2017-02-21 15:56:28', '1', '');
 INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
-(5249, 11, 'PABLO GERMAN', 'IBARS', 'pablo_356_1@hotmail.com', '0', 'partners', '1', '2017-02-21 15:56:28', '2017-02-21 15:56:28', '1', ''),
 (5250, 11, 'TOMAS JOSE', 'ICIKSON', 'pato-ici@hotmail.com', '0', 'partners', '1', '2017-02-21 15:56:28', '2017-02-21 15:56:28', '1', ''),
 (5251, 11, 'ANDRES EMANUEL', 'IGLESIAS', 'andresiglesias.cba@gmail.com', '0', 'partners', '1', '2017-02-21 15:56:28', '2017-02-21 15:56:28', '1', ''),
 (5252, 11, 'MARIA CRISTINA', 'IGLESIAS', 'mciglesias@cpcipc.org', '0', 'partners', '1', '2017-02-21 15:56:28', '2017-02-21 15:56:28', '1', ''),
@@ -5911,9 +5916,9 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 (5597, 11, 'CRISTIAN ADRIAN', 'LEDESMA', 'cledesma686@hotmail.com', '0', 'partners', '1', '2017-02-21 15:59:30', '2017-02-21 15:59:30', '1', ''),
 (5598, 11, 'DANILO SEBASTIAN', 'LEDESMA', 'nohagonada_8@hotmail.com', '0', 'partners', '1', '2017-02-21 15:59:30', '2017-02-21 15:59:30', '1', ''),
 (5599, 11, 'ELIO HUMBERTO', 'LEDESMA', 'elioledesma@hotmail.com', '0', 'partners', '1', '2017-02-21 15:59:30', '2017-02-21 15:59:30', '1', ''),
-(5600, 11, 'FABRICIO EZEQUIEL', 'LEDESMA', 'lucas_bustos555@hotmail.com', '0', 'partners', '1', '2017-02-21 15:59:31', '2017-02-21 15:59:31', '1', '');
+(5600, 11, 'FABRICIO EZEQUIEL', 'LEDESMA', 'lucas_bustos555@hotmail.com', '0', 'partners', '1', '2017-02-21 15:59:31', '2017-02-21 15:59:31', '1', ''),
+(5601, 1, 'FERNANDO ANDRES', 'LEDESMA', 'nanodlyapecmj@gmail.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', '');
 INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
-(5601, 1, 'FERNANDO ANDRES', 'LEDESMA', 'nanodlyapecmj@gmail.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
 (5602, 11, 'GABRIEL FABIAN', 'LEDESMA', 'gabriel-boca@hotmail.com.ar', '0', 'partners', '1', '2017-02-21 15:59:31', '2017-02-21 15:59:31', '1', ''),
 (5603, 11, 'GUSTAVO ADOLFO', 'LEDESMA', 'gusle16@hotmail.com', '0', 'partners', '1', '2017-02-21 15:59:31', '2017-02-21 15:59:31', '1', ''),
 (5604, 11, 'ALINA MARGARITA', 'MERDINIAN', 'diego@treshermanos.com.ar', '0', 'partners', '1', '2017-02-21 16:00:35', '2017-02-21 16:00:35', '1', ''),
@@ -6263,9 +6268,9 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 (5948, 11, 'LUCIANO MATIAS', 'LUCCO', 'lucianolucco@hotmail.com', '0', 'partners', '1', '2017-02-21 15:58:35', '2017-02-21 15:58:35', '1', ''),
 (5949, 11, 'ANTONIO DANIEL', 'LUCERO', 'chirineuquen1@yahoo.com.ar', '0', 'partners', '1', '2017-02-21 15:58:36', '2017-02-21 15:58:36', '1', ''),
 (5950, 11, 'CARLOS GUSTAVO', 'LUCERO', 'glucero_121@hotmail.com', '0', 'partners', '1', '2017-02-21 15:58:36', '2017-02-21 15:58:36', '1', ''),
-(5951, 11, 'TIAGO', 'LUCERO', 'mono-pirata5@hotmail.com.ar', '0', 'partners', '1', '2017-02-21 15:58:36', '2017-02-21 15:58:36', '1', '');
+(5951, 11, 'TIAGO', 'LUCERO', 'mono-pirata5@hotmail.com.ar', '0', 'partners', '1', '2017-02-21 15:58:36', '2017-02-21 15:58:36', '1', ''),
+(5952, 11, 'DANIEL EDUARDO', 'LUCERO', 'daniellucero4@hotmail.com', '0', 'partners', '1', '2017-02-21 15:58:36', '2017-02-21 15:58:36', '1', '');
 INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
-(5952, 11, 'DANIEL EDUARDO', 'LUCERO', 'daniellucero4@hotmail.com', '0', 'partners', '1', '2017-02-21 15:58:36', '2017-02-21 15:58:36', '1', ''),
 (5953, 11, 'EDGAR ISMAEL', 'LUCERO', 'edgar_542@hotmail.com', '0', 'partners', '1', '2017-02-21 15:58:36', '2017-02-21 15:58:36', '1', ''),
 (5954, 11, 'FIDEL', 'LUCERO', 'fidel_lucero_0409@hotmail.com', '0', 'partners', '1', '2017-02-21 15:58:36', '2017-02-21 15:58:36', '1', ''),
 (5955, 11, 'JUAN MANUEL', 'LUCERO', 'juan@electricidadcentro.com.ar', '0', 'partners', '1', '2017-02-21 15:58:36', '2017-02-21 15:58:36', '1', ''),
@@ -6613,9 +6618,9 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 (6297, 11, 'MARIANO', 'MANZANELLI', 'mariano_manzanelli@hotmail.com', '0', 'partners', '1', '2017-02-21 15:58:52', '2017-02-21 15:58:52', '1', ''),
 (6298, 11, 'MAURO', 'MANZANELLI', 'manzanelliclau@hotmail.com', '0', 'partners', '1', '2017-02-21 15:58:52', '2017-02-21 15:58:52', '1', ''),
 (6299, 11, 'ORLANDO DANTE', 'MANZANELLI', 'misitio_cyb@live.com.ar', '0', 'partners', '1', '2017-02-21 15:58:52', '2017-02-21 15:58:52', '1', ''),
-(6300, 11, 'OSCAR ANTONIO', 'MANZANELLI', 'anto_dylanbelgrano@hotmail.com', '0', 'partners', '1', '2017-02-21 15:58:52', '2017-02-21 15:58:52', '1', '');
+(6300, 11, 'OSCAR ANTONIO', 'MANZANELLI', 'anto_dylanbelgrano@hotmail.com', '0', 'partners', '1', '2017-02-21 15:58:52', '2017-02-21 15:58:52', '1', ''),
+(6301, 11, 'BENJAMIN ARON', 'MANZANELLI PIEMONTESI', 'NMANZANELLI@VENTUURI.COM.AR', '0', 'partners', '1', '2017-02-21 15:58:52', '2017-02-21 15:58:52', '1', '');
 INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
-(6301, 11, 'BENJAMIN ARON', 'MANZANELLI PIEMONTESI', 'NMANZANELLI@VENTUURI.COM.AR', '0', 'partners', '1', '2017-02-21 15:58:52', '2017-02-21 15:58:52', '1', ''),
 (6302, 11, 'MARICEL', 'MANZOTTI', 'maricelmanzotti@hotmail.com', '0', 'partners', '1', '2017-02-21 15:58:53', '2017-02-21 15:58:53', '1', ''),
 (6303, 11, 'SARA MARIA', 'MANZUR', 'saramanzur@gmail.com', '0', 'partners', '1', '2017-02-21 15:58:53', '2017-02-21 15:58:53', '1', ''),
 (6304, 11, 'FERNANDO JOSE', 'MAÑA ESCUTI', 'ferjoma@hotmail.com', '0', 'partners', '1', '2017-02-21 15:58:53', '2017-02-21 15:58:53', '1', ''),
@@ -6964,9 +6969,9 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 (6647, 11, 'SANTIAGO', 'MENDEZ', 'htomendez@hotmail.com', '0', 'partners', '1', '2017-02-21 16:00:31', '2017-02-21 16:00:31', '1', ''),
 (6648, 11, 'SEBASTIAN', 'MENDEZ', 'sebamendez@yahoo.com', '0', 'partners', '1', '2017-02-21 16:00:31', '2017-02-21 16:00:31', '1', ''),
 (6649, 11, 'GONZALO NICOLAS', 'MENDIETA', 'gonzalo.mendieta19@gmail.com', '0', 'partners', '1', '2017-02-21 16:00:31', '2017-02-21 16:00:31', '1', ''),
-(6650, 11, 'XAVIER', 'MENDIZABAL', 'xaviermendizabal@hotmail.com', '0', 'partners', '1', '2017-02-21 16:00:32', '2017-02-21 16:00:32', '1', '');
+(6650, 11, 'XAVIER', 'MENDIZABAL', 'xaviermendizabal@hotmail.com', '0', 'partners', '1', '2017-02-21 16:00:32', '2017-02-21 16:00:32', '1', ''),
+(6651, 11, 'LUIS FABIAN', 'MENDOZA', 'lucrecia_423@hotmail.com', '0', 'partners', '1', '2017-02-21 16:00:32', '2017-02-21 16:00:32', '1', '');
 INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
-(6651, 11, 'LUIS FABIAN', 'MENDOZA', 'lucrecia_423@hotmail.com', '0', 'partners', '1', '2017-02-21 16:00:32', '2017-02-21 16:00:32', '1', ''),
 (6652, 11, 'EMILIA BELEN', 'MENDOZA', 'fabianalbertoquiroga@hotmail.com', '0', 'partners', '1', '2017-02-21 16:00:32', '2017-02-21 16:00:32', '1', ''),
 (6653, 11, 'ERNESTO FABIAN', 'MENDOZA', 'lucrecia_423@hotmial.com', '0', 'partners', '1', '2017-02-21 16:00:32', '2017-02-21 16:00:32', '1', ''),
 (6654, 11, 'PAULA SOFIA', 'MENDOZA', 'carfer748@gmail.com', '0', 'partners', '1', '2017-02-21 16:00:32', '2017-02-21 16:00:32', '1', ''),
@@ -7315,9 +7320,9 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 (6997, 1, 'FELIPE', 'MORCILLO FERNANDEZ', 'MAGGICTALKS@GMAIL.COM', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
 (6998, 1, 'MATEO', 'MORCILLO FERNANDEZ', 'MAGICTALKS@GMAIL.COM', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
 (6999, 10, 'GUILLERMO CESAR', 'MORCILLO', 'rrhhabc@yagoo.com.ar', '0', 'partners', '1', '2014-12-18 17:05:34', '2014-12-18 17:05:34', '1', 'M'),
-(7000, 1, 'MICAELA FLORENCIA', 'MORCILLO', 'mika_13_cba@hotmail.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', '');
+(7000, 1, 'MICAELA FLORENCIA', 'MORCILLO', 'mika_13_cba@hotmail.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
+(7001, 7, 'ROBERTO GUSTAVO', 'MORCILLO', 'roberto@exitsoluciones.com.ar', '0', 'partners', '1', '2014-12-18 17:05:34', '2014-12-18 17:05:34', '1', 'M');
 INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
-(7001, 7, 'ROBERTO GUSTAVO', 'MORCILLO', 'roberto@exitsoluciones.com.ar', '0', 'partners', '1', '2014-12-18 17:05:34', '2014-12-18 17:05:34', '1', 'M'),
 (7002, 7, 'MATIAS DANIEL', 'MOREIRA', 'matiasmoreira_cba@hotmail.com', '0', 'partners', '1', '2014-12-18 17:05:34', '2014-12-18 17:05:34', '1', 'M'),
 (7003, 8, 'MARIA ALEJANDRA', 'MORELLA', 'alejandramam@gmail.com', '0', 'partners', '1', '2014-12-18 17:05:34', '2014-12-18 17:05:34', '1', 'F'),
 (7004, 11, 'NELY ESTHER', 'MELONI', 'CARLOSDANTEMORELLI@GMAIL.COM', '0', 'partners', '1', '2017-02-21 16:00:30', '2017-02-21 16:00:30', '1', ''),
@@ -7668,9 +7673,9 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 (7349, 1, 'FRANCO DAVID', 'NIEVA', 'franco_pirata_pl@hotmail.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
 (7350, 1, 'ISABEL DEL VALLE', 'NIEVA', 'isa_nieva@hotmail.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
 (7351, 7, 'LUCAS', 'NIEVA', 'proflumanieva@hotmail.com', '0', 'partners', '1', '2014-12-18 17:06:01', '2014-12-18 17:06:01', '1', 'M'),
-(7352, 10, 'MARCOS MANUEL', 'NIEVA', 'sodero006@hotmail.com', '0', 'partners', '1', '2014-12-18 17:06:01', '2014-12-18 17:06:01', '1', 'M');
+(7352, 10, 'MARCOS MANUEL', 'NIEVA', 'sodero006@hotmail.com', '0', 'partners', '1', '2014-12-18 17:06:01', '2014-12-18 17:06:01', '1', 'M'),
+(7353, 7, 'MARIO ALBERTO', 'NIEVA', 'maritonieva@hotmail.com', '0', 'partners', '1', '2014-12-18 17:06:01', '2014-12-18 17:06:01', '1', 'M');
 INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
-(7353, 7, 'MARIO ALBERTO', 'NIEVA', 'maritonieva@hotmail.com', '0', 'partners', '1', '2014-12-18 17:06:01', '2014-12-18 17:06:01', '1', 'M'),
 (7354, 1, 'MATIAS EZEQUIEL', 'NIEVA', 'matiasnieva@live.com.ar', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
 (7355, 1, 'NATALIA SOLEDAD', 'NIEVA', 'naty_grm_15@hotmail.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
 (7356, 10, 'DIEGO MARTIN', 'NIEVAS', 'yosoyeldiego_81@hotmail.com', '0', 'partners', '1', '2014-12-18 17:06:02', '2014-12-18 17:06:02', '1', 'M'),
@@ -8020,9 +8025,9 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 (7700, 1, 'JORGE MARTIN', 'OVIEDO', 'cc@xx.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
 (7701, 7, 'JOSE MANUEL', 'OVIEDO', 'joseoviedo_73@hotmail.com', '0', 'partners', '1', '2014-12-18 17:08:23', '2014-12-18 17:08:23', '1', 'M'),
 (7702, 7, 'JUAN PABLO', 'OVIEDO', 'juampi_cba171@hotmail.com', '0', 'partners', '1', '2014-12-18 17:08:23', '2014-12-18 17:08:23', '1', 'M'),
-(7703, 1, 'KARINA ANDREA', 'OVIEDO', 'foxproducciones8@gmail.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', '');
+(7703, 1, 'KARINA ANDREA', 'OVIEDO', 'foxproducciones8@gmail.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
+(7704, 10, 'LEANDRO', 'OVIEDO', 'leandrooviedo@hotmail.com', '0', 'partners', '1', '2014-12-18 17:08:23', '2014-12-18 17:08:23', '1', 'M');
 INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
-(7704, 10, 'LEANDRO', 'OVIEDO', 'leandrooviedo@hotmail.com', '0', 'partners', '1', '2014-12-18 17:08:23', '2014-12-18 17:08:23', '1', 'M'),
 (7705, 1, 'MALENA MARTINA', 'OVIEDO', 'cc@xx.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
 (7706, 11, 'GLADYS LILIANA', 'FERNANDEZ', 'MARCELOVY06@YAHOO.COM', '0', 'partners', '1', '2017-02-21 15:43:27', '2017-02-21 15:43:27', '1', ''),
 (7707, 1, 'MARCOS JAVIER', 'OVIEDO', 'MOVIEDO@GMAIL.COM', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
@@ -8372,9 +8377,9 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 (8051, 1, 'DIEGO CARLOS', 'PEÑAFLOR', 'diegopenaflor@gmail.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
 (8052, 11, 'CEFERINO RUBEN ANGEL', 'FONSECA', 'gusanopirata@hotmail.com', '0', 'partners', '1', '2017-02-21 15:43:38', '2017-02-21 15:43:38', '1', ''),
 (8053, 7, 'HUGO DIEGO', 'PE', 'agustinao8@hotmail.com', '0', 'partners', '1', '2014-12-18 17:08:38', '2014-12-18 17:08:38', '1', 'M'),
-(8054, 10, 'JOSE EDUARDO', 'PE', 'chichocba1@hotmail.com.ar', '0', 'partners', '1', '2014-12-18 17:08:38', '2014-12-18 17:08:38', '1', 'M');
+(8054, 10, 'JOSE EDUARDO', 'PE', 'chichocba1@hotmail.com.ar', '0', 'partners', '1', '2014-12-18 17:08:38', '2014-12-18 17:08:38', '1', 'M'),
+(8055, 8, 'JOSE LUIS', 'PE', 'josepenaflor@hotmail.com', '0', 'partners', '1', '2014-12-18 17:08:38', '2014-12-18 17:08:38', '1', 'M');
 INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
-(8055, 8, 'JOSE LUIS', 'PE', 'josepenaflor@hotmail.com', '0', 'partners', '1', '2014-12-18 17:08:38', '2014-12-18 17:08:38', '1', 'M'),
 (8056, 1, 'JOSE MANUEL', 'PEÑAFLOR', 'gusanopirata@hotmail.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
 (8057, 7, 'LUCAS EMANUEL', 'PE', 'lucas.cabescba@gmail.com', '0', 'partners', '1', '2014-12-18 17:08:38', '2014-12-18 17:08:38', '1', 'M'),
 (8058, 7, 'GABRIEL ADRIAN', 'PE', 'gabriel_penaloza12@hotmail.com', '0', 'partners', '1', '2014-12-18 17:08:38', '2014-12-18 17:08:38', '1', 'M'),
@@ -8723,9 +8728,9 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 (8401, 1, 'CHRISTIAN ROBERTO', 'PLENAZZIO', 'christianplenazzio@hotmail.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
 (8402, 7, 'AYELEN MAGALI', 'PLOMER', 'ayeplomer@hotmail.com', '0', 'partners', '1', '2014-12-18 17:07:31', '2014-12-18 17:07:31', '1', 'F'),
 (8403, 7, 'MELISA ANALIA', 'PLOMER', 'meliplomer@live.com.ar', '0', 'partners', '1', '2014-12-18 17:07:31', '2014-12-18 17:07:31', '1', 'F'),
-(8404, 7, 'YAMILA GISEL', 'PLOMER', 'yamiplomer@hotmail.com', '0', 'partners', '1', '2014-12-18 17:07:31', '2014-12-18 17:07:31', '1', 'F');
+(8404, 7, 'YAMILA GISEL', 'PLOMER', 'yamiplomer@hotmail.com', '0', 'partners', '1', '2014-12-18 17:07:31', '2014-12-18 17:07:31', '1', 'F'),
+(8405, 1, 'LUIS GABRIEL', 'POBLACION', 'luisito221@live.com.ar', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', '');
 INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
-(8405, 1, 'LUIS GABRIEL', 'POBLACION', 'luisito221@live.com.ar', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
 (8406, 1, 'MARIA BELEN', 'POBLACION', 'belu_cba_pobla@hotmail.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
 (8407, 1, 'ANDRES MARCELO', 'POBLUCHENCO', 'andresjul@hotmail.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
 (8408, 1, 'CAROLINA AYLEN', 'POBLUCHENCO', 'andresjul@hotmail.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
@@ -9074,9 +9079,9 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 (8751, 1, 'LUCAS FRANCISCO', 'REGGIANI', 'reggiani_fabian@yahoo.com.ar', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
 (8752, 1, 'OCTAVIO', 'REGGIANI', 'reggiani_fabian@yahoo.com.ar', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
 (8753, 10, 'ANGEL OSVALDO', 'REGIS', 'oregis@grupocargo.com', '0', 'partners', '1', '2014-12-18 17:07:42', '2014-12-18 17:07:42', '1', 'M'),
-(8754, 10, 'EZEQUIEL ADRIAN', 'REGIS', 'earegis@gmail.com', '0', 'partners', '1', '2014-12-18 17:07:42', '2014-12-18 17:07:42', '1', 'M');
+(8754, 10, 'EZEQUIEL ADRIAN', 'REGIS', 'earegis@gmail.com', '0', 'partners', '1', '2014-12-18 17:07:42', '2014-12-18 17:07:42', '1', 'M'),
+(8755, 1, 'FERNANDO JOSÉ', 'REGIS', 'fer.regis@gmail.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', '');
 INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
-(8755, 1, 'FERNANDO JOSÉ', 'REGIS', 'fer.regis@gmail.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
 (8756, 7, 'DEBORA GABRIELA', 'REIMONDI', 'debi_reimondi@hotmail.com', '0', 'partners', '1', '2014-12-18 17:07:43', '2014-12-18 17:07:43', '1', 'F'),
 (8757, 1, 'LUCAS NAHUEL', 'REINOSO', 'lucas_1321@hotmail.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
 (8758, 7, 'VALENTINO JONAS', 'REINOSO', 'wilinx@hotmail.com', '0', 'partners', '1', '2014-12-18 17:07:43', '2014-12-18 17:07:43', '1', 'M'),
@@ -9424,9 +9429,9 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 (9100, 10, 'MAURICIO', 'RODRIGUEZ', 'monchi_er82@hotmail.com', '0', 'partners', '1', '2014-12-18 17:08:00', '2014-12-18 17:08:00', '1', 'M'),
 (9101, 1, 'MELINA ANDREA', 'RODRIGUEZ', 'juan-c.rodriguez@arnet.com.ar', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
 (9102, 1, 'MICAELA ALEJANDRA', 'RODRIGUEZ', 'juan-c.rodriguez@arnet.com.ar', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
-(9103, 1, 'MILAGROS AYLEN', 'RODRIGUEZ', 'edgarod_836@hotmail.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', '');
+(9103, 1, 'MILAGROS AYLEN', 'RODRIGUEZ', 'edgarod_836@hotmail.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
+(9104, 1, 'MOISES DANIEL', 'RODRIGUEZ', 'mosheh@hotmail.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', '');
 INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
-(9104, 1, 'MOISES DANIEL', 'RODRIGUEZ', 'mosheh@hotmail.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
 (9105, 7, 'KAREM TAMARA', 'RODRIGUEZ MOLINA', 'KREEM.CBA@HOTMAIL.COM', '0', 'partners', '1', '2014-12-18 17:13:41', '2014-12-18 17:13:41', '1', 'F'),
 (9106, 10, 'SERGIO A.', 'RODRIGUEZ', 'dr.sergiorodriguez18@gmail.com', '0', 'partners', '1', '2014-12-18 17:13:40', '2014-12-18 17:13:40', '1', 'M'),
 (9107, 7, 'NATALIA', 'RODRIGUEZ', 'natyceleste9@hotmail.com', '0', 'partners', '1', '2014-12-18 17:08:01', '2014-12-18 17:08:01', '1', 'F'),
@@ -9778,9 +9783,9 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 (9453, 7, 'LIONEL MAXIMILIANO', 'SALGUERO BARBATTI', 'jsalguero29@hotmail.com', '0', 'partners', '1', '2014-12-18 17:13:48', '2014-12-18 17:13:48', '1', 'M'),
 (9454, 1, 'CESAR E.', 'SALGUERO', 'cesar_salguero@hotmail.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
 (9455, 1, 'GRACIELA', 'SALGUERO', 'PICOLOSA@MSN.COM', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
-(9456, 7, 'JULIO', 'SALGUERO', 'juliosalgueroinstalaciones@gmail.com', '0', 'partners', '1', '2014-12-18 17:13:48', '2014-12-18 17:13:48', '1', 'M');
+(9456, 7, 'JULIO', 'SALGUERO', 'juliosalgueroinstalaciones@gmail.com', '0', 'partners', '1', '2014-12-18 17:13:48', '2014-12-18 17:13:48', '1', 'M'),
+(9457, 1, 'MARIA BELEN', 'SALGUERO', 'BELUSALGUERO@YAHOO.COM.AR', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', '');
 INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
-(9457, 1, 'MARIA BELEN', 'SALGUERO', 'BELUSALGUERO@YAHOO.COM.AR', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
 (9458, 1, 'ROMINA GISELLE', 'SALGUERO', 'romiceleste@hotmail.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
 (9459, 1, 'ANDREA SUSANA', 'SALICAS', 'marcelo.carrizo@hotmail.es', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
 (9460, 1, 'CARLOS ALEJANDRO', 'SALINAS', 'blidach@hotmail.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
@@ -10127,9 +10132,9 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 (9801, 1, 'CAROLINA ANDREA', 'SILVERA', 'carosilvera79_@hotmail.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
 (9802, 11, 'MARCELA FERNANDA', 'GANCEDO', 'lucas201316@hotmail.com', '0', 'partners', '1', '2017-02-21 15:45:27', '2017-02-21 15:45:27', '1', ''),
 (9803, 7, 'MARIA BELEN', 'SILVESTRI', 'BELENSILVESTRI93@GMAIL.COM', '0', 'partners', '1', '2014-12-18 17:14:04', '2014-12-18 17:14:04', '1', 'F'),
-(9804, 8, 'GUSTAVO', 'SILVESTRO', 'marcelavicenzini@hotmail.com', '0', 'partners', '1', '2014-12-18 17:14:05', '2014-12-18 17:14:05', '1', 'M');
+(9804, 8, 'GUSTAVO', 'SILVESTRO', 'marcelavicenzini@hotmail.com', '0', 'partners', '1', '2014-12-18 17:14:05', '2014-12-18 17:14:05', '1', 'M'),
+(9805, 1, 'LEANDRO', 'SILVESTRO', 'leandrosilvestro@gmail.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', '');
 INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
-(9805, 1, 'LEANDRO', 'SILVESTRO', 'leandrosilvestro@gmail.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
 (9806, 10, 'PABLO JEREMIAS', 'SILVESTTRI', 'pablojs25@hotmail.com', '0', 'partners', '1', '2014-12-18 17:14:05', '2014-12-18 17:14:05', '1', 'M'),
 (9807, 10, 'RAUL ALBERTO', 'SILVESTTRI', 'raul.graciela@hotmail.com', '0', 'partners', '1', '2014-12-18 17:14:05', '2014-12-18 17:14:05', '1', 'M'),
 (9808, 7, 'HERNAN', 'SILVOTTI', 'hernan_lp96@hotmail.com', '0', 'partners', '1', '2014-12-18 17:14:05', '2014-12-18 17:14:05', '1', 'M'),
@@ -10478,9 +10483,9 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 (10151, 8, 'FRANCO ANGEL', 'TOFANELLI', 'tofa96@hotmail.com', '0', 'partners', '1', '2014-12-18 17:12:45', '2014-12-18 17:12:45', '1', 'M'),
 (10152, 10, 'DANIEL ALBERTO', 'TOFFANIN', 'datoffanin@hotmail.com', '0', 'partners', '1', '2014-12-18 17:12:45', '2014-12-18 17:12:45', '1', 'M'),
 (10153, 10, 'FERNANDO', 'TOFFANIN', 'ftoffanin@hotmail.com', '0', 'partners', '1', '2014-12-18 17:12:45', '2014-12-18 17:12:45', '1', 'M'),
-(10154, 7, 'ANDREA CECILIA', 'TOLABA', 'ANDRE_TOLABA41@HOTMAIL.COM', '0', 'partners', '1', '2014-12-18 17:12:45', '2014-12-18 17:12:45', '1', 'F');
+(10154, 7, 'ANDREA CECILIA', 'TOLABA', 'ANDRE_TOLABA41@HOTMAIL.COM', '0', 'partners', '1', '2014-12-18 17:12:45', '2014-12-18 17:12:45', '1', 'F'),
+(10155, 7, 'LUCIANA GABRIELA', 'TOLABA', 'LU_LAENANA@HOTMAIL.COM', '0', 'partners', '1', '2014-12-18 17:12:45', '2014-12-18 17:12:45', '1', 'F');
 INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
-(10155, 7, 'LUCIANA GABRIELA', 'TOLABA', 'LU_LAENANA@HOTMAIL.COM', '0', 'partners', '1', '2014-12-18 17:12:45', '2014-12-18 17:12:45', '1', 'F'),
 (10156, 7, 'ELIZABETH ANAHI', 'TOLEDO', 'OBRASOCIALMADERA@YAHOO.COM.AR', '0', 'partners', '1', '2014-12-18 17:12:46', '2014-12-18 17:12:46', '1', 'F'),
 (10157, 1, 'ANA ELIZABETH', 'TOLEDO', 'frozt_cordoba@hotmail.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
 (10158, 1, 'ANDRES MATIAS', 'TOLEDO', 'andrestoledo6@hotmail.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
@@ -10828,9 +10833,9 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 (10500, 1, 'ALVARO ANGEL', 'VASQUEZ', 'bari_88@hotmail.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
 (10501, 11, 'CELIA ANA', 'MARTINEZ', 'guillevasquez_20@hotmail.com.ar', '0', 'partners', '1', '2017-02-21 16:00:20', '2017-02-21 16:00:20', '1', ''),
 (10502, 1, 'NICANOR', 'VASQUEZ', 'nicanorvasquez@hotmail.com.', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
-(10503, 1, 'CAMILA', 'VAUDAGNOTTO', 'lalala_68@hotmail.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', '');
+(10503, 1, 'CAMILA', 'VAUDAGNOTTO', 'lalala_68@hotmail.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
+(10504, 1, 'RUBEN ALFREDO', 'VAUDAGNOTTO', 'nuotatore1@hotmail.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', '');
 INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
-(10504, 1, 'RUBEN ALFREDO', 'VAUDAGNOTTO', 'nuotatore1@hotmail.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
 (10505, 1, 'VICTORIA', 'VAUDAGNOTTO', 'vikc_18@hotmail.es', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
 (10506, 1, 'CARLOS OSCAR', 'VAVASSORI', 'carlosvav@yahoo.com.ar', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
 (10507, 1, 'CULJAK IVO CARLOS', 'VAVASSORI', 'carlvav@gmail.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
@@ -11176,9 +11181,9 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 (10847, 9, 'JULIO', 'VIZCARRA', 'jfinocchietti@hotmail.com', '0', 'partners', '1', '2014-12-18 17:13:15', '2014-12-18 17:13:15', '1', 'M'),
 (10848, 7, 'COSTANTINO', 'VIZZIO', 'constanvizzio@gmail.com', '0', 'partners', '1', '2014-12-18 17:13:15', '2014-12-18 17:13:15', '1', 'M'),
 (10849, 7, 'FACUNDO', 'VIZZIO', 'facuvizzio@hotmail.com', '0', 'partners', '1', '2014-12-18 17:13:15', '2014-12-18 17:13:15', '1', 'M'),
-(10850, 7, 'DANIEL ALEXIS', 'VOCOS', 'danyvoc100@hotmail.com', '0', 'partners', '1', '2014-12-18 17:13:15', '2014-12-18 17:13:15', '1', 'M');
+(10850, 7, 'DANIEL ALEXIS', 'VOCOS', 'danyvoc100@hotmail.com', '0', 'partners', '1', '2014-12-18 17:13:15', '2014-12-18 17:13:15', '1', 'M'),
+(10851, 10, 'IGNACIO JOS', 'VOCOS', 'nachovocos@hotmail.com', '0', 'partners', '1', '2014-12-18 17:13:15', '2014-12-18 17:13:15', '1', 'M');
 INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
-(10851, 10, 'IGNACIO JOS', 'VOCOS', 'nachovocos@hotmail.com', '0', 'partners', '1', '2014-12-18 17:13:15', '2014-12-18 17:13:15', '1', 'M'),
 (10852, 10, 'SANTIAGO JOSE', 'VOCOS', 'svocos2013@hotmail.es', '0', 'partners', '1', '2014-12-18 17:13:15', '2014-12-18 17:13:15', '1', 'M'),
 (10853, 1, 'AMILCAR NICOLAS', 'VOGEL', 'nikovogel@hotmail.com', '0', 'partners', '1', '2014-12-04 00:00:00', '2014-12-04 00:00:00', '1', ''),
 (10854, 7, 'GABRIEL ALBERTO', 'VOLA', 'GABRIELVOLA@GMAIL.COM', '0', 'partners', '1', '2014-12-18 17:13:15', '2014-12-18 17:13:15', '1', 'M'),
@@ -11523,9 +11528,9 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 (11193, 11, 'JUAN PABLO', 'ACTIS', 'juanpabloactis@gmail.com', '0', 'partners', '1', '2017-02-21 15:32:11', '2017-02-21 15:32:11', '1', ''),
 (11194, 11, 'POZZO CARLOS ANTONIO', 'ACTIS', 'Cactispozzo@gmail.com', '0', 'partners', '1', '2017-02-21 15:32:11', '2017-02-21 15:32:11', '1', ''),
 (11195, 11, 'JORGE ARTURO', 'ACUNA', 'jorgeaacuna@yahoo.com.ar', '0', 'partners', '1', '2017-02-21 15:32:11', '2017-02-21 15:32:11', '1', ''),
-(11196, 11, 'MAXIMILIANO NERY', 'ACUNA', 'maxi_340@hotmail.com', '0', 'partners', '1', '2017-02-21 15:32:11', '2017-02-21 15:32:11', '1', '');
+(11196, 11, 'MAXIMILIANO NERY', 'ACUNA', 'maxi_340@hotmail.com', '0', 'partners', '1', '2017-02-21 15:32:11', '2017-02-21 15:32:11', '1', ''),
+(11197, 11, 'ERIKA ROCIO', 'ACUÑA', 'di3go_albiazul@hotmail.com', '0', 'partners', '1', '2017-02-21 15:32:11', '2017-02-21 15:32:11', '1', '');
 INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
-(11197, 11, 'ERIKA ROCIO', 'ACUÑA', 'di3go_albiazul@hotmail.com', '0', 'partners', '1', '2017-02-21 15:32:11', '2017-02-21 15:32:11', '1', ''),
 (11198, 11, 'ESTEBAN JAVIER', 'ACUÑA', 'estebanacu@outlook.com', '0', 'partners', '1', '2017-02-21 15:32:11', '2017-02-21 15:32:11', '1', ''),
 (11199, 11, 'FERNANDO GABRIEL', 'ACUÑA', 'TITO-PIRATA@HOTMAIL.COM', '0', 'partners', '1', '2017-02-21 15:32:11', '2017-02-21 15:32:11', '1', ''),
 (11200, 11, 'VANESA MELINA', 'ACUÑA', 'claudiadominguez2010@hotmail.com.ar', '0', 'partners', '1', '2017-02-21 15:32:11', '2017-02-21 15:32:11', '1', ''),
@@ -11867,9 +11872,9 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 (11536, 11, 'LEONEL AGUSTIN', 'ALVAREZ', 'leoalvarez_92@hotmail.com', '0', 'partners', '1', '2017-02-21 15:32:31', '2017-02-21 15:32:31', '1', ''),
 (11537, 11, 'LUCERO CELESTE', 'ALVAREZ', 'aguante_lab2010@hotmail.com', '0', 'partners', '1', '2017-02-21 15:32:31', '2017-02-21 15:32:31', '1', ''),
 (11538, 11, 'LUIS LEONARDO', 'ALVAREZ', 'leoaguer@hotmail.com', '0', 'partners', '1', '2017-02-21 15:32:31', '2017-02-21 15:32:31', '1', ''),
-(11539, 11, 'MAIRA MAGALI', 'ALVAREZ', 'zz@xxx.com', '0', 'partners', '1', '2017-02-21 15:32:31', '2017-02-21 15:32:31', '1', '');
+(11539, 11, 'MAIRA MAGALI', 'ALVAREZ', 'zz@xxx.com', '0', 'partners', '1', '2017-02-21 15:32:31', '2017-02-21 15:32:31', '1', ''),
+(11540, 11, 'MARCELA SUSANA', 'ALVAREZ', 'marcealvarez40@gmail.com', '0', 'partners', '1', '2017-02-21 15:36:24', '2017-02-21 15:36:24', '1', '');
 INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
-(11540, 11, 'MARCELA SUSANA', 'ALVAREZ', 'marcealvarez40@gmail.com', '0', 'partners', '1', '2017-02-21 15:36:24', '2017-02-21 15:36:24', '1', ''),
 (11541, 11, 'MARCELO GUSTAVO', 'ALVAREZ', 'marceloa49@hotmail.com', '0', 'partners', '1', '2017-02-21 15:36:24', '2017-02-21 15:36:24', '1', ''),
 (11542, 11, 'RAMIRO BENJAMIN', 'ALVAREZ', 'ramiiro_alvarez_b@hotmail.com', '0', 'partners', '1', '2017-02-21 15:36:24', '2017-02-21 15:36:24', '1', ''),
 (11543, 11, 'MARTINA ELUNEY', 'ALVAREZ', 'alexissamaranto@hotmail.com', '0', 'partners', '1', '2017-02-21 15:36:24', '2017-02-21 15:36:24', '1', ''),
@@ -12213,9 +12218,9 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 (11881, 11, 'MICAELA FERNANDA', 'ASTUDILLO', 'mikaa_astudillo14@hotmail.com', '0', 'partners', '1', '2017-02-21 15:36:41', '2017-02-21 15:36:41', '1', ''),
 (11882, 11, 'PABLO MARTIN', 'ASTUDILLO', 'PABLOMARTYN1955@GMAIL.COM', '0', 'partners', '1', '2017-02-21 15:36:41', '2017-02-21 15:36:41', '1', ''),
 (11883, 11, 'PAULO', 'ASTUDILLO', 'pauloastudillo@yahoo.com.ar', '0', 'partners', '1', '2017-02-21 15:36:41', '2017-02-21 15:36:41', '1', ''),
-(11884, 11, 'SANTIAGO', 'ASTUDILLO', 'santi_ituzaingo97@hotmail.com', '0', 'partners', '1', '2017-02-21 15:36:41', '2017-02-21 15:36:41', '1', '');
+(11884, 11, 'SANTIAGO', 'ASTUDILLO', 'santi_ituzaingo97@hotmail.com', '0', 'partners', '1', '2017-02-21 15:36:41', '2017-02-21 15:36:41', '1', ''),
+(11885, 11, 'SEBASTIAN MANUEL', 'ASTUDILLO', 'sebas.astu82@gmail.com', '0', 'partners', '1', '2017-02-21 15:36:41', '2017-02-21 15:36:41', '1', '');
 INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
-(11885, 11, 'SEBASTIAN MANUEL', 'ASTUDILLO', 'sebas.astu82@gmail.com', '0', 'partners', '1', '2017-02-21 15:36:41', '2017-02-21 15:36:41', '1', ''),
 (11886, 11, 'RAUL GABRIEL', 'ASUA', 'elianaasua@hotmail.com', '0', 'partners', '1', '2017-02-21 15:36:41', '2017-02-21 15:36:41', '1', ''),
 (11887, 11, 'ZAIRA AGOSTINA', 'FERNANDEZ', 'leonardo_fernandez979@hotmail.com', '0', 'partners', '1', '2017-02-21 15:43:28', '2017-02-21 15:43:28', '1', ''),
 (11888, 11, 'FARID', 'ATALA', 'farid.atala96@gmail.com', '0', 'partners', '1', '2017-02-21 15:36:41', '2017-02-21 15:36:41', '1', ''),
@@ -12559,10 +12564,10 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 (12226, 11, 'GUILLERMO JESUS', 'BELEN', 'GUILLERMOJBELEN@GMAIL.COM', '0', 'partners', '1', '2017-02-21 15:38:15', '2017-02-21 15:38:15', '1', ''),
 (12227, 11, 'MAURO FERNANDO', 'BELEN', 'bmaurofernandp@gmail.com', '0', 'partners', '1', '2017-02-21 15:38:15', '2017-02-21 15:38:15', '1', ''),
 (12228, 11, 'VALENTINA', 'BELGGIATTO', 'valenchubeggiatto@hotmail.com', '0', 'partners', '1', '2017-02-21 15:38:16', '2017-02-21 15:38:16', '1', ''),
-(12229, 11, 'BENJAMIN', 'BELLO LEVRINO', 'belloexport@arnet.com.ar', '0', 'partners', '1', '2017-02-21 15:38:16', '2017-02-21 15:38:16', '1', '');
-INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
+(12229, 11, 'BENJAMIN', 'BELLO LEVRINO', 'belloexport@arnet.com.ar', '0', 'partners', '1', '2017-02-21 15:38:16', '2017-02-21 15:38:16', '1', ''),
 (12230, 11, 'RODOLFO TOMAS', 'BELLOMO', 'rtbellomo@ciudad.com.ar', '0', 'partners', '1', '2017-02-21 15:38:16', '2017-02-21 15:38:16', '1', ''),
-(12231, 11, 'SEBASTIAN', 'BELLOMO', 'sebastianbellomo85@gmail.com', '0', 'partners', '1', '2017-02-21 15:38:16', '2017-02-21 15:38:16', '1', ''),
+(12231, 11, 'SEBASTIAN', 'BELLOMO', 'sebastianbellomo85@gmail.com', '0', 'partners', '1', '2017-02-21 15:38:16', '2017-02-21 15:38:16', '1', '');
+INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
 (12232, 11, 'MARINA ANDREA', 'BELLOTTI', 'marina.bellotti@hotmial.com', '0', 'partners', '1', '2017-02-21 15:38:16', '2017-02-21 15:38:16', '1', ''),
 (12233, 11, 'HORACIO GABRIEL', 'BELMAÑA', 'hogabe1984@yahoo.com.ar', '0', 'partners', '1', '2017-02-21 15:38:16', '2017-02-21 15:38:16', '1', ''),
 (12234, 11, 'EZEQUIEL OMAR', 'BELMARTINO', 'ezebelmartino@hotmail.com', '0', 'partners', '1', '2017-02-21 15:38:16', '2017-02-21 15:38:16', '1', ''),
@@ -12906,10 +12911,10 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 (12572, 11, 'LUCAS SEBASTIAN', 'BROCANELLI', 'lucassebastianbrocanelli@gmail.com.ar', '0', 'partners', '1', '2017-02-21 15:38:42', '2017-02-21 15:38:42', '1', ''),
 (12573, 11, 'HECTOR JULIAN', 'BROCHERO', 'Hectorbro@hotmail.com.ar', '0', 'partners', '1', '2017-02-21 15:38:43', '2017-02-21 15:38:43', '1', ''),
 (12574, 11, 'JORGE ALEJANDRO', 'BROCHERO', 'aime572@yahoo.com.ar', '0', 'partners', '1', '2017-02-21 15:38:43', '2017-02-21 15:38:43', '1', ''),
-(12575, 11, 'JOSE GABRIEL', 'BROCHERO', 'jgb45@hotmail.com', '0', 'partners', '1', '2017-02-21 15:38:43', '2017-02-21 15:38:43', '1', '');
-INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
+(12575, 11, 'JOSE GABRIEL', 'BROCHERO', 'jgb45@hotmail.com', '0', 'partners', '1', '2017-02-21 15:38:43', '2017-02-21 15:38:43', '1', ''),
 (12576, 11, 'GREGORIO', 'BROLL', 'griegobroll@gmail.com', '0', 'partners', '1', '2017-02-21 15:38:43', '2017-02-21 15:38:43', '1', ''),
-(12577, 11, 'WALTER ALEJANDRO', 'BROLLO', 'walybrollo@hotmail.com', '0', 'partners', '1', '2017-02-21 15:38:43', '2017-02-21 15:38:43', '1', ''),
+(12577, 11, 'WALTER ALEJANDRO', 'BROLLO', 'walybrollo@hotmail.com', '0', 'partners', '1', '2017-02-21 15:38:43', '2017-02-21 15:38:43', '1', '');
+INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
 (12578, 11, 'YANINA EDITH', 'BROLLO', 'yanibrollo@hotmail.com', '0', 'partners', '1', '2017-02-21 15:38:43', '2017-02-21 15:38:43', '1', ''),
 (12579, 11, 'MIQUEAS KHALED', 'BRONDINO', 'solesolcito32@hotmail.com.ar', '0', 'partners', '1', '2017-02-21 15:38:43', '2017-02-21 15:38:43', '1', ''),
 (12580, 11, 'NEHEMIAS AARON', 'BRONDINO', 'solesolcito32@hotmail.com', '0', 'partners', '1', '2017-02-21 15:38:43', '2017-02-21 15:38:43', '1', ''),
@@ -13252,9 +13257,9 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 (12917, 11, 'JAIME ALBERTO', 'CANER', 'jacaner@hotmail.com', '0', 'partners', '1', '2017-02-21 15:39:14', '2017-02-21 15:39:14', '1', ''),
 (12918, 11, 'ALAN WALTER', 'CANET', 'alan_cab_2011@hotmail.com', '0', 'partners', '1', '2017-02-21 15:39:14', '2017-02-21 15:39:14', '1', ''),
 (12919, 11, 'LUCAS TOMAS', 'CANET', 'julio_pirata_22@hotmail.com', '0', 'partners', '1', '2017-02-21 15:39:14', '2017-02-21 15:39:14', '1', ''),
-(12920, 11, 'FUENTES MARIO ISMAEL', 'CANEVARI', 'neron50@hotmail.com', '0', 'partners', '1', '2017-02-21 15:39:14', '2017-02-21 15:39:14', '1', '');
+(12920, 11, 'FUENTES MARIO ISMAEL', 'CANEVARI', 'neron50@hotmail.com', '0', 'partners', '1', '2017-02-21 15:39:14', '2017-02-21 15:39:14', '1', ''),
+(12921, 11, 'DANILO ALEXANDER RODRIGO', 'CORREGIDOR ROSALES', 'pablodeloeste@live.com', '0', 'partners', '1', '2017-02-21 15:41:23', '2017-02-21 15:41:23', '1', '');
 INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
-(12921, 11, 'DANILO ALEXANDER RODRIGO', 'CORREGIDOR ROSALES', 'pablodeloeste@live.com', '0', 'partners', '1', '2017-02-21 15:41:23', '2017-02-21 15:41:23', '1', ''),
 (12922, 11, 'GUSTAVO NICOLAS', 'CANO', 'gcano49@gmail.com', '0', 'partners', '1', '2017-02-21 15:39:14', '2017-02-21 15:39:14', '1', ''),
 (12923, 11, 'MARIO', 'CANO', 'canomario@outlok.com', '0', 'partners', '1', '2017-02-21 15:39:14', '2017-02-21 15:39:14', '1', ''),
 (12924, 11, 'SERGIO JUAN LEONARDO', 'CANOVAI', 'sergiocanovai@hotmai.com', '0', 'partners', '1', '2017-02-21 15:39:14', '2017-02-21 15:39:14', '1', ''),
@@ -13597,9 +13602,9 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 (13261, 11, 'LUNA', 'CEBALLOS', 'dceballos@bancor.com.ar', '0', 'partners', '1', '2017-02-21 15:40:52', '2017-02-21 15:40:52', '1', ''),
 (13262, 11, 'WALTER ALEXANDER', 'CEBALLOS', 'omar1981ceballal@gmail.com', '0', 'partners', '1', '2017-02-21 15:40:52', '2017-02-21 15:40:52', '1', ''),
 (13263, 11, 'ELIANA YASMIN', 'CEBALLOS CABRERA', 'eliana.18791@gmail.com', '0', 'partners', '1', '2017-02-21 15:40:51', '2017-02-21 15:40:51', '1', ''),
-(13264, 11, 'SOFIA ANTONELLA', 'CEBALLOS', 'GOSENCEROSIETE@HOTMAIL.COM', '0', 'partners', '1', '2017-02-21 15:40:52', '2017-02-21 15:40:52', '1', '');
+(13264, 11, 'SOFIA ANTONELLA', 'CEBALLOS', 'GOSENCEROSIETE@HOTMAIL.COM', '0', 'partners', '1', '2017-02-21 15:40:52', '2017-02-21 15:40:52', '1', ''),
+(13265, 11, 'CESAR ALEJANDRO', 'CEBALLOS', 'alex_0371@hotmail.com', '0', 'partners', '1', '2017-02-21 15:40:51', '2017-02-21 15:40:51', '1', '');
 INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
-(13265, 11, 'CESAR ALEJANDRO', 'CEBALLOS', 'alex_0371@hotmail.com', '0', 'partners', '1', '2017-02-21 15:40:51', '2017-02-21 15:40:51', '1', ''),
 (13266, 11, 'COSTAS NADIA', 'CEBALLOS', 'na_ceballos@hotmail.com', '0', 'partners', '1', '2017-02-21 15:40:51', '2017-02-21 15:40:51', '1', ''),
 (13267, 11, 'DAMIAN ESTEBAN', 'CEBALLOS', 'ceballos.damian@yahoo.com.ar', '0', 'partners', '1', '2017-02-21 15:40:51', '2017-02-21 15:40:51', '1', ''),
 (13268, 11, 'MARIA BELEN', 'LESCANO', 'mbelen_lj@hotmail.com', '0', 'partners', '1', '2017-02-21 15:59:34', '2017-02-21 15:59:34', '1', ''),
@@ -13944,9 +13949,9 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 (13607, 11, 'ALICIA INES', 'MANZINI', 'AGUSTIN_CORIA@HOTMAIL.com', '0', 'partners', '1', '2017-02-21 15:58:53', '2017-02-21 15:58:53', '1', ''),
 (13608, 11, 'ANDREA GISELLA', 'CORIA', 'viejo_vicio@hotmail.com', '0', 'partners', '1', '2017-02-21 15:41:22', '2017-02-21 15:41:22', '1', ''),
 (13609, 11, 'TOMAS AGUSTIN', 'MARQUE CORIA', 'HERNANMARQUE2016@OUTLOOK.COM', '0', 'partners', '1', '2017-02-21 15:58:58', '2017-02-21 15:58:58', '1', ''),
-(13610, 11, 'DIEGO GUSTAVO', 'CORIA', 'diegocoria25@hotmail.com', '0', 'partners', '1', '2017-02-21 15:41:22', '2017-02-21 15:41:22', '1', '');
+(13610, 11, 'DIEGO GUSTAVO', 'CORIA', 'diegocoria25@hotmail.com', '0', 'partners', '1', '2017-02-21 15:41:22', '2017-02-21 15:41:22', '1', ''),
+(13611, 11, 'EDUARDO ARIEL', 'CORIA FUCHS FLEITA', 'eduardoacff@hotmail.com', '0', 'partners', '1', '2017-02-21 15:41:22', '2017-02-21 15:41:22', '1', '');
 INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
-(13611, 11, 'EDUARDO ARIEL', 'CORIA FUCHS FLEITA', 'eduardoacff@hotmail.com', '0', 'partners', '1', '2017-02-21 15:41:22', '2017-02-21 15:41:22', '1', ''),
 (13612, 11, 'JORGE RENE', 'CORIA FUCHS', 'rigove2000@yahoo.com.ar', '0', 'partners', '1', '2017-02-21 15:41:22', '2017-02-21 15:41:22', '1', ''),
 (13613, 11, 'GABRIELA DE LA SALETTE', 'CORIA', 'lassa_50@hotmail.com', '0', 'partners', '1', '2017-02-21 15:41:22', '2017-02-21 15:41:22', '1', ''),
 (13614, 11, 'INGRID JOHANA', 'CORIA', 'ingridjcoria16@gmail.com', '0', 'partners', '1', '2017-02-21 15:41:22', '2017-02-21 15:41:22', '1', ''),
@@ -14289,9 +14294,9 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 (13951, 11, 'FRANCO JAVIER', 'DELERA', 'francodelera@gmail.com', '0', 'partners', '1', '2017-02-21 15:41:40', '2017-02-21 15:41:40', '1', ''),
 (13952, 11, 'GERARDO DANIEL', 'DELFINO', 'gerardoddelfino@gmail.com', '0', 'partners', '1', '2017-02-21 15:41:40', '2017-02-21 15:41:40', '1', ''),
 (13953, 11, 'ANA LAURA', 'DELGADO', 'anadelgado36@hotmail.com', '0', 'partners', '1', '2017-02-21 15:41:40', '2017-02-21 15:41:40', '1', ''),
-(13954, 11, 'CRISTHIAN EMANUEL', 'DELGADO', 'alvarito_jm@hotmail.com', '0', 'partners', '1', '2017-02-21 15:41:40', '2017-02-21 15:41:40', '1', '');
+(13954, 11, 'CRISTHIAN EMANUEL', 'DELGADO', 'alvarito_jm@hotmail.com', '0', 'partners', '1', '2017-02-21 15:41:40', '2017-02-21 15:41:40', '1', ''),
+(13955, 11, 'DYLAN GABRIEL', 'DELGADO', 'ezequiel_delgado@hotmail.com', '0', 'partners', '1', '2017-02-21 15:41:40', '2017-02-21 15:41:40', '1', '');
 INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
-(13955, 11, 'DYLAN GABRIEL', 'DELGADO', 'ezequiel_delgado@hotmail.com', '0', 'partners', '1', '2017-02-21 15:41:40', '2017-02-21 15:41:40', '1', ''),
 (13956, 11, 'JUAN FRANCISCO', 'DELGADO', 'juandelgadocra@gmail.com', '0', 'partners', '1', '2017-02-21 15:41:40', '2017-02-21 15:41:40', '1', ''),
 (13957, 11, 'KEVIN MACIEL', 'DELGADO', 'kevin_renacimiento@hotmail.com', '0', 'partners', '1', '2017-02-21 15:41:40', '2017-02-21 15:41:40', '1', ''),
 (13958, 11, 'PAULO CESAR', 'DELGADO PINILLOS', 'PAULOCAB8@GMAIL.COM', '0', 'partners', '1', '2017-02-21 15:41:41', '2017-02-21 15:41:41', '1', ''),
@@ -14636,9 +14641,9 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 (14297, 11, 'FEDERICO RICARDO', 'ESPOSITO', 'federicoresposito@hotmail.com', '0', 'partners', '1', '2017-02-21 15:42:11', '2017-02-21 15:42:11', '1', ''),
 (14298, 11, 'LAURA MARCELA', 'LOPEZ', 'leon25_210@hotmail.com', '0', 'partners', '1', '2017-02-21 15:59:44', '2017-02-21 15:59:44', '1', ''),
 (14299, 11, 'JORGE LUIS', 'ESQUIVEL PAZ', 'esquivel.jorge@gmail.com', '0', 'partners', '1', '2017-02-21 15:42:11', '2017-02-21 15:42:11', '1', ''),
-(14300, 11, 'WALTER FABIAN', 'ESTANCIERO', 'consupedrazaM@hotmail.com', '0', 'partners', '1', '2017-02-21 15:42:11', '2017-02-21 15:42:11', '1', '');
+(14300, 11, 'WALTER FABIAN', 'ESTANCIERO', 'consupedrazaM@hotmail.com', '0', 'partners', '1', '2017-02-21 15:42:11', '2017-02-21 15:42:11', '1', ''),
+(14301, 11, 'JOSE ANTONIO', 'ESTEVE', 'JOSEESTEVE@GMAIL.com', '0', 'partners', '1', '2017-02-21 15:42:11', '2017-02-21 15:42:11', '1', '');
 INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
-(14301, 11, 'JOSE ANTONIO', 'ESTEVE', 'JOSEESTEVE@GMAIL.com', '0', 'partners', '1', '2017-02-21 15:42:11', '2017-02-21 15:42:11', '1', ''),
 (14302, 11, 'JUAN IGNACIO', 'ESTEVE', 'juaniesteve09@hotmail.com', '0', 'partners', '1', '2017-02-21 15:42:11', '2017-02-21 15:42:11', '1', ''),
 (14303, 11, 'MARIA BELEN', 'ESTEVEZ BUTELER', 'belu.estevez@hotmail.com', '0', 'partners', '1', '2017-02-21 15:42:11', '2017-02-21 15:42:11', '1', ''),
 (14304, 11, 'CARLOS MARCELO', 'ESTEVEZ', 'CARLOS.MARCELO.ESTEVEZ@HOTMAIL.com', '0', 'partners', '1', '2017-02-21 15:42:11', '2017-02-21 15:42:11', '1', ''),
@@ -14980,9 +14985,9 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 (14640, 11, 'LUISA MERCEDES', 'FLORENTIN', 'julistefania1909@hotmail.com', '0', 'partners', '1', '2017-02-21 15:43:35', '2017-02-21 15:43:35', '1', ''),
 (14641, 11, 'ALEX BENJAMIN', 'FLORES', 'leonardo70@live.com.ar', '0', 'partners', '1', '2017-02-21 15:43:35', '2017-02-21 15:43:35', '1', ''),
 (14642, 11, 'BLANCO SOFIA', 'FLORES', 'sofieveflores@gmail.com', '0', 'partners', '1', '2017-02-21 15:43:35', '2017-02-21 15:43:35', '1', ''),
-(14643, 11, 'BRENDA CELESTE', 'FLORES', 'bren.celeste@gmail.com', '0', 'partners', '1', '2017-02-21 15:43:35', '2017-02-21 15:43:35', '1', '');
+(14643, 11, 'BRENDA CELESTE', 'FLORES', 'bren.celeste@gmail.com', '0', 'partners', '1', '2017-02-21 15:43:35', '2017-02-21 15:43:35', '1', ''),
+(14644, 11, 'BRENDA MAGALI', 'FLORES', 'brenda.flores509@gmail.com', '0', 'partners', '1', '2017-02-21 15:43:35', '2017-02-21 15:43:35', '1', '');
 INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
-(14644, 11, 'BRENDA MAGALI', 'FLORES', 'brenda.flores509@gmail.com', '0', 'partners', '1', '2017-02-21 15:43:35', '2017-02-21 15:43:35', '1', ''),
 (14645, 11, 'SOL', 'FLORES', 'pisaflo@hotmail.com', '0', 'partners', '1', '2017-02-21 15:43:37', '2017-02-21 15:43:37', '1', ''),
 (14646, 11, 'CARLA GIMENA', 'FLORES', 'emilianaferraris@gmail.com', '0', 'partners', '1', '2017-02-21 15:43:35', '2017-02-21 15:43:35', '1', ''),
 (14647, 11, 'CRISTIAN ADRIAN', 'FLORES', 'chris08flores@hotmail.com', '0', 'partners', '1', '2017-02-21 15:43:35', '2017-02-21 15:43:35', '1', ''),
@@ -15327,9 +15332,9 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 (14986, 11, 'LEONEL', 'GARRO LINCK', 'leonelgarrolinck@gmail.com', '0', 'partners', '1', '2017-02-21 15:45:32', '2017-02-21 15:45:32', '1', ''),
 (14987, 11, 'AGUSTIN GABRIEL', 'GARROCQ BARDACH', 'leobardach@gmail.com', '0', 'partners', '1', '2017-02-21 15:45:32', '2017-02-21 15:45:32', '1', ''),
 (14988, 11, 'VALENTINO', 'GATTI', 'fidelgatti@hotmail.com', '0', 'partners', '1', '2017-02-21 15:45:33', '2017-02-21 15:45:33', '1', ''),
-(14989, 11, 'FRANCO ADRIAN', 'GARRONE', 'franco.garrone@gmail.com', '0', 'partners', '1', '2017-02-21 15:45:32', '2017-02-21 15:45:32', '1', '');
+(14989, 11, 'FRANCO ADRIAN', 'GARRONE', 'franco.garrone@gmail.com', '0', 'partners', '1', '2017-02-21 15:45:32', '2017-02-21 15:45:32', '1', ''),
+(14990, 11, 'RICARDO HUMBERTO', 'GARVIA', 'rickicab12@gmail.com', '0', 'partners', '1', '2017-02-21 15:45:32', '2017-02-21 15:45:32', '1', '');
 INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
-(14990, 11, 'RICARDO HUMBERTO', 'GARVIA', 'rickicab12@gmail.com', '0', 'partners', '1', '2017-02-21 15:45:32', '2017-02-21 15:45:32', '1', ''),
 (14991, 11, 'SOFIA BELEN', 'GARZON CUELLO', 'NANCICUELLO-62@HOTMAIL.COM', '0', 'partners', '1', '2017-02-21 15:45:32', '2017-02-21 15:45:32', '1', ''),
 (14992, 11, 'LEOPOLDO', 'GARZON GONZALEZ', 'tomas_garzon@yahoo.com.ar', '0', 'partners', '1', '2017-02-21 15:45:32', '2017-02-21 15:45:32', '1', ''),
 (14993, 11, 'GONZALEZ LUCIO JOSE', 'GARZON', 'luchogarzon_94@hotmail.com', '0', 'partners', '1', '2017-02-21 15:45:32', '2017-02-21 15:45:32', '1', ''),
@@ -15675,9 +15680,9 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 (15333, 11, 'EVELYN PAMELA', 'GONZALEZ', 'pame.gonzalez636@gmail.com', '0', 'partners', '1', '2017-02-21 15:46:07', '2017-02-21 15:46:07', '1', ''),
 (15334, 11, 'MARIANO ALEXIS RODRIGO', 'GONZALEZ', 'exe_cab_@hotmail.com', '0', 'partners', '1', '2017-02-21 15:46:10', '2017-02-21 15:46:10', '1', ''),
 (15335, 11, 'EZEQUIEL DARIO', 'GONZALEZ', 'chuki_edg@hotmail.com', '0', 'partners', '1', '2017-02-21 15:46:07', '2017-02-21 15:46:07', '1', ''),
-(15336, 11, 'FABIAN GUSTAVO', 'GONZALEZ', 'NEGROFABIANG@HOTMAIL.com', '0', 'partners', '1', '2017-02-21 15:46:07', '2017-02-21 15:46:07', '1', '');
+(15336, 11, 'FABIAN GUSTAVO', 'GONZALEZ', 'NEGROFABIANG@HOTMAIL.com', '0', 'partners', '1', '2017-02-21 15:46:07', '2017-02-21 15:46:07', '1', ''),
+(15337, 11, 'FEDERICO SEBASTIAN', 'GONZALEZ', 'sed204@hotmail.com', '0', 'partners', '1', '2017-02-21 15:46:08', '2017-02-21 15:46:08', '1', '');
 INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
-(15337, 11, 'FEDERICO SEBASTIAN', 'GONZALEZ', 'sed204@hotmail.com', '0', 'partners', '1', '2017-02-21 15:46:08', '2017-02-21 15:46:08', '1', ''),
 (15338, 11, 'IGNACIO', 'GONZALEZ FIGUEROA', 'nacho_pirate@hotmail.com', '0', 'partners', '1', '2017-02-21 15:46:08', '2017-02-21 15:46:08', '1', ''),
 (15339, 11, 'FLORENCIA', 'GONZALEZ', 'flor_g1518@hotmail.com', '0', 'partners', '1', '2017-02-21 15:46:08', '2017-02-21 15:46:08', '1', ''),
 (15340, 11, 'FRANCISCO', 'GONZALEZ', 'o.e.gonzalez@hotmail.com', '0', 'partners', '1', '2017-02-21 15:46:08', '2017-02-21 15:46:08', '1', ''),
@@ -16021,9 +16026,9 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 (15678, 11, 'MARIA LUJAN', 'HEREDIA', 'laly_17_77@hotmail.com', '0', 'partners', '1', '2017-02-21 15:56:22', '2017-02-21 15:56:22', '1', ''),
 (15679, 11, 'TOMAS', 'HEREDIA MARTINEZ', 'DAMIANHEREDIA@LIVE.COM.AR', '0', 'partners', '1', '2017-02-21 15:56:22', '2017-02-21 15:56:22', '1', ''),
 (15680, 11, 'MAXIMILIANO', 'HEREDIA', 'K.ERNY24@HOTMAIL.COM', '0', 'partners', '1', '2017-02-21 15:56:22', '2017-02-21 15:56:22', '1', ''),
-(15681, 11, 'MAXIMILIANO MARTIN', 'HEREDIA', 'maxi9509@hotmail.com', '0', 'partners', '1', '2017-02-21 15:56:22', '2017-02-21 15:56:22', '1', '');
+(15681, 11, 'MAXIMILIANO MARTIN', 'HEREDIA', 'maxi9509@hotmail.com', '0', 'partners', '1', '2017-02-21 15:56:22', '2017-02-21 15:56:22', '1', ''),
+(15682, 11, 'PABLO', 'HEREDIA', 'pablozurdo79@gmail.com', '0', 'partners', '1', '2017-02-21 15:56:23', '2017-02-21 15:56:23', '1', '');
 INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
-(15682, 11, 'PABLO', 'HEREDIA', 'pablozurdo79@gmail.com', '0', 'partners', '1', '2017-02-21 15:56:23', '2017-02-21 15:56:23', '1', ''),
 (15683, 11, 'PABLO DANIEL', 'HEREDIA', 'pabloheredia128@hotmail.com', '0', 'partners', '1', '2017-02-21 15:56:23', '2017-02-21 15:56:23', '1', ''),
 (15684, 11, 'CANDELA SOLEDAD', 'HEREDIA RIBERI', 'soledadriberi@hotmail.com', '0', 'partners', '1', '2017-02-21 15:56:23', '2017-02-21 15:56:23', '1', ''),
 (15685, 11, 'ROCIO QUIMEY', 'HEREDIA', 'vivianadelvallecaceres@hotmail.com', '0', 'partners', '1', '2017-02-21 15:56:23', '2017-02-21 15:56:23', '1', ''),
@@ -16370,9 +16375,9 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 (16026, 11, 'FABIAN RODOLFO', 'LOPEZ', 'italmoto@gmaill.com.ar', '0', 'partners', '1', '2017-02-21 15:59:42', '2017-02-21 15:59:42', '1', ''),
 (16027, 11, 'DANIEL IGNACIO', 'LAFRANCONI', 'lafrnaconidaniel@hotmail.com', '0', 'partners', '1', '2017-02-21 15:59:28', '2017-02-21 15:59:28', '1', ''),
 (16028, 11, 'BLAS HIPOLITO', 'LAGGER', 'ddd@hotmail.com', '0', 'partners', '1', '2017-02-21 15:59:28', '2017-02-21 15:59:28', '1', ''),
-(16029, 11, 'LEONARDO MATIAS', 'LAGIGLIA', 'leo_lagiglia@hotmail.com', '0', 'partners', '1', '2017-02-21 15:59:28', '2017-02-21 15:59:28', '1', '');
+(16029, 11, 'LEONARDO MATIAS', 'LAGIGLIA', 'leo_lagiglia@hotmail.com', '0', 'partners', '1', '2017-02-21 15:59:28', '2017-02-21 15:59:28', '1', ''),
+(16030, 11, 'MATIAS', 'LAGO', 'matias.lago.29@gmail.com', '0', 'partners', '1', '2017-02-21 15:59:28', '2017-02-21 15:59:28', '1', '');
 INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
-(16030, 11, 'MATIAS', 'LAGO', 'matias.lago.29@gmail.com', '0', 'partners', '1', '2017-02-21 15:59:28', '2017-02-21 15:59:28', '1', ''),
 (16031, 11, 'FRANCO EMILIANO', 'LAH', 'soyfranco_09@hotmial.com', '0', 'partners', '1', '2017-02-21 15:59:28', '2017-02-21 15:59:28', '1', ''),
 (16032, 11, 'FRANCO EMILIANO', 'LAH', 'soyfranco_09@hotmail.com', '0', 'partners', '1', '2017-02-21 15:59:28', '2017-02-21 15:59:28', '1', ''),
 (16033, 11, 'LORENA ROXANA', 'LAHOZ', 'lore_173@hotmail.com', '0', 'partners', '1', '2017-02-21 15:59:28', '2017-02-21 15:59:28', '1', ''),
@@ -16719,9 +16724,9 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 (16374, 11, 'MARCELO JEREMIAS', 'LOPEZ MARQUEZ', 'jeremarquez11@gmail.com', '0', 'partners', '1', '2017-02-21 15:59:45', '2017-02-21 15:59:45', '1', ''),
 (16375, 11, 'LEONEL', 'LOPEZ MARTINEZ', 'rominamartinez24@gmail.com', '0', 'partners', '1', '2017-02-21 15:59:45', '2017-02-21 15:59:45', '1', ''),
 (16376, 11, 'GASTON JESUS', 'LOPEZ MASERA', 'GASTON.JESUS.LOPEZ@GMAIL.COM', '0', 'partners', '1', '2017-02-21 15:59:45', '2017-02-21 15:59:45', '1', ''),
-(16377, 11, 'MATIAS ALEJANDRO', 'LOPEZ', 'matiasalejandrolopez@hotmail.com', '0', 'partners', '1', '2017-02-21 15:59:45', '2017-02-21 15:59:45', '1', '');
+(16377, 11, 'MATIAS ALEJANDRO', 'LOPEZ', 'matiasalejandrolopez@hotmail.com', '0', 'partners', '1', '2017-02-21 15:59:45', '2017-02-21 15:59:45', '1', ''),
+(16378, 11, 'MATIAS URIEL', 'LOPEZ', 'matias_belgrano_97@hotmail.com', '0', 'partners', '1', '2017-02-21 15:59:45', '2017-02-21 15:59:45', '1', '');
 INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
-(16378, 11, 'MATIAS URIEL', 'LOPEZ', 'matias_belgrano_97@hotmail.com', '0', 'partners', '1', '2017-02-21 15:59:45', '2017-02-21 15:59:45', '1', ''),
 (16379, 11, 'MAURO RAUL', 'LOPEZ', 'maurolopez1985@gmail.com', '0', 'partners', '1', '2017-02-21 15:59:46', '2017-02-21 15:59:46', '1', ''),
 (16380, 11, 'THIAGO SAMIR', 'LOPEZ MEDRANO', 'erika170304@gmail.com', '0', 'partners', '1', '2017-02-21 15:59:46', '2017-02-21 15:59:46', '1', ''),
 (16381, 11, 'MELANIA', 'LOPEZ', 'meykiara15@gmail.com', '0', 'partners', '1', '2017-02-21 15:59:46', '2017-02-21 15:59:46', '1', ''),
@@ -17067,9 +17072,9 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 (16721, 11, 'LUCAS NAHUEL', 'MANSILLA', 'delvalleproducciones@hotmail.com', '0', 'partners', '1', '2017-02-21 15:58:50', '2017-02-21 15:58:50', '1', ''),
 (16722, 11, 'MARCOS EZEQUIEL', 'MANSILLA', 'marcosmansilla182@hotmail.com', '0', 'partners', '1', '2017-02-21 15:58:51', '2017-02-21 15:58:51', '1', ''),
 (16723, 11, 'MARIA DE LOS ANGELES', 'MANSILLA', 'ma.delosangelesmansilla@gmail.com', '0', 'partners', '1', '2017-02-21 15:58:51', '2017-02-21 15:58:51', '1', ''),
-(16724, 11, 'MATIAS RUBEN', 'MANSILLA', 'matiasrmansilla@gmail.com', '0', 'partners', '1', '2017-02-21 15:58:51', '2017-02-21 15:58:51', '1', '');
+(16724, 11, 'MATIAS RUBEN', 'MANSILLA', 'matiasrmansilla@gmail.com', '0', 'partners', '1', '2017-02-21 15:58:51', '2017-02-21 15:58:51', '1', ''),
+(16725, 11, 'NANCY', 'MANSILLA', 'mickeynan_63m@hotmail.com', '0', 'partners', '1', '2017-02-21 15:58:51', '2017-02-21 15:58:51', '1', '');
 INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
-(16725, 11, 'NANCY', 'MANSILLA', 'mickeynan_63m@hotmail.com', '0', 'partners', '1', '2017-02-21 15:58:51', '2017-02-21 15:58:51', '1', ''),
 (16726, 11, 'OFELIA DORA', 'MANSILLA', 'marcelo_moreno966@hotmail.com', '0', 'partners', '1', '2017-02-21 15:58:51', '2017-02-21 15:58:51', '1', ''),
 (16727, 11, 'MELINA', 'MANSILLA PELLIN', 'MELIMASILLAPEP@GMAIL.COM', '0', 'partners', '1', '2017-02-21 15:58:51', '2017-02-21 15:58:51', '1', ''),
 (16728, 11, 'RODRIGO OSCAR', 'MANSILLA', 'kiki_mansilla@hotmail.com', '0', 'partners', '1', '2017-02-21 15:58:51', '2017-02-21 15:58:51', '1', ''),
@@ -17411,9 +17416,9 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 (17064, 11, 'ASTUDILLO FLORENCIA', 'MELIAN', 'la--morocha--de--iofre@hotmail.com', '0', 'partners', '1', '2017-02-21 16:00:30', '2017-02-21 16:00:30', '1', ''),
 (17065, 11, 'GISELA', 'MELIAN', 'LLISELA_MELIAN@HOTMAIL.COM', '0', 'partners', '1', '2017-02-21 16:00:30', '2017-02-21 16:00:30', '1', ''),
 (17066, 11, 'VIRGINIA', 'MELICA', 'virmelina@hotmail.com', '0', 'partners', '1', '2017-02-21 16:00:30', '2017-02-21 16:00:30', '1', ''),
-(17067, 11, 'SILVINA ALEJANDRA', 'MELKON', 'ctdor.valle@gmail.com', '0', 'partners', '1', '2017-02-21 16:00:30', '2017-02-21 16:00:30', '1', '');
+(17067, 11, 'SILVINA ALEJANDRA', 'MELKON', 'ctdor.valle@gmail.com', '0', 'partners', '1', '2017-02-21 16:00:30', '2017-02-21 16:00:30', '1', ''),
+(17068, 11, 'BETTINA', 'MELLIA', 'bettina.mellia@hotmail.com', '0', 'partners', '1', '2017-02-21 16:00:30', '2017-02-21 16:00:30', '1', '');
 INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `role`, `password`, `created`, `modified`, `salt`, `gender`) VALUES
-(17068, 11, 'BETTINA', 'MELLIA', 'bettina.mellia@hotmail.com', '0', 'partners', '1', '2017-02-21 16:00:30', '2017-02-21 16:00:30', '1', ''),
 (17069, 11, 'BARBARA', 'MELLINA', 'barmellina@hotmail.com', '0', 'partners', '1', '2017-02-21 16:00:30', '2017-02-21 16:00:30', '1', ''),
 (17070, 11, 'VERONICA', 'MELO', 'melo.vero@hotmail.com', '0', 'partners', '1', '2017-02-21 16:00:30', '2017-02-21 16:00:30', '1', ''),
 (17071, 11, 'FABIANA LEONOR', 'MELONI', 'FALEO_MELONI@HOTMAIL.COM', '0', 'partners', '1', '2017-02-21 16:00:30', '2017-02-21 16:00:30', '1', ''),
@@ -17565,7 +17570,9 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 (17217, 11, 'GABRIEL', 'MOISSET DE ESPANES', 'gabriel_moisset@yahoo.com.ar', '0', 'partners', '1', '2017-02-21 16:00:43', '2017-02-21 16:00:43', '1', ''),
 (17218, 11, 'MATIAS', 'MOLA GOFFI', 'mola.marcelo1968@gmail.com', '0', 'partners', '1', '2017-02-21 16:00:43', '2017-02-21 16:00:43', '1', ''),
 (17219, 11, 'MARTIN', 'MOLARES', 'martinmolares@hotmail.com', '0', 'partners', '1', '2017-02-21 16:00:43', '2017-02-21 16:00:43', '1', ''),
-(17220, 11, 'EUGENIO', 'MOLAS Y MOLAS', 'eugeniomolas@hotmail.com', '0', 'partners', '1', '2017-02-21 16:00:43', '2017-02-21 16:00:43', '1', '');
+(17220, 11, 'EUGENIO', 'MOLAS Y MOLAS', 'eugeniomolas@hotmail.com', '0', 'partners', '1', '2017-02-21 16:00:43', '2017-02-21 16:00:43', '1', ''),
+(17221, 1, 'Dpto de Socios', 'Admin', 'socios@belgrano.com', '25487154', 'admin', '0ff97cdc4d501e75bc84c2f77ee8f8ff0a667d39', '2014-11-18 00:00:00', '2014-11-18 16:10:43', '18342907335469fa34de333', ''),
+(17222, 1, 'Comunicación', 'Admin', 'comunicacion@belgrano.com', '25487154', 'admin', '0ff97cdc4d501e75bc84c2f77ee8f8ff0a667d39', '2014-11-18 00:00:00', '2014-11-18 16:10:43', '18342907335469fa34de333', '');
 
 -- --------------------------------------------------------
 
@@ -17573,15 +17580,14 @@ INSERT INTO `User` (`id`, `associate_id`, `name`, `last_name`, `email`, `dni`, `
 -- Table structure for table `Vote`
 --
 
-CREATE TABLE IF NOT EXISTS `Vote` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `Vote` (
+  `id` int(11) NOT NULL,
   `id_poll` int(11) NOT NULL,
   `id_answer` int(11) NOT NULL,
   `id_user` int(11) NOT NULL,
   `created` datetime NOT NULL,
-  `id_question` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=22762 ;
+  `id_question` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `Vote`
@@ -40372,6 +40378,81 @@ INSERT INTO `Vote` (`id`, `id_poll`, `id_answer`, `id_user`, `created`, `id_ques
 (22761, 11, 119, 124, '2017-03-10 04:55:48', 34);
 
 --
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `Answer`
+--
+ALTER TABLE `Answer`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `Associate`
+--
+ALTER TABLE `Associate`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `Poll`
+--
+ALTER TABLE `Poll`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `Question`
+--
+ALTER TABLE `Question`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `User`
+--
+ALTER TABLE `User`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `IDX_2DA179772B0E8D99` (`associate_id`);
+
+--
+-- Indexes for table `Vote`
+--
+ALTER TABLE `Vote`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `Answer`
+--
+ALTER TABLE `Answer`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=130;
+--
+-- AUTO_INCREMENT for table `Associate`
+--
+ALTER TABLE `Associate`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+--
+-- AUTO_INCREMENT for table `Poll`
+--
+ALTER TABLE `Poll`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+--
+-- AUTO_INCREMENT for table `Question`
+--
+ALTER TABLE `Question`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+--
+-- AUTO_INCREMENT for table `User`
+--
+ALTER TABLE `User`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17223;
+--
+-- AUTO_INCREMENT for table `Vote`
+--
+ALTER TABLE `Vote`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22762;
+--
 -- Constraints for dumped tables
 --
 
@@ -40380,7 +40461,6 @@ INSERT INTO `Vote` (`id`, `id_poll`, `id_answer`, `id_user`, `created`, `id_ques
 --
 ALTER TABLE `User`
   ADD CONSTRAINT `FK_2DA179772B0E8D99` FOREIGN KEY (`associate_id`) REFERENCES `Associate` (`id`);
-SET FOREIGN_KEY_CHECKS=1;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
