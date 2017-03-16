@@ -109,11 +109,6 @@ class BDCUtils {
         $output.='<td align="center">' . $new_line;
         $output.='<table align="center" border="0" cellpadding="0" cellspacing="0" style="font-family: Arial, "Helvetica Neue", Helvetica, sans-serif; font-size: 12px; color: #F8F8F8; margin: 0px; padding: 0px" width="600">' . $new_line;
         $output.='<tbody>' . $new_line;
-        $output.='<tr bgcolor="#121211">' . $new_line;
-        $output.='<td align="center" valign="middle">' . $new_line;
-        $output.='<font style="font-family: "Trebuchet MS", "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Tahoma, sans-serif; font-size: 15px; color: #FFFFFF; display: block; padding: 5px;">Bolet&iacute;n de Noticias para socios de Belgrano</font>' . $new_line;
-        $output.='</td>' . $new_line;
-        $output.='</tr>' . $new_line;
         //$output.='<tr align="center"><td align="center" colspan="2" height="10">&nbsp;</td></tr></tbody></table></td></tr>'.$new_line;
         $output.='<tr align="center"><td align="center"><img alt="" height="250" src="http://sendder.com.ar/templates/belgrano/img/main.jpg" width="600" /></td></tr><!-- /MAIN_IMG -->' . $new_line;
         $output.='<tr>'
