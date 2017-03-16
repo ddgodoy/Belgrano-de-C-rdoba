@@ -140,7 +140,7 @@ class BDCUtils {
             $output.='<table>';
             foreach ($answers as $a) {
                 if ($a->id_question == $q->id) {
-                    $output.= $new_line . '<tr><td><label><input type="radio" name="answers[' . $q->id . ']" value="' . $a->id . '" style="font-family: arial" />&nbsp;&nbsp;<b>' . htmlentities($a->answer) . '<b></label></td></tr>';
+                    $output.= $new_line . '<tr><td><label><input type="radio" name="answers[' . $q->id . ']" value="' . $a->id . '" style="font-family: arial; font-size: 24px;" />&nbsp;&nbsp;<b>' . htmlentities($a->answer) . '<b></label></td></tr>';
                 }
             }
             $output.= $new_line . '</table>';
