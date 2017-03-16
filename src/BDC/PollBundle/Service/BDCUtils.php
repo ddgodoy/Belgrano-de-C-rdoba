@@ -141,8 +141,10 @@ class BDCUtils {
             $output.= $new_line . '</table>';
         }
         $output.= $new_line . '<br/><br/><input type="submit" value="Enviar"></form>' . $new_line;
-        $output.='</td>
-</tr>';
+        $output.='</td></tr>'
+                . '<tr>'
+                . '<td height="10">&nbsp;</td>'
+                . '</tr>';
 $output.='<tr align="center">' . $new_line;
 $output.='<td align="center">' . $new_line;
 $output.='<a href="http://www.belgranocordoba.com/" style="display: block;" target="_blank">' . $new_line;
