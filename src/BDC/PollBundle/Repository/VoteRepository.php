@@ -24,6 +24,6 @@ class VoteRepository extends EntityRepository {
 
         $count_partner = $query->getQuery()->getOneOrNullResult();
         
-        return $count_partner;
+        return $count_partner==NULL?0:$count_partner;
     }
 }
