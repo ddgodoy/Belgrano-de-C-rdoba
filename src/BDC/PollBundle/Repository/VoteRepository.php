@@ -44,6 +44,6 @@ class VoteRepository extends EntityRepository {
          
          $stmt->execute();
         
-         return $stmt->fetchAll();
+         return $stmt->fetch();
     }
 }
