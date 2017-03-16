@@ -8,3 +8,5 @@
 /nbproject/private/
 composer.phar
 compose.json
+.idea
+/vendor
