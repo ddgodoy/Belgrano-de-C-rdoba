@@ -56,7 +56,7 @@ class StatsController extends Controller {
         $count_partner = $em->getRepository('BDCPollBundle:Vote')->getCountPartnersVote($id);
         $partner_vote  = $em->getRepository('BDCPollBundle:Vote')->getPartnersVote($id);
         echo '<pre>';
-        echo $partner_vote;
+        print_r($partner_vote);
         echo '</pre>';
         exit();
         $questions = $em->getRepository('BDCPollBundle:Question')->findBy(array('id_poll' => $id));
