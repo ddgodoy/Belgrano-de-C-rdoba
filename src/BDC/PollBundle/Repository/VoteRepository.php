@@ -26,4 +26,24 @@ class VoteRepository extends EntityRepository {
         
         return $count_partner==NULL?0:$count_partner;
     }
+    
+    /**
+     * get Partners Vote
+     * @param int $id_poll
+     * @return array
+     */
+    function getPartnersVote($id_poll){
+        
+         $stmt = $this->getEntityManager()
+                 ->getConnection()
+                 ->prepare('SELECT u.id, u.name, u.last_name, u.email, u.dni
+                            FROM Vote v 
+                            LEFT JOIN User u ON v.id_user = u.id
+                            WHERE v.id_poll = 5
+                            GROUP BY v.id_user');
+         
+         $stmt->execute();
+        
+         return $stmt->fetchAll();
+    }
 }
