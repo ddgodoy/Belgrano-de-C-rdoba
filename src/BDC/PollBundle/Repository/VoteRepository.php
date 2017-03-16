@@ -17,7 +17,7 @@ class VoteRepository extends EntityRepository {
         $em = $this->getEntityManager();
         $query = $em->createQueryBuilder()
                 ->select('COUNT(v.id_user)') 
-                ->from('Vote', 'v')
+                ->from('BDCPollBundle:Vote', 'v')
                 ->where('v.id_poll = 5')
                 ->groupBy('v.id_poll');
 
