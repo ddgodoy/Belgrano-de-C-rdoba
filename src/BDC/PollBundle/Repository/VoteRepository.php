@@ -22,7 +22,7 @@ class VoteRepository extends EntityRepository {
                 ->groupBy('v.id_poll')
                 ->setParameter('id_poll', $id_poll);
 
-        $count_partner = $query->getQuery()->getSingleScalarResult();
+        $count_partner = $query->getQuery()->getOneOrNullResult();
         
         return $count_partner;
     }
