@@ -28,10 +28,12 @@
                                     <td>Dni</td>
                                 </tr> 
                                 {% for partner in partner_vote %}
+                                <tr>    
                                     <td>{{ partner.name }}</td>
                                     <td>{{ partner.last_name }}</td>
                                     <td>{{ partner.email }}</td>
                                     <td>{{ partner.dni }}</td>
+                                </tr>    
                                 {% endfor %}    
                             </table>    
                         </div>
