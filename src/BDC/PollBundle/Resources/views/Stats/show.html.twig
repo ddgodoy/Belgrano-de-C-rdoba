@@ -18,15 +18,14 @@
                     <div class="panel-heading">
                         Cantidad de Socios: {{ count_partner }}
                     </div>
-                    <div class="panel-body">
-                        <div id="partners" style="min-height: 400px">
+                    <div class="panel-body" >
+                        <div id="partners" style="height: 400px; overflow-x: auto">
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
                                         <th>Nombre</th>
                                         <th>Apellido</th>
                                         <th>Email</th>
-                                        <th>Dni</th>
                                     </tr> 
                                 </thead> 
                                 <tbody>
@@ -35,7 +34,6 @@
                                         <td>{{ partner.name }}</td>
                                         <td>{{ partner.last_name }}</td>
                                         <td>{{ partner.email }}</td>
-                                        <td>{{ partner.dni }}</td>
                                     </tr>    
                                     {% endfor %} 
                                 </tbody>    
