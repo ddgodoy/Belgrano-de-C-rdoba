@@ -39,7 +39,7 @@ class VoteRepository extends EntityRepository {
                  ->prepare('SELECT u.id, u.name, u.last_name, u.email, u.dni
                             FROM Vote v 
                             LEFT JOIN User u ON v.id_user = u.id
-                            WHERE v.id_poll = 5
+                            WHERE v.id_poll = 4
                             GROUP BY v.id_user');
          
          $stmt->execute();
