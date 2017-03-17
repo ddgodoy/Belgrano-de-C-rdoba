@@ -20,21 +20,25 @@
                     </div>
                     <div class="panel-body">
                         <div id="partners" style="min-height: 400px">
-                            <table>
-                                <tr>
-                                    <td>Nombre</td>
-                                    <td>Apellido</td>
-                                    <td>Email</td>
-                                    <td>Dni</td>
-                                </tr> 
-                                {% for partner in partner_vote %}
-                                <tr>    
-                                    <td>{{ partner.name }}</td>
-                                    <td>{{ partner.last_name }}</td>
-                                    <td>{{ partner.email }}</td>
-                                    <td>{{ partner.dni }}</td>
-                                </tr>    
-                                {% endfor %}    
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <td>Nombre</td>
+                                        <td>Apellido</td>
+                                        <td>Email</td>
+                                        <td>Dni</td>
+                                    </tr> 
+                                </thead> 
+                                <tbody>
+                                    {% for partner in partner_vote %}
+                                    <tr>    
+                                        <td>{{ partner.name }}</td>
+                                        <td>{{ partner.last_name }}</td>
+                                        <td>{{ partner.email }}</td>
+                                        <td>{{ partner.dni }}</td>
+                                    </tr>    
+                                    {% endfor %} 
+                                </tbody>    
                             </table>    
                         </div>
                     </div>
