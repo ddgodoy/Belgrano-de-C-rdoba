@@ -20,7 +20,20 @@
                     </div>
                     <div class="panel-body">
                         <div id="partners" style="min-height: 400px">
-                            
+                            <table>
+                                <tr>
+                                    <td>Nombre</td>
+                                    <td>Apellido</td>
+                                    <td>Email</td>
+                                    <td>Dni</td>
+                                </tr> 
+                                {% for partner in partner_vote %}
+                                    <td>{{ partner.name }}</td>
+                                    <td>{{ partner.lastname }}</td>
+                                    <td>{{ partner.email }}</td>
+                                    <td>{{ partner.dni }}</td>
+                                {% endfor %}    
+                            </table>    
                         </div>
                     </div>
 

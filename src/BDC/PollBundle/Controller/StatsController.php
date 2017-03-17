@@ -70,7 +70,8 @@ class StatsController extends Controller {
                     array(  'entity' => $entity, 
                             'questions' => $questions,
                             'js' => $js,
-                            'count_partner'=>$count_partner));
+                            'count_partner'=>$count_partner,
+                            'partner_vote'=>$partner_vote));
         } else {
             return $this->render('BDCPollBundle:Stats:errors.html.twig');
         }
