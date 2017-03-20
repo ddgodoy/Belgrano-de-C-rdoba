@@ -30,11 +30,21 @@
                     {{ form_label(form.image_header) }}
                     {{ form_errors(form.image_header) }}
                     {{ form_widget(form.image_header) }}
+                    {% if entity.image_header is defined %}
+                    <div class="img-responsive">
+                        <img src="{{ asset(entity.image_header) }}" class="thumbnail">
+                    </div>
+                    {% endif %}
                 </div>
                 <div class="form-group">
                     {{ form_label(form.image_footer) }}
                     {{ form_errors(form.image_footer) }}
                     {{ form_widget(form.image_footer) }}
+                    {% if entity.image_footer is defined %}
+                        <div class="img-responsive">
+                            <img src="{{ asset(entity.image_footer) }}" class="thumbnail">
+                        </div>
+                    {% endif %}
                 </div>
                     {{ form_widget(form.id_user, {'value' : id_user }) }}
                 <div class="row">
