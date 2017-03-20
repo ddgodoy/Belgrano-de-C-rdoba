@@ -75,11 +75,9 @@
 
         $("#bdc_pollbundle_poll").submit(function(e){
             e.preventDefault();
-            console.info('bdc_pollbundle_poll_image_header lengh-->', $("#bdc_pollbundle_poll_image_header").val());
 
             var imageHeader = $("#bdc_pollbundle_poll_image_header").val();
             if(imageHeader.length < 1){
-                console.info('hello');
                 var currentImageHeader = $("#imageHeader").val();
                 $("#bdc_pollbundle_poll_image_header").val(currentImageHeader);
             }
@@ -91,10 +89,9 @@
                 $("#bdc_pollbundle_poll_image_footer").val(currentImageFooter);
             }
 
+            $(this).submit();
 
-
-
-            return false;
+            return true;
         });
     </script>
 {% endblock %}
