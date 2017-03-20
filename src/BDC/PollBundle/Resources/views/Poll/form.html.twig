@@ -73,29 +73,29 @@
     {{ parent() }}
     <script>
 
-        $("#bdc_pollbundle_poll").submit(function(e){
-            e.preventDefault();
+        {#$("#bdc_pollbundle_poll").submit(function(e){#}
+            {#e.preventDefault();#}
 
-            var imageHeader = $("#bdc_pollbundle_poll_image_header").val();
-            if(imageHeader.length < 1){
-                var currentImageHeader = $("#imageHeader").attr('src');
-                $('#bdc_pollbundle_poll_image_header').val('aa');
-
-
-            }
-
-//            var imageFooter = $("#bdc_pollbundle_poll_image_footer").val();
-//            if(imageFooter.length < 1){
-//                var currentImageFooter = $("#imageFooter").attr('src');
-//                $("#bdc_pollbundle_poll_image_footer").val(currentImageFooter);
-//            }
+            {#var imageHeader = $("#bdc_pollbundle_poll_image_header").val();#}
+            {#if(imageHeader.length < 1){#}
+                {#var currentImageHeader = $("#imageHeader").attr('src');#}
+                {#$('#bdc_pollbundle_poll_image_header').val('aa');#}
 
 
-//            $('#bdc_pollbundle_poll').unbind('submit').submit();
+            {#}#}
 
-            return true;
-        });
-    </script>
+{#//            var imageFooter = $("#bdc_pollbundle_poll_image_footer").val();#}
+{#//            if(imageFooter.length < 1){#}
+{#//                var currentImageFooter = $("#imageFooter").attr('src');#}
+{#//                $("#bdc_pollbundle_poll_image_footer").val(currentImageFooter);#}
+{#//            }#}
+
+
+{#//            $('#bdc_pollbundle_poll').unbind('submit').submit();#}
+
+            {#return true;#}
+        {#});#}
+    {#</script>#}
 {% endblock %}
   
 
