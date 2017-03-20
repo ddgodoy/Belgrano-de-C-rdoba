@@ -102,18 +102,27 @@ class PollController extends Controller {
 
                 $poll->slug = $utils->slugify($request_params['bdc_pollbundle_poll']['name']);
 
-                echo "<pre>";
-                print_r($request->files->all());
-                echo "</pre>";
 
-                die('aaa');
 
-                $file = $poll->image_header;
+
+                if (isset($request->files->all()['bdc_pollbundle_poll']['image_header'])) {
+                    $file = $request->files->all()['bdc_pollbundle_poll']['image_header']->getPathName();
+                    $file->move(
+                        $this->getParameter('images_directory'),
+                        $file
+                    );
+
+                    print_r("entro");
+
+                   $poll->image_header = $file;
+                }
+
+
+                die(' eloo ');
+
+
                 $fileName = md5(uniqid()).'.'.substr($file, strrpos($file, '.') + 1);
-                $file->move(
-                    $this->getParameter('images_directory'),
-                    $fileName
-                );
+
 
                 $file = $poll->image_footer;
                 $fileName = md5(uniqid()).'.'.substr($file, strrpos($file, '.') + 1);
