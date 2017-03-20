@@ -105,7 +105,7 @@ class PollController extends Controller {
                 $file = $poll->image_header;
 
                 echo "<pre>";
-                print_r($file);
+                var_dump($file);
                 echo "</pre>";
 
                 die('aaa');
