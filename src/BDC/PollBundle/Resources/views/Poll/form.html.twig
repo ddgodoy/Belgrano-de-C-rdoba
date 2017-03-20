@@ -78,13 +78,13 @@
 
             var imageHeader = $("#bdc_pollbundle_poll_image_header").val();
             if(imageHeader.length < 1){
-                var currentImageHeader = $("#imageHeader").val();
+                var currentImageHeader = $("#imageHeader").attr('src');
                 $("#bdc_pollbundle_poll_image_header").val(currentImageHeader);
             }
 
             var imageFooter = $("#bdc_pollbundle_poll_image_footer").val();
             if(imageFooter.length < 1){
-                var currentImageFooter = $("#imageFooter").val();
+                var currentImageFooter = $("#imageFooter").attr('src');
                 $("#bdc_pollbundle_poll_image_footer").val(currentImageFooter);
             }
 
