@@ -40,7 +40,7 @@ class PollController extends Controller {
     }
 
     public function formAction(Request $request, $id = null) {
-        
+
         $utils = new BDCUtils;      
         if ($utils->check_session() === null) {
             return $this->redirect($this->generateUrl('user_login'));
@@ -71,7 +71,9 @@ class PollController extends Controller {
 
             $poll = new Poll();
         }
-        $form = $this->createForm(new PollType($em), $poll);
+
+
+        $form = $this->createForm(new PollType(), $poll);
         $form->handleRequest($request);
 
         $params = array(
@@ -91,6 +93,7 @@ class PollController extends Controller {
             //por el momento nada extra por validar
             $validate = true;
 
+
             if ($validate === true) {
                 if (!$id) {
                     $poll->created = new \DateTime();
@@ -98,6 +101,23 @@ class PollController extends Controller {
                 $poll->modified = new \DateTime();
 
                 $poll->slug = $utils->slugify($request_params['bdc_pollbundle_poll']['name']);
+
+                /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
+                $file = $poll->image_header;
+                $fileName = md5(uniqid()).'.'.$file->guessExtension();
+                $file->move(
+                    $this->getParameter('images_directory'),
+                    $fileName
+                );
+                $poll->image_header = $fileName;
+
+                $file = $poll->image_footer;
+                $fileName = md5(uniqid()).'.'.$file->guessExtension();
+                $file->move(
+                    $this->getParameter('images_directory'),
+                    $fileName
+                );
+                $poll->image_footer = $fileName;
 
                 $em->persist($poll);
                 $em->flush();

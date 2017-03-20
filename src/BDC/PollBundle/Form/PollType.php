@@ -6,30 +6,24 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Doctrine\ORM\EntityManager;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class PollType extends AbstractType
 {
-    protected $doctrine;
 
-    public function __construct(EntityManager $doctrine)
-    {
-       $this->doctrine = $doctrine;
-    }
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        
-        
         $builder
             ->add('name')
             ->add('status', 'choice', ['choices' =>['active'=>'Activa', 'inactive'=>'Inactiva', 'ended' => 'Finalizada']])
-            ->add('id_user', 'hidden');
-            
-                    
-        
+            ->add('id_user', 'hidden')
+            ->add('image_header', 'file', array('label' => 'Imagen cabecera'))
+            ->add('image_footer', 'file', array('label' => 'Imagen pie de pagina'));
+
     }
     
     /**

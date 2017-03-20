@@ -25,9 +25,15 @@ BDC\PollBundle\Entity\Poll:
             type: datetime
         modified:
             type: datetime
-       
-    
-   
+        updatedAt:
+            type: datetime
+            nullable: true
+        image_header:
+            type: string
+            length: 255
+        image_footer:
+            type: string
+            length: 255
    
             
     lifecycleCallbacks: {  }
