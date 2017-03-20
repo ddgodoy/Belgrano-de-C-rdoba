@@ -108,9 +108,15 @@ class PollController extends Controller {
                 var_dump($file);
                 echo "</pre>";
 
-                die('aaa');
 
-                $fileName = md5(uniqid()).'.'.$file->guessExtension();
+                $fileName = md5(uniqid()).'.'.substr($file, strrpos($file, '.') + 1);
+
+
+                echo "<pre>";
+                var_dump($fileName);
+                echo "</pre>";
+
+                die('aaa');
 
                 $file->move(
                     $this->getParameter('images_directory'),
