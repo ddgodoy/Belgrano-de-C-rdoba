@@ -133,9 +133,6 @@ class PollController extends Controller {
                 }
 
 
-
-
-
                 $em->persist($poll);
                 $em->flush();
                 $params['message'] = array('status' => 'success', 'text' => $ok_message);
