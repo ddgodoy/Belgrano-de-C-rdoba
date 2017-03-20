@@ -79,11 +79,12 @@
             var imageHeader = $("#bdc_pollbundle_poll_image_header").val();
             if(imageHeader.length < 1){
                 var currentImageHeader = $("#imageHeader").attr('src');
-                console.info('entro aqui', currentImageHeader);
+                $('#bdc_pollbundle_poll_image_header').each(function() {
+                    console.info('this', $(this));
+                    $(this).val(currentImageHeader);
+                });
 
-                console.info(" val --> ", $("#bdc_pollbundle_poll_image_header"));
 
-                $("#bdc_pollbundle_poll_image_header").val(currentImageHeader);
             }
 
             var imageFooter = $("#bdc_pollbundle_poll_image_footer").val();
