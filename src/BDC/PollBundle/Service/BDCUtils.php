@@ -151,9 +151,16 @@ class BDCUtils {
 $output.='<tr align="center">' . $new_line;
 $output.='<td align="center">' . $new_line;
 $output.='<a href="http://www.belgranocordoba.com/" style="display: block;" target="_blank">' . $new_line;
-$output.='<img alt="Club Atlético Belgrano" height="80" src="http://sendder.com.ar/templates/belgrano/img/top.png" style="display: block;" width="600" />' . $new_line;
-$output.='</a>' . $new_line;
-$output.='</td>' . $new_line;
+        if(strlen($poll->image_footer) > 1)
+        {
+            $img = '/uploads/images/'.$poll->image_footer;
+            $output.= '<img alt="Club Atlético Belgrano" height="80" src="'.$img.'" style="display: block;" width="600" />' . $new_line;$output.='</a>' . $new_line;
+        }else
+            $output.='<img alt="Club Atlético Belgrano" height="80" src="http://sendder.com.ar/templates/belgrano/img/top.png" style="display: block;" width="600" />' . $new_line;$output.='</a>' . $new_line;
+
+
+
+        $output.='</td>' . $new_line;
 $output.='</tr>' . $new_line;        
 $output.='<tr align="center">
 <td align="center" height="10">
