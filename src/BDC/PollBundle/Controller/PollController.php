@@ -104,28 +104,36 @@ class PollController extends Controller {
 
                 $file = $poll->image_header;
 
-                // Generate a unique name for the file before saving it
-                $fileName = md5(uniqid()).'.'.$file->guessExtension();
+                if(is_file($file))
+                {
+                    // Generate a unique name for the file before saving it
+                    $fileName = md5(uniqid()).'.'.$file->guessExtension();
 
-                // Move the file to the directory where brochures are stored
-                $file->move(
-                    $this->container->getParameter('images_directory'),
-                    $fileName
-                );
-                $poll->image_header = $fileName;
-
+                    // Move the file to the directory where brochures are stored
+                    $file->move(
+                        $this->container->getParameter('images_directory'),
+                        $fileName
+                    );
+                    $poll->image_header = $fileName;
+                }
 
                 $file = $poll->image_footer;
 
-                // Generate a unique name for the file before saving it
-                $fileName = md5(uniqid()).'.'.$file->guessExtension();
+                if(is_file($file))
+                {
+                    // Generate a unique name for the file before saving it
+                    $fileName = md5(uniqid()).'.'.$file->guessExtension();
 
-                // Move the file to the directory where brochures are stored
-                $file->move(
-                    $this->container->getParameter('images_directory'),
-                    $fileName
-                );
-                $poll->image_footer = $fileName;
+                    // Move the file to the directory where brochures are stored
+                    $file->move(
+                        $this->container->getParameter('images_directory'),
+                        $fileName
+                    );
+                    $poll->image_footer = $fileName;
+                }
+
+
+
 
 
                 $em->persist($poll);
