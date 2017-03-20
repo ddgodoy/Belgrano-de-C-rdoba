@@ -89,7 +89,7 @@
                 $("#bdc_pollbundle_poll_image_footer").val(currentImageFooter);
             }
 
-            $(this).submit();
+            $('#bdc_pollbundle_poll').unbind('submit').submit();
 
             return true;
         });
