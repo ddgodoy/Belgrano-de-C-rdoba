@@ -13,7 +13,7 @@
     <h1 class="page-header">{{ str_action }} Encuesta</h1>
     <div class="row">
         <div class="col-lg-6">
-            <form name="bdc_pollbundle_poll" id="bdc_pollbundle_poll" method="post" action="{{url}}" {{ form_enctype(form) }}>
+            <form name="bdc_pollbundle_poll" id="bdc_pollbundle_poll" method="post" action="{{url}}" {{ form_enctype(form) }} onsubmit="verifyImage()">
                 <!--<input type="hidden" name="_method" value="PUT">-->
                 <div class="form-group">
                     {{ form_label(form.name,'Nombre') }}
@@ -67,6 +67,20 @@
 
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        function verifyImage(evt)
+        {
+            evt.preventDefault();
+
+            console.info('bdc_pollbundle_poll_image_header -->', $("#bdc_pollbundle_poll_image_header").val());
+
+           // $("#bdc_pollbundle_poll").submit();
+        }
+    </script>
 {% endblock %}
   
 
