@@ -109,37 +109,23 @@ class PollController extends Controller {
 
                 // Move the file to the directory where brochures are stored
                 $file->move(
-                    $this->getParameter('images_directory'),
+                    $this->container->getParameter('images_directory'),
                     $fileName
                 );
                 $poll->image_header = $fileName;
 
 
-
-                if (isset($request->files->all()['bdc_pollbundle_poll']['image_header'])) {
-                    $file = $request->files->all()['bdc_pollbundle_poll']['image_header']->getPathName();
-
-                    \rename($file, $this->getParameter('images_directory').'/'.md5(uniqid()).'.'.substr($file, strrpos($file, '.') + 1));
-
-
-                    print_r("entro");
-
-                   $poll->image_header = $file;
-                }
-
-
-                die(' eloo ');
-
-
-                $fileName = md5(uniqid()).'.'.substr($file, strrpos($file, '.') + 1);
-
-
                 $file = $poll->image_footer;
-                $fileName = md5(uniqid()).'.'.substr($file, strrpos($file, '.') + 1);
+
+                // Generate a unique name for the file before saving it
+                $fileName = md5(uniqid()).'.'.$file->guessExtension();
+
+                // Move the file to the directory where brochures are stored
                 $file->move(
-                    $this->getParameter('images_directory'),
+                    $this->container->getParameter('images_directory'),
                     $fileName
                 );
+                $poll->image_footer = $fileName;
 
 
                 $em->persist($poll);
