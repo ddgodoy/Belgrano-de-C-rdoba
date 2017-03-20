@@ -104,12 +104,15 @@ class PollController extends Controller {
 
                 if (isset($request->files->all()['bdc_pollbundle_poll']['image_header'])) {
                     $file = $request->files->all()['bdc_pollbundle_poll']['image_header']->getPathName();
-                    echo "<pre>";
-                    print_r($file);
-                    echo "</pre>";
 
-                    die('hola');
                 }
+
+
+                echo "<pre>";
+                print_r($request->files);
+                echo "</pre>";
+
+                die('hola');
 
                 $poll->image_header = md5(uniqid()).'.'.$poll->image_header->guessExtension();
                 $file = $poll->image_header;
