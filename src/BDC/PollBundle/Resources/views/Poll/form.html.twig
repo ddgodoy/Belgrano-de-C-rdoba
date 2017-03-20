@@ -75,7 +75,7 @@
 
         $("#bdc_pollbundle_poll").submit(function(e){
             e.preventDefault();
-            console.info('bdc_pollbundle_poll_image_header -->', $("#bdc_pollbundle_poll_image_header").val());
+            console.info('bdc_pollbundle_poll_image_header lengh-->', $("#bdc_pollbundle_poll_image_header").val());
 
             var imageHeader = $("#bdc_pollbundle_poll_image_header").val();
             if(imageHeader.length < 1){
@@ -85,7 +85,7 @@
             }
 
             var imageFooter = $("#bdc_pollbundle_poll_image_footer").val();
-            if(imageHeader.length < 1){
+            if(imageFooter.length < 1){
                 console.info('hello 2');
                 var currentImageFooter = $("#imageFooter").val();
                 $("#bdc_pollbundle_poll_image_footer").val(currentImageFooter);
