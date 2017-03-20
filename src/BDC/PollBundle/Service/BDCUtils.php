@@ -110,7 +110,15 @@ class BDCUtils {
         $output.='<table align="center" border="0" cellpadding="0" cellspacing="0" style="font-family: Arial, "Helvetica Neue", Helvetica, sans-serif; font-size: 12px; color: #F8F8F8; margin: 0px; padding: 0px" width="600">' . $new_line;
         $output.='<tbody>' . $new_line;
         //$output.='<tr align="center"><td align="center" colspan="2" height="10">&nbsp;</td></tr></tbody></table></td></tr>'.$new_line;
-        $output.='<tr align="center"><td align="center"><img alt="" height="250" src="http://sendder.com.ar/templates/belgrano/img/main.jpg" width="600" /></td></tr><!-- /MAIN_IMG -->' . $new_line;
+
+        if(strlen($poll->image_header) > 1)
+            $img = '/uploads/images/'.$poll->image_header;
+            $output.='<tr align="center"><td align="center"><img alt="" height="250" src="'.$img.'" width="600" /></td></tr>'. $new_line;
+        else
+            $output.='<tr align="center"><td align="center"><img alt="" height="250" src="http://sendder.com.ar/templates/belgrano/img/main.jpg" width="600" /></td></tr><!-- /MAIN_IMG -->' . $new_line;
+p
+
+
         $output.='<tr>'
                 . '<td>'
                 . '<table bgcolor="#FFFFFF" border="0" cellpadding="0" cellspacing="0" style="font-family: Arial, Helvetica, sans-serif; font-size: 12px; color: #5F5F60; margin: 0px; padding: 0px;" width="600">'
