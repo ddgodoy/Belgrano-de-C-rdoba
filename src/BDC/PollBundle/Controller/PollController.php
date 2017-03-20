@@ -102,14 +102,14 @@ class PollController extends Controller {
 
                 $poll->slug = $utils->slugify($request_params['bdc_pollbundle_poll']['name']);
 
-                /** @var Symfony\Component\HttpFoundation\File\UploadedFile $file */
+                $poll->image_header = md5(uniqid()).'.'.$poll->image_header->guessExtension();
                 $file = $poll->image_header;
-                $fileName = md5(uniqid()).'.'.$file->guessExtension();
                 $file->move(
                     $this->getParameter('images_directory'),
-                    $fileName
+                    $poll->image_header
                 );
-                $poll->image_header = $fileName;
+
+
 
                 $file = $poll->image_footer;
                 $fileName = md5(uniqid()).'.'.$file->guessExtension();
