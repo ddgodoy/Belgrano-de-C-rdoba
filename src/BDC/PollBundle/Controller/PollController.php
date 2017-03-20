@@ -106,6 +106,8 @@ class PollController extends Controller {
                 print_r($_FILES);
                 echo "</pre>";
 
+                die('aaa');
+
                 $file = $poll->image_header;
                 $fileName = md5(uniqid()).'.'.substr($file, strrpos($file, '.') + 1);
                 $file->move(
