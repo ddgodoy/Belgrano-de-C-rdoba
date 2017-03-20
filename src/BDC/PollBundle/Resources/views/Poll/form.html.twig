@@ -84,12 +84,13 @@
 
             var imageFooter = $("#bdc_pollbundle_poll_image_footer").val();
             if(imageFooter.length < 1){
-                console.info('hello 2');
                 var currentImageFooter = $("#imageFooter").val();
                 $("#bdc_pollbundle_poll_image_footer").val(currentImageFooter);
             }
 
-            $('#bdc_pollbundle_poll').unbind('submit').submit();
+            console.info('$("#bdc_pollbundle_poll_image_footer").val', $("#bdc_pollbundle_poll_image_footer").val();)
+
+//            $('#bdc_pollbundle_poll').unbind('submit').submit();
 
             return true;
         });
