@@ -79,8 +79,9 @@
             var imageHeader = $("#bdc_pollbundle_poll_image_header").val();
             if(imageHeader.length < 1){
                 var currentImageHeader = $("#imageHeader").attr('src');
+                console.info('entro aqui', currentImageHeader);
+
                 $("#bdc_pollbundle_poll_image_header").val(currentImageHeader);
-                console.info('entro aqui');
             }
 
             var imageFooter = $("#bdc_pollbundle_poll_image_footer").val();
