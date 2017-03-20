@@ -107,10 +107,9 @@ class PollController extends Controller {
 
                 if (isset($request->files->all()['bdc_pollbundle_poll']['image_header'])) {
                     $file = $request->files->all()['bdc_pollbundle_poll']['image_header']->getPathName();
-                    $file->move(
-                        $this->getParameter('images_directory'),
-                        $file
-                    );
+
+                    \rename($file, $this->getParameter('images_directory').'/'.md5(uniqid()).'.'.substr($file, strrpos($file, '.') + 1));
+
 
                     print_r("entro");
 
