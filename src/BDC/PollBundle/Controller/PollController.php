@@ -102,6 +102,17 @@ class PollController extends Controller {
 
                 $poll->slug = $utils->slugify($request_params['bdc_pollbundle_poll']['name']);
 
+                $file = $poll->image_header;
+
+                // Generate a unique name for the file before saving it
+                $fileName = md5(uniqid()).'.'.$file->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                $file->move(
+                    $this->getParameter('images_directory'),
+                    $fileName
+                );
+                $poll->image_header = $fileName;
 
 
 
