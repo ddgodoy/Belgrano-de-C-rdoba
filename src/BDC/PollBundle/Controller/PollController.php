@@ -102,6 +102,15 @@ class PollController extends Controller {
 
                 $poll->slug = $utils->slugify($request_params['bdc_pollbundle_poll']['name']);
 
+                if (isset($request->files->all()['bdc_pollbundle_poll']['image_header'])) {
+                    $file = $request->files->all()['bdc_pollbundle_poll']['image_header']->getPathName();
+                    echo "<pre>";
+                    print_r($file);
+                    echo "</pre>";
+
+                    die('hola');
+                }
+
                 $poll->image_header = md5(uniqid()).'.'.$poll->image_header->guessExtension();
                 $file = $poll->image_header;
                 $file->move(
@@ -111,13 +120,13 @@ class PollController extends Controller {
 
 
 
-                $file = $poll->image_footer;
-                $fileName = md5(uniqid()).'.'.$file->guessExtension();
-                $file->move(
-                    $this->getParameter('images_directory'),
-                    $fileName
-                );
-                $poll->image_footer = $fileName;
+//                $file = $poll->image_footer;
+//                $fileName = md5(uniqid()).'.'.$file->guessExtension();
+//                $file->move(
+//                    $this->getParameter('images_directory'),
+//                    $fileName
+//                );
+//                $poll->image_footer = $fileName;
 
                 $em->persist($poll);
                 $em->flush();
