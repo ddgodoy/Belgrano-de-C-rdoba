@@ -21,8 +21,8 @@ class PollType extends AbstractType
             ->add('name')
             ->add('status', 'choice', ['choices' =>['active'=>'Activa', 'inactive'=>'Inactiva', 'ended' => 'Finalizada']])
             ->add('id_user', 'hidden')
-            ->add('image_header', 'file', array('label' => 'Imagen cabecera', 'required' => true))
-            ->add('image_footer', 'file', array('label' => 'Imagen pie de pagina', 'required' => true));
+            ->add('image_header', 'file', array('label' => 'Imagen cabecera'))
+            ->add('image_footer', 'file', array('label' => 'Imagen pie de pagina'));
 
     }
     
