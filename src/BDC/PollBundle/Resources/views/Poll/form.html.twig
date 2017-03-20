@@ -32,7 +32,9 @@
                     {{ form_widget(form.image_header) }}
                     {% if entity.image_header is defined %}
                     <div class="img-responsive" style="overflow: hidden;width: 100%;height: 250px; margin-top: 20px">
-                        <strong>Imagen actual:</strong>
+                        <p>
+                            Imagen actual:
+                        </p>
                         <img src="{{ asset('uploads/images/'~entity.image_header) }}" class="img-thumbnail">
                     </div>
                     {% endif %}
@@ -43,7 +45,9 @@
                     {{ form_widget(form.image_footer) }}
                     {% if entity.image_footer is defined %}
                         <div class="img-responsive" style="overflow: hidden;width: 100%;height: 250px;margin-top: 20px">
-                            <strong>Imagen actual:</strong>
+                            <p>
+                                Imagen actual:
+                            </p>
                             <img src="{{ asset('uploads/images/'~entity.image_footer) }}" class="img-thumbnail">
                         </div>
                     {% endif %}
