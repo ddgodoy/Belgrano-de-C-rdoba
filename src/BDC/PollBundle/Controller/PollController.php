@@ -103,7 +103,7 @@ class PollController extends Controller {
                 $poll->slug = $utils->slugify($request_params['bdc_pollbundle_poll']['name']);
 
                 echo "<pre>";
-                print_r($_FILES);
+                print_r($request->files->all());
                 echo "</pre>";
 
                 die('aaa');
