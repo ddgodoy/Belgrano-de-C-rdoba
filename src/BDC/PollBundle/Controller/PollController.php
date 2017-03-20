@@ -102,6 +102,10 @@ class PollController extends Controller {
 
                 $poll->slug = $utils->slugify($request_params['bdc_pollbundle_poll']['name']);
 
+                echo "<pre>";
+                print_r($_FILES);
+                echo "</pre>";
+
                 $file = $poll->image_header;
                 $fileName = md5(uniqid()).'.'.substr($file, strrpos($file, '.') + 1);
                 $file->move(
