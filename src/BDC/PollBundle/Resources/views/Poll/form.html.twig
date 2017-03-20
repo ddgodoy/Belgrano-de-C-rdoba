@@ -36,7 +36,7 @@
                             <p>
                                 Imagen actual:
                             </p>
-                            <img src="{{ asset('uploads/images/'~entity.image_header) }}" class="img-thumbnail">
+                            <img id="imageHeader" src="{{ asset('uploads/images/'~entity.image_header) }}" class="img-thumbnail">
                         </div>
                         {% endif %}
                     {% endif %}
@@ -51,7 +51,7 @@
                             <p>
                                 Imagen actual:
                             </p>
-                            <img src="{{ asset('uploads/images/'~entity.image_footer) }}" class="img-thumbnail">
+                            <img id="imageFooter" src="{{ asset('uploads/images/'~entity.image_footer) }}" class="img-thumbnail">
                         </div>
                         {% endif %}
                     {% endif %}
@@ -76,6 +76,24 @@
         $("#bdc_pollbundle_poll").submit(function(e){
             e.preventDefault();
             console.info('bdc_pollbundle_poll_image_header -->', $("#bdc_pollbundle_poll_image_header").val());
+
+            var imageHeader = $("#bdc_pollbundle_poll_image_header").val();
+            if(imageHeader.length < 1){
+                console.info('hello');
+                var currentImageHeader = $("#imageHeader").val();
+                $("#bdc_pollbundle_poll_image_header").val(currentImageHeader);
+            }
+
+            var imageFooter = $("#bdc_pollbundle_poll_image_footer").val();
+            if(imageHeader.length < 1){
+                console.info('hello 2');
+                var currentImageFooter = $("#imageFooter").val();
+                $("#bdc_pollbundle_poll_image_footer").val(currentImageFooter);
+            }
+
+
+
+
             return false;
         });
     </script>
