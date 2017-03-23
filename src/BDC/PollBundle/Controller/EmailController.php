@@ -36,7 +36,7 @@ class EmailController extends Controller
             
              $utils = new BDCUtils;
             
-            $poll = $em->getRepository('BDCPollBundle:Poll')->findOneById($poll_id);
+            $poll = $em->getRepository('BDCPollBundle:Poll')->find($poll_id);
             $questions = $em->getRepository('BDCPollBundle:Question')->findBy(array('id_poll' => $poll_id));
             $answers = $em->getRepository('BDCPollBundle:Answer')->findBy(array('id_poll' => $poll_id));
 
