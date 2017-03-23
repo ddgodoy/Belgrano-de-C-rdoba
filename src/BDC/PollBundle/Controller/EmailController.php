@@ -10,6 +10,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Constraints\Email as EmailConstraint;
+use Symfony\Component\HttpFoundation\Session\Session;
+use BDC\PollBundle\Service\BDCUtils;
 
 class EmailController extends Controller
 {
@@ -19,8 +21,43 @@ class EmailController extends Controller
      */
     public function indexAction(Request $request)
     {
-        if($request->getMethod() == "POST")
+        $session = new Session();
+        $user    = $session->get('user');
+        
+        $em = $this->getDoctrine()->getManager();
+        $polls = $em->getRepository('BDCPollBundle:Poll')->findBy(['id_user'=>$user->getId()]);
+        
+        
+        if($request->isMethod('POST'))
         {
+            $email_send = $request->get('email-send');
+            $subject    = $request->get('asunto');
+            $poll_id    = $request->get('id_poll');
+            
+             $utils = new BDCUtils;
+            
+            $poll = $em->getRepository('BDCPollBundle:Poll')->findOneById($poll_id);
+            $questions = $em->getRepository('BDCPollBundle:Question')->findBy(array('id_poll' => $poll_id));
+            $answers = $em->getRepository('BDCPollBundle:Answer')->findBy(array('id_poll' => $poll_id));
+
+            $action =  $url = $this->generateUrl('front_vote',array(), true);
+            
+            $email_send = substr($email_send, 0, -1);
+            
+            $array_email = explode(';', $email_send);
+            
+            foreach ($array_email as $k=>$email_to){
+               $user = $em->getRepository('BDCPollBundle:User')->findOneByEmail($email_to);
+               
+               $form_code = $utils->generate_form_code($poll, $questions, $answers, $action, $user);
+              
+               echo $form_code;
+               exit();
+               
+            }
+            
+            
+            
             $to = 'sanchez91nestor@gmail.com';
 
             $message = \Swift_Message::newInstance()
@@ -37,11 +74,9 @@ class EmailController extends Controller
                     'text/html'
                 );
             $sent = $this->get('mailer')->send($message);
-
-            return $this->render('BDCPollBundle:Email:index.html.twig', array('sent' => $sent));
-        }else{
-            return $this->render('BDCPollBundle:Email:index.html.twig');
         }
+        
+        return $this->render('BDCPollBundle:Email:index.html.twig', ['polls'=>$polls]);
     }
 
 

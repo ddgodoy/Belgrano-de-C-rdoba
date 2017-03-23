@@ -17,11 +17,11 @@
     <h1 class="page-header">Envio de correo</h1>
 
     <div class="row">
-        <form role="form" class="form-horizontal">
+        <form role="form" class="form-horizontal" method="POST" action="">
             <div class="form-group">
                 <label class="col-sm-2" for="inputTo">Email</label>
                 <div class="col-sm-9">
-                    <input class="form-control" id="email-socio" placeholder="Email" type="email" readonly="true">
+                    <input class="form-control" id="email-socio" name="email-send" placeholder="Email" type="email" readonly="true" required="required">
                 </div>
                 <div class="col-sm-1">
                     <i id="delete-email" class="fa fa-trash-o" style="padding: 10px; cursor: pointer" title="Limpiar"></i>
@@ -43,19 +43,37 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-2" for="inputSubject">Asunto</label>
-                <div class="col-sm-10"><input class="form-control" id="inputSubject" placeholder="Asunto" type="text"></div>
+                <div class="col-sm-10"><input class="form-control" id="inputSubject" placeholder="Asunto" name="asunto" type="text" required="required"></div>
             </div>
             <div class="form-group">
-                <label class="col-sm-12" for="inputBody">Mensaje</label>
-                <div class="col-sm-12"><textarea class="form-control" id="inputBody" rows="18"></textarea></div>
+                <label class="col-sm-12" for="inputBody">Encuesta</label>
+                <div class="col-sm-12">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Nombre</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for poll in polls %}
+                                <tr>
+                                    <td>{% if poll.status == 'active' %}<input name="id_poll" value="{{ poll.id }}" type="radio" required="required"/>{% endif %}</td>
+                                    <td>{{ poll.name }}</td>
+                                    <td>{% if poll.status == 'active' %} Activa {% else %} Inactiva {% endif %}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
+            <div class="row">
+                <button type="submit" class="btn btn-primary ">Enviar <i class="fa fa-arrow-circle-right fa-lg"></i></button>
+            </div>            
         </form>
     </div>
-    <div class="row">
-        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-primary ">Enviar <i class="fa fa-arrow-circle-right fa-lg"></i></button>
-    </div>
-
+    
     <div class="modal fade" id="form-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -65,11 +83,6 @@
                 </div>
                 <div class="modal-body" id="modal-body">
 
-                    <form method="post" id="answer-form">
-                        <label class="control-label">Ingrese una pregunta:</label>
-                        <input type="text" class="form-control" id="question" name="question"/>
-                        <input type="hidden" name="id" id="id" value="" />
-                    </form>
                 </div>
             </div>
             <!-- /.modal-content -->
