@@ -19,8 +19,27 @@
     <div class="row">
         <form role="form" class="form-horizontal">
             <div class="form-group">
-                <label class="col-sm-2" for="inputTo">Recipientes</label>
-                <div class="col-sm-10"><input class="form-control" id="inputTo" placeholder="Listado de recipientes separados por coma" type="email"></div>
+                <label class="col-sm-2" for="inputTo">Email</label>
+                <div class="col-sm-9">
+                    <input class="form-control" id="email-socio" placeholder="Email" type="email" readonly="true">
+                </div>
+                <div class="col-sm-1">
+                    <i id="delete-email" class="fa fa-trash-o" style="padding: 10px; cursor: pointer" title="Limpiar"></i>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2" for="inputTo">Buscar Socios</label>
+                <div class="col-sm-9">
+                    <input class="form-control" id="inputTo" placeholder="Email del socio" type="email">
+                    <div id="div-usre-email" class="col-sm-10" style="display: none;overflow-x: auto;height: 150px;border: 1px solid #ccc;" >
+                        <div id="email-user">  
+                            <p class="email-class"></p>
+                        </div>    
+                    </div>   
+                </div> 
+                <div class="col-sm-1">
+                    <i id="add-socios" class="fa fa-users" style="padding: 10px; cursor: pointer" title="+ Agregar Socios"></i>
+                </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2" for="inputSubject">Asunto</label>
@@ -37,21 +56,65 @@
         <button type="button" class="btn btn-primary ">Enviar <i class="fa fa-arrow-circle-right fa-lg"></i></button>
     </div>
 
+    <div class="modal fade" id="form-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Agregar Socios</h4>
+                </div>
+                <div class="modal-body" id="modal-body">
+
+                    <form method="post" id="answer-form">
+                        <label class="control-label">Ingrese una pregunta:</label>
+                        <input type="text" class="form-control" id="question" name="question"/>
+                        <input type="hidden" name="id" id="id" value="" />
+                    </form>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
 
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script>
-//        $( function() {
-//            var availableTags = [
-//                "sanchez91nestor@gmail.com",
-//                "leonard@gmail.com",
-//            ];
-//            $( "#inputTo" ).autocomplete({
-//                source: availableTags
-//            });
-//        } );
+    <script> 
+        $( function() {
+            $('#inputTo').keyup(function(e) {
+                if (e.which <= 90 && e.which >= 48) {
+                    if($(this).val().length >= 5){
+                        $.ajax({
+                          method: "POST",
+                          url: "/admin/user/show-ajax",
+                          data: { email: $(this).val(), email_all: $('#email-socio').val() }
+                        }).done(function(msg) {
+                                $('#email-user').html(msg)
+                                $('#div-usre-email').show();
+                        });  
+                    }    
+               }
+            });
+            
+            $('#delete-email').click(function(){
+                $('#email-socio').val('');
+            });
+            
+            $('#add-socios').click(function(){
+               $.ajax({
+                    method: "GET",
+                    url: "/admin/user/new-ajax",
+                    data: {ajax: 1}
+                  }).done(function(msg) {
+                     $('#modal-body').html(msg)
+                     $('#form-modal').modal('show');    
+                });   
+            });
+            
+        } );
     </script>
 {% endblock %}

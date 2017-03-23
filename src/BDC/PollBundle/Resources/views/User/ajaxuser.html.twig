@@ -1,0 +1,13 @@
+{% for user in users %}
+    <p class="email-class" style="cursor: pointer">{{ user.email }}</p>
+{% endfor %}
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script> 
+    $( function() {
+        $('.email-class').click(function(){
+            $('#email-socio').val($('#email-socio').val()+' '+$(this).text()+';');
+            $('#inputTo').val('');
+            $('#div-usre-email').hide();
+        });
+    } );
+</script>
