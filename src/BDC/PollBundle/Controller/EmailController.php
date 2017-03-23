@@ -40,7 +40,7 @@ class EmailController extends Controller
             $subject    = $request->get('asunto');
             $poll_id    = $request->get('id_poll');
             
-            
+            $token = md5($poll_id);
             $poll = $em->getRepository('BDCPollBundle:Poll')->find($poll_id);
             $questions = $em->getRepository('BDCPollBundle:Question')->findBy(array('id_poll' => $poll_id));
             $answers = $em->getRepository('BDCPollBundle:Answer')->findBy(array('id_poll' => $poll_id));
@@ -51,34 +51,31 @@ class EmailController extends Controller
             
             $array_email = explode(';', $email_send);
             
+            
+            
             foreach ($array_email as $k=>$email_to){
                $user = $em->getRepository('BDCPollBundle:User')->findOneByEmail($email_to);
                
-               $form_code = $utils->generate_form_code($poll, $questions, $answers, $action, $user);
+               
+               $link = $request->getSchemeAndHttpHost().'/vote/show/'.$token.'/'.$email_to;
+               
+               $link_code = '<div>Si no puede visualizar la Encuesta <a href="'.$link.'" target="_blanck">Click Aqui</a></div><br/><br/><br/>';
+               
+               $form_code = $utils->generate_form_code($poll, $questions, $answers, $action, $user, $link_code);
               
-               echo $form_code;
-               exit();
+               $message = \Swift_Message::newInstance()
+                ->setSubject('Club Belgrano | '.$subject)
+                ->setFrom("info@belgrano.com")
+                ->setTo($email_to)
+                ->setBody(
+                    $form_code,
+                    'text/html'
+                );
+               
+                $sent = $this->get('mailer')->send($message);
                
             }
             
-            
-            
-            $to = 'sanchez91nestor@gmail.com';
-
-            $message = \Swift_Message::newInstance()
-                ->setSubject('Club Belgrano | ')
-                ->setFrom("info@belgrano.com")
-                ->setTo($to)
-                ->setReplyTo("$to")
-                ->setBody(
-                    $this->renderView(
-                        'Emails/index.html.twig',
-                        array(
-                            'message' => $request->request->get('message'))
-                    ),
-                    'text/html'
-                );
-            $sent = $this->get('mailer')->send($message);
         }
         
         return $this->render('BDCPollBundle:Email:index.html.twig', ['polls'=>$polls]);

@@ -97,7 +97,7 @@ class BDCUtils {
         return json_encode($output);
     }
 
-    function generate_form_code($poll, $questions, $answers, $action, $user = null) {
+    function generate_form_code($poll, $questions, $answers, $action, $user = NULL, $link = NULL) {
 
         $new_line = "\r\n";
 
@@ -105,6 +105,12 @@ class BDCUtils {
         
         $output = '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><table align="center" bgcolor="00BCFF" border="0" cellpadding="0" cellspacing="0" style="width: 100%; font-family: Arial, "Helvetica Neue", Helvetica, sans-serif; font-size: 12px; color: #F8F8F8; margin: 0px; padding: 0px">' . $new_line;
         $output.='<tbody>' . $new_line;
+        if($link){
+            $output.='<tr align="center">' . $new_line;
+            $output.='<td align="center">' . $new_line;
+            $output.= $link;
+            $output.='</td></tr>';
+        }
         $output.='<tr align="center">' . $new_line;
         $output.='<td align="center">' . $new_line;
         $output.='<table align="center" border="0" cellpadding="0" cellspacing="0" style="font-family: Arial, "Helvetica Neue", Helvetica, sans-serif; font-size: 12px; color: #F8F8F8; margin: 0px; padding: 0px" width="600">' . $new_line;
