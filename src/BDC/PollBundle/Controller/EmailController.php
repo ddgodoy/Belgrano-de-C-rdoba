@@ -21,6 +21,12 @@ class EmailController extends Controller
      */
     public function indexAction(Request $request)
     {
+        $utils = new BDCUtils;
+        
+        if ($utils->check_session() === null) {
+            return $this->redirect($this->generateUrl('user_login'));
+        }
+        
         $session = new Session();
         $user    = $session->get('user');
         
@@ -34,7 +40,6 @@ class EmailController extends Controller
             $subject    = $request->get('asunto');
             $poll_id    = $request->get('id_poll');
             
-             $utils = new BDCUtils;
             
             $poll = $em->getRepository('BDCPollBundle:Poll')->find($poll_id);
             $questions = $em->getRepository('BDCPollBundle:Question')->findBy(array('id_poll' => $poll_id));
