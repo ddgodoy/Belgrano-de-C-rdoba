@@ -52,8 +52,6 @@ class EmailController extends Controller
             
             $array_email = explode(';', $email_send_t);
             
-            //$message = [];
-            
             foreach ($array_email as $k=>$email_to){
                 
               $user = $em->getRepository('BDCPollBundle:User')->findOneByEmail($email_to);
@@ -64,20 +62,33 @@ class EmailController extends Controller
                $link_code = '<div>Si no puede visualizar la Encuesta <a href="'.$link.'" target="_blanck">Click Aqui</a></div><br/><br/><br/>';
                
                $form_code = $utils->generate_form_code($poll, $questions, $answers, $action, $user, $link_code);
-               
+                   
+               $replacements[$email_to] = array (
+                    "{user}" => $email_to,
+                    "{body}" => $form_code
+                ); 
             }
             
-            $message = \Swift_Message::newInstance()
-            ->setSubject('Club Belgrano | '.$subject)
-            ->setFrom("info@belgrano.com", 'Club Belgrano')     
-            ->setTo($array_email)
-            ->setBody(
-                $form_code,
-                'text/html'
-            );
-
-            $sent = $this->get('mailer')->send($message);
             
+            // Create the mail transport configuration
+            $transport = \Swift_MailTransport::newInstance();
+            
+            $plugin = new \Swift_Plugins_DecoratorPlugin($replacements);
+            
+            $mailer = \Swift_Mailer::newInstance($transport);
+            
+            $mailer->registerPlugin($plugin);
+            
+            $message = \Swift_Message::newInstance()
+                      ->setSubject('Club Belgrano | '.$subject)
+                      ->setFrom("info@belgrano.com", 'Club Belgrano')
+                      ->setBody('{body}','text/html')  ;
+            
+            // Send the email
+            foreach($array_email as $k=>$email_to) {
+              $message->setTo($email_to);
+              $mailer->send($message);
+            }
             
         }
         
