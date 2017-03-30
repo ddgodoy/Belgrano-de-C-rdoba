@@ -29,7 +29,7 @@ class EmailController extends Controller
         
         $session = new Session();
         $user    = $session->get('user');
-        $sent    = null;
+        $sent    = TRUE;
         
         $em = $this->getDoctrine()->getManager();
         $polls = $em->getRepository('BDCPollBundle:Poll')->findBy(['id_user'=>$user->getId()]);
@@ -90,9 +90,11 @@ class EmailController extends Controller
               $mailer->send($message);
             }
             
+            $sent = TRUE;
+            
         }
         
-        return $this->render('BDCPollBundle:Email:index.html.twig', ['polls'=>$polls]);
+        return $this->render('BDCPollBundle:Email:index.html.twig', ['polls'=>$polls, 'sent'=>$sent]);
     }
 
 
