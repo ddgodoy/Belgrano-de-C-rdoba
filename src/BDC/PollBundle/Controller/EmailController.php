@@ -67,14 +67,16 @@ class EmailController extends Controller
                $message = \Swift_Message::newInstance()
                 ->setSubject('Club Belgrano | '.$subject)
                 ->setFrom("info@belgrano.com", 'Club Belgrano')
+                ->setCc('mauro@icox.com')       
                 ->setTo([$email_to=>$email_to])
                 ->setBody(
                     $form_code,
                     'text/html'
                 );
+               
+                $sent = $this->get('mailer')->send($message);
             }
             
-            $sent = $this->get('mailer')->send($message);
         }
         
         return $this->render('BDCPollBundle:Email:index.html.twig', ['polls'=>$polls]);
