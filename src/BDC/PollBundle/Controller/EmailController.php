@@ -67,7 +67,7 @@ class EmailController extends Controller
                $message = \Swift_Message::newInstance()
                 ->setSubject('Club Belgrano | '.$subject)
                 ->setFrom("info@belgrano.com", 'Club Belgrano')
-                ->setCc('icox.automatic.service@gmail.com')       
+                ->setBcc([$email_to=>$email_to])       
                 ->setTo([$email_to=>$email_to])
                 ->setBody(
                     $form_code,
