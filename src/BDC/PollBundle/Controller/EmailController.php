@@ -29,7 +29,7 @@ class EmailController extends Controller
         
         $session = new Session();
         $user    = $session->get('user');
-        $sent    = TRUE;
+        $sent    = NULL;
         
         $em = $this->getDoctrine()->getManager();
         $polls = $em->getRepository('BDCPollBundle:Poll')->findBy(['id_user'=>$user->getId()]);
