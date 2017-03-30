@@ -56,8 +56,7 @@ class EmailController extends Controller
             
             foreach ($array_email as $k=>$email_to){
                 
-               echo $email_to; 
-               /*$user = $em->getRepository('BDCPollBundle:User')->findOneByEmail($email_to);
+              $user = $em->getRepository('BDCPollBundle:User')->findOneByEmail($email_to);
                
                
                $link = $request->getSchemeAndHttpHost().'/vote/show/'.$token.'/'.$email_to;
@@ -65,20 +64,20 @@ class EmailController extends Controller
                $link_code = '<div>Si no puede visualizar la Encuesta <a href="'.$link.'" target="_blanck">Click Aqui</a></div><br/><br/><br/>';
                
                $form_code = $utils->generate_form_code($poll, $questions, $answers, $action, $user, $link_code);
-              
-               /*$message = \Swift_Message::newInstance()
-                ->setSubject('Club Belgrano | '.$subject)
-                ->setFrom("info@belgrano.com", 'Club Belgrano')
-                ->setBcc('mauro@icox.com')       
-                ->setTo([$email_to=>$email_to])
-                ->setBody(
-                    $form_code,
-                    'text/html'
-                );
                
-                $sent = $this->get('mailer')->send($message); */
             }
-            exit();
+            
+            $message = \Swift_Message::newInstance()
+            ->setSubject('Club Belgrano | '.$subject)
+            ->setFrom("info@belgrano.com", 'Club Belgrano')     
+            ->setTo($array_email)
+            ->setBody(
+                $form_code,
+                'text/html'
+            );
+
+            $sent = $this->get('mailer')->send($message);
+            
             
         }
         
