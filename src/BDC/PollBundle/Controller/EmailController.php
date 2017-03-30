@@ -29,6 +29,7 @@ class EmailController extends Controller
         
         $session = new Session();
         $user    = $session->get('user');
+        $sent    = null;
         
         $em = $this->getDoctrine()->getManager();
         $polls = $em->getRepository('BDCPollBundle:Poll')->findBy(['id_user'=>$user->getId()]);
@@ -47,11 +48,11 @@ class EmailController extends Controller
 
             $action =  $url = $this->generateUrl('front_vote',array(), true);
             
-            $email_send = substr($email_send, 0, -1);
+            $email_send_t = substr($email_send, 0, -1);
             
-            $array_email = explode(';', $email_send);
+            $array_email = explode(';', $email_send_t);
             
-            
+            //$message = [];
             
             foreach ($array_email as $k=>$email_to){
                $user = $em->getRepository('BDCPollBundle:User')->findOneByEmail($email_to);
@@ -65,17 +66,15 @@ class EmailController extends Controller
               
                $message = \Swift_Message::newInstance()
                 ->setSubject('Club Belgrano | '.$subject)
-                ->setFrom("info@belgrano.com")
-                ->setTo($email_to)
+                ->setFrom("info@belgrano.com", 'Club Belgrano')
+                ->setTo([$email_to=>$email_to])
                 ->setBody(
                     $form_code,
                     'text/html'
                 );
-               
-                $sent = $this->get('mailer')->send($message);
-               
             }
             
+            $sent = $this->get('mailer')->send($message);
         }
         
         return $this->render('BDCPollBundle:Email:index.html.twig', ['polls'=>$polls]);
