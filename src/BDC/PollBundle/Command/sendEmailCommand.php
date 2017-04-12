@@ -1,4 +1,5 @@
 <?php
+//app/console sent:emailpoll
 
 namespace BDC\PollBundle\Command;
 
