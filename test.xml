@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<socios>
+    <socio>
+        <idsocio>13292</idsocio>
+        <codigo>29202307</codigo>
+        <nombre>TOMAS BENJAMIN</nombre>
+        <apellido>OJEDA</apellido>
+        <mail>dgodoy@icox.com</mail>
+    </socio>
+    <socio>
+        <idsocio>109404</idsocio>
+        <codigo>35674092</codigo>
+        <nombre>EMMANUEL</nombre>
+        <apellido>MACCIO</apellido>
+        <mail>dgodoy@gmail.com</mail>
+    </socio>
+    <socio>
+        <idsocio>58126</idsocio>
+        <codigo>35090889</codigo>
+        <nombre>NADIA MARIA</nombre>
+        <apellido>GALLEGOS</apellido>
+        <mail>diegogodoy@hotmail.com</mail>
+    </socio>
+</socios>

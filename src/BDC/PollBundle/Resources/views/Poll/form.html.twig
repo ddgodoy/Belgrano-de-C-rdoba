@@ -30,6 +30,9 @@
                     {{ form_label(form.image_header) }}
                     {{ form_errors(form.image_header) }}
                     {{ form_widget(form.image_header) }}
+                    <span style="margin:20px 0; font-size:12px; text-decoration: italic;">
+                        Imagen recomendada: 600*250 pixeles
+                    </span>
                     {% if entity.image_header is defined %}
                     {% if entity.image_header|length > 1 %}
                         <div class="img-responsive" style="overflow: hidden;width: 100%;height: 250px; margin-top: 20px">
@@ -45,6 +48,9 @@
                     {{ form_label(form.image_footer) }}
                     {{ form_errors(form.image_footer) }}
                     {{ form_widget(form.image_footer) }}
+                    <span style="margin:20px 0; font-size:12px;text-decoration: italic;">
+                        Imagen recomendada: 600*80 pixeles
+                    </span>
                     {% if entity.image_footer is defined %}
                         {% if entity.image_footer|length > 1 %}
                         <div class="img-responsive" style="overflow: hidden;width: 100%;height: 250px;margin-top: 20px">

@@ -51,6 +51,7 @@ class EmailController extends Controller
             $email_send_t = substr($email_send, 0, -1);
             
             $array_email = explode(';', $email_send_t);
+
             
             foreach ($array_email as $k=>$email_to){
                 
@@ -132,14 +133,13 @@ class EmailController extends Controller
 
             $file = isset($_FILES['xml_file']) ? $_FILES['xml_file'] : null;
 
+
             try{
                 if($file)
                 {
                     if($file['type'] == 'text/xml')
                     {
-
                         $xml = new \SimpleXMLElement(file_get_contents($file['tmp_name']));
-
                         foreach ($xml as $entry){
                             $data = $this->xml2array($entry);
 
@@ -185,6 +185,7 @@ class EmailController extends Controller
 
                         $sent = TRUE;
                     }else{
+                        die('segundo if');
                         return $this->render('BDCPollBundle:Email:xml.html.twig', ['polls'=>$polls, 'sent'=>$sent, 'error' => true]);
                     }
 
