@@ -35,6 +35,7 @@
             <div class="form-group">
                 <label class="col-sm-2" for="inputTo">Buscar Socios</label>
                 <div class="col-sm-9">
+                    <em style="color: {% if (error) %} red {% else %} #1c92c7 {% endif%}; font-size: 10px;"><i id="add-socios" class="fa fa-info" style="padding: 5px; cursor: pointer" title="Información"></i> Para seleccionar la cuenta del socio debe hacer click en en el email propuesto (si no aparece ningún email deberá agregar el socio <i id="add-socios" class="fa fa-users" style="padding: 10px; cursor: pointer" title="+ Agregar Socios"></i>) </em>
                     <input class="form-control" id="inputTo" placeholder="Email del socio" type="email">
                     <div id="div-usre-email" class="col-sm-10" style="display: none;overflow-x: auto;height: 150px;border: 1px solid #ccc;" >
                         <div id="email-user">  

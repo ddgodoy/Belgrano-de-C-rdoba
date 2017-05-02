@@ -1,5 +1,5 @@
 {% for user in users %}
-    <p class="email-class" style="cursor: pointer">{{ user.email }}</p>
+    <p class="email-class" style="cursor: pointer;">{{ user.email }}</p>
 {% endfor %}
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script> 
@@ -9,5 +9,14 @@
             $('#inputTo').val('');
             $('#div-usre-email').hide();
         });
+        
+        $(".email-class").hover(function(){
+            if($(this).css("background-color")==='rgb(204, 204, 204)'){
+                $(this).css("background-color", "#fff");
+            }else{
+                $(this).css("background-color", "#ccc");
+            }    
+        });
+        
     } );
 </script>
