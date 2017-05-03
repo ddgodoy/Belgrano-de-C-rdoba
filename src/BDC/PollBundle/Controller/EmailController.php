@@ -191,7 +191,6 @@ class EmailController extends Controller
 
                         $sent = TRUE;
                     }else{
-                        die('segundo if');
                         return $this->render('BDCPollBundle:Email:xml.html.twig', ['polls'=>$polls, 'sent'=>$sent, 'error' => true]);
                     }
 
