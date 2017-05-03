@@ -109,7 +109,7 @@
                     if($(this).val().length >= 5){
                         $.ajax({
                           method: "POST",
-                          url: "/admin/user/show-ajax",
+                          url: "/web/admin/user/show-ajax",
                           data: { email: $(this).val(), email_all: $('#email-socio').val() }
                         }).done(function(msg) {
                                 $('#email-user').html(msg)
@@ -126,7 +126,7 @@
             $('#add-socios').click(function(){
                $.ajax({
                     method: "GET",
-                    url: "/admin/user/new-ajax",
+                    url: "/web/admin/user/new-ajax",
                     data: {ajax: 1}
                   }).done(function(msg) {
                      $('#modal-body').html(msg)
