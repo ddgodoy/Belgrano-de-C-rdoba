@@ -2,12 +2,11 @@
 
 namespace BDC\PollBundle\Entity;
 
-
-
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
- * User
+ * Poll
  */
 class Poll
 {
@@ -45,5 +44,24 @@ class Poll
      * @var \DateTime
      */
     public $modified;
+
+    /**
+     * @var \DateTime
+     */
+    public $updatedAt;
+
+    /**
+     * @var string
+     *
+     */
+    public $image_header;
+
+    /**
+     * @var string
+     *
+     */
+    public $image_footer;
+
+
    
 }

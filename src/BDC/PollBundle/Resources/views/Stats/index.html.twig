@@ -23,7 +23,7 @@
 
                         <li>Preguntas: {{ entity.total_questions}}</li>
                         <li>Respuestas: {{ entity.total_answers }}</li>
-                        <li>Votos Realizados a la Fecha: {{entity.total_votes}} </li>                                                                                                                                                       
+                        <li>Respuestas Realizadas a la Fecha: {{entity.total_votes}} </li>                                                                                                                                                       
                     </ul>
                     <a href="{{ path('stats_show', { 'id': entity.id }) }}" class="btn btn-outline btn-primary btn-xs btn-action"><i class="fa fa-bar-chart-o"></i> Ver Reporte Detallado</a>   
                 </div>

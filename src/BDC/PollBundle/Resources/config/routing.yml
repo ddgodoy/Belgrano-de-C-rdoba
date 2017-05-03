@@ -24,5 +24,8 @@ bdc_poll_front:
     prefix: /vote
 
 
+bdc_poll_email:
+    resource: "@BDCPollBundle/Resources/config/routing/email.yml"
+    prefix:   /admin/email
 
 

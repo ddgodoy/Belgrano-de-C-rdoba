@@ -71,7 +71,8 @@ class StatsController extends Controller {
                             'questions' => $questions,
                             'js' => $js,
                             'count_partner'=>$count_partner,
-                            'partner_vote'=>$partner_vote));
+                            'partner_vote'=>$partner_vote,
+                            'count_partner'=> count($count_partner)));
         } else {
             return $this->render('BDCPollBundle:Stats:errors.html.twig');
         }

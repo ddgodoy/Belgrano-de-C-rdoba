@@ -30,4 +30,10 @@ user_profile_edit:
     pattern:  /edit/{id}/{profile}
     defaults: { _controller: BDCPollBundle:User:form}  
     
+user_show_ajax:
+    path:     /show-ajax
+    defaults: { _controller: "BDCPollBundle:User:ajaxUser" } 
     
+user_new_ajax:
+    path:     /new-ajax
+    defaults: { _controller: "BDCPollBundle:User:ajaxNewUser" }     

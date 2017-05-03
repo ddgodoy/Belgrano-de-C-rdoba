@@ -9,6 +9,9 @@ use BDC\PollBundle\Entity\Associate;
 
 class BDCUtils {
 
+
+    const BASE_PATH = 'http://belgrano.icox.mobi/';
+
     function slugify($text) {
         // replace non letter or digits by -
         $text = preg_replace('~[^\\pL\d]+~u', '-', $text);
@@ -97,20 +100,33 @@ class BDCUtils {
         return json_encode($output);
     }
 
-    function generate_form_code($poll, $questions, $answers, $action, $user = null) {
-
+    function generate_form_code($poll, $questions, $answers, $action, $user = NULL, $link = NULL) {
         $new_line = "\r\n";
 
         $email = $user != null?$user->getEmail():"*|EMAIL|*";
         
         $output = '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><table align="center" bgcolor="00BCFF" border="0" cellpadding="0" cellspacing="0" style="width: 100%; font-family: Arial, "Helvetica Neue", Helvetica, sans-serif; font-size: 12px; color: #F8F8F8; margin: 0px; padding: 0px">' . $new_line;
         $output.='<tbody>' . $new_line;
+        if($link){
+            $output.='<tr align="center">' . $new_line;
+            $output.='<td align="center">' . $new_line;
+            $output.= $link;
+            $output.='</td></tr>';
+        }
         $output.='<tr align="center">' . $new_line;
         $output.='<td align="center">' . $new_line;
         $output.='<table align="center" border="0" cellpadding="0" cellspacing="0" style="font-family: Arial, "Helvetica Neue", Helvetica, sans-serif; font-size: 12px; color: #F8F8F8; margin: 0px; padding: 0px" width="600">' . $new_line;
         $output.='<tbody>' . $new_line;
         //$output.='<tr align="center"><td align="center" colspan="2" height="10">&nbsp;</td></tr></tbody></table></td></tr>'.$new_line;
-        $output.='<tr align="center"><td align="center"><img alt="" height="250" src="http://sendder.com.ar/templates/belgrano/img/main.jpg" width="600" /></td></tr><!-- /MAIN_IMG -->' . $new_line;
+
+        if(strlen($poll->image_header) > 1)
+        {
+            $img = self::BASE_PATH.'uploads/images/'.$poll->image_header;
+            $output.='<tr align="center"><td align="center"><img alt="" height="250" src="'.$img.'" width="600" /></td></tr><!-- /MAIN_IMG -->' . $new_line;
+        }else
+            $output.='<tr align="center"><td align="center"><img alt="" height="250" src="http://sendder.com.ar/templates/belgrano/img/main.jpg" width="600" /></td></tr><!-- /MAIN_IMG -->' . $new_line;
+
+
         $output.='<tr>'
                 . '<td>'
                 . '<table bgcolor="#FFFFFF" border="0" cellpadding="0" cellspacing="0" style="font-family: Arial, Helvetica, sans-serif; font-size: 12px; color: #5F5F60; margin: 0px; padding: 0px;" width="600">'
@@ -143,9 +159,16 @@ class BDCUtils {
 $output.='<tr align="center">' . $new_line;
 $output.='<td align="center">' . $new_line;
 $output.='<a href="http://www.belgranocordoba.com/" style="display: block;" target="_blank">' . $new_line;
-$output.='<img alt="Club Atlético Belgrano" height="80" src="http://sendder.com.ar/templates/belgrano/img/top.png" style="display: block;" width="600" />' . $new_line;
-$output.='</a>' . $new_line;
-$output.='</td>' . $new_line;
+        if(strlen($poll->image_footer) > 1)
+        {
+            $img = self::BASE_PATH.'/uploads/images/'.$poll->image_footer;
+            $output.= '<img alt="Club Atlético Belgrano" height="80" src="'.$img.'" style="display: block;" width="600" />' . $new_line;$output.='</a>' . $new_line;
+        }else
+            $output.='<img alt="Club Atlético Belgrano" height="80" src="http://sendder.com.ar/templates/belgrano/img/top.png" style="display: block;" width="600" />' . $new_line;$output.='</a>' . $new_line;
+
+
+
+        $output.='</td>' . $new_line;
 $output.='</tr>' . $new_line;        
 $output.='<tr align="center">
 <td align="center" height="10">

@@ -104,7 +104,7 @@ class UserController extends Controller {
         $associate = $em->getRepository('BDCPollBundle:Associate')->findOneById($user->getAssociateId());
         $user->setAssociate($associate);
 
-        if ($form->isSubmitted() === true) {
+        if ($form->isSubmitted() === true || $request->isMethod('POST')) {
 
             $request_params = $this->get('request')->request->all();
             $email = $request_params['bdc_pollbundle_user']['email'];
@@ -162,7 +162,7 @@ class UserController extends Controller {
                 $em->flush();
                 $params['message'] = array('status' => 'success', 'text' => $ok_message);
                 if (!$id) {
-                    return $this->redirect($this->generateUrl('user'));
+                        return $this->redirect($this->generateUrl('user'));
                 }
             } else {
                 $params['message'] = array('status' => 'danger', 'text' => $error_message);
@@ -172,6 +172,75 @@ class UserController extends Controller {
         return $this->render('BDCPollBundle:User:form.html.twig', $params);
     }
 
+    public function ajaxNewUserAction(Request $request){
+        
+        $utils = new BDCUtils;
+        if ($utils->check_session() === null) {
+            return $this->redirect($this->generateUrl('user_login'));
+        }
+        
+        $url = $this->generateUrl('user_new_ajax');
+        $em = $this->getDoctrine()->getManager();
+        $user_repo = $em->getRepository('BDCPollBundle:User');
+        $error_message = 'Ha ocurrido un problema y el usuario no se pudo crear, por favor inténtelo nuevamente más tarde.';
+        $user = new User();
+        
+        $form = $this->createForm(new UserType($em), $user);
+        $form->handleRequest($request);
+        
+        $params = array(
+            'entity' => $user,
+            'form' => $form->createView(),
+            'url' => $url);
+
+        $associate = $em->getRepository('BDCPollBundle:Associate')->findOneById($user->getAssociateId());
+        $user->setAssociate($associate);
+        
+        if ($request->isMethod('POST')) {
+            $request_params = $this->get('request')->request->all();
+            $email = $request_params['bdc_pollbundle_user']['email'];
+            $dni = $request_params['bdc_pollbundle_user']['dni'];
+            
+
+            $duplicate_email = $user_repo->duplicateEmail($email);
+
+            $validate = true;
+
+            if ($duplicate_email === true) {
+                $validate = false;
+                $error_message = 'Ya existe un usuario con el e-mail "' . $email . '". ';
+            }
+
+            $duplicate_dni = $user_repo->duplicateDni($dni);
+
+            if ($duplicate_dni === true) {
+                $validate = false;
+                $error_message = 'Ya existe un usuario con el DNI "' . $dni . '". ';
+            }
+            
+            if ($validate === true) {
+                $user->setCreated(new \DateTime()); 
+                $user->setModified(new \DateTime());
+                $role = 'associate';
+                $enc = new PasswordEncrypt();
+                $salt = uniqid(mt_rand());
+                $user->setSalt($salt);
+                $encoded = $enc->encodePassword(uniqid(), $salt);
+
+                $user->setPassword($encoded);
+                $user->setRole($role);
+                $em->persist($user);
+                $em->flush();
+                echo '1';
+                exit();
+            }else{
+                echo $error_message;
+                exit();
+            }
+        }
+        return $this->render('BDCPollBundle:User:formajax.html.twig', $params);
+    }
+    
     /**
      * Finds and displays a User entity.
      *
@@ -221,6 +290,22 @@ class UserController extends Controller {
         return $this->redirect($this->generateUrl('user'));
     }
 
+    /**
+     * 
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     */
+    public function ajaxUserAction(Request $request){
+        
+        $email_search = $request->get('email');
+        $email_all    = $request->get('email_all');
+        
+        $em = $this->getDoctrine()->getManager();
+        
+        $entity = $em->getRepository('BDCPollBundle:User')->getUserByEmail($email_search, $email_all);
+        
+        return $this->render('BDCPollBundle:User:ajaxuser.html.twig',['users'=>$entity]);
+    }
+    
     public function loginAction(Request $request) {
 
         $em = $this->getDoctrine()->getManager();

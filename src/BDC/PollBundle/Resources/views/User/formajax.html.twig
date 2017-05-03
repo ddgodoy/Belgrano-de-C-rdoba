@@ -1,0 +1,105 @@
+{% form_theme form with ['BDCPollBundle:Form:bootstrap-override.html.twig'] %}  
+<div class="row">
+    <div class="col-lg-6">
+        <form name="bdc_pollbundle_user" id="bdc_pollbundle_user">
+            <div class="form-group">
+                {{ form_label(form.dni,'DNI') }}
+                {{ form_errors(form.dni) }}
+                {{ form_widget(form.dni) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.name,'Nombre') }}
+                {{ form_errors(form.name) }}
+                {{ form_widget(form.name) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.last_name,'Apellido') }}
+                {{ form_errors(form.last_name) }}
+                {{ form_widget(form.last_name) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.email,'E-mail') }}
+                {{ form_errors(form.email) }}
+                {{ form_widget(form.email) }}
+            </div>
+
+            <div class="row" id="associate-wrapper">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        {{ form_label(form.gender,'Sexo') }}
+                        {{ form_errors(form.gender) }}
+                        {{ form_widget(form.gender) }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" id="associate-wrapper">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        {{ form_label(form.associate_id,'Tipo de Socio') }}
+                        {{ form_errors(form.associate_id) }}
+                        {{ form_widget(form.associate_id) }}
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" name="ajax" value="1"/>        
+            {{ form_widget(form._token) }}
+        </form>
+        <div class="row">
+            <div class="col-lg-12">
+                <button id="confirm-user" class="btn btn-primary">Confirmar</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>        
+<script> 
+$(function() {
+    $('#confirm-user').click(function(){
+        
+        if($('#bdc_pollbundle_user_dni').val()===''){
+            alert('Completé el Dni'); 
+            $('#bdc_pollbundle_user_dni').focus();
+            return false;
+        }
+        if($('#bdc_pollbundle_user_name').val()===''){
+            alert('Completé el Nombre'); 
+            $('#bdc_pollbundle_user_name').focus();
+            return false;
+        }
+        if($('#bdc_pollbundle_user_last_name').val()===''){
+            alert('Completé el Apellido'); 
+            $('#bdc_pollbundle_user_last_name').focus();
+            return false;
+        }
+        if($('#bdc_pollbundle_user_email').val()===''){
+            alert('Completé el Email'); 
+            $('#bdc_pollbundle_user_email').focus();
+            return false;
+        }
+        if($('#bdc_pollbundle_user_associate_id').val()===''){
+            alert('Seleccionar el Tipo de Socio'); 
+            $('#bdc_pollbundle_user_associate_id').focus();
+            return false;
+        }
+        $.ajax({
+             method: "POST",
+             url: "{{url}}",
+             data: $('#bdc_pollbundle_user').serialize()
+           }).done(function(msg) {
+              if(msg === '1'){
+                  $('#email-socio').val($('#email-socio').val()+' '+$('#bdc_pollbundle_user_email').val()+';');
+                  $('#form-modal').modal('hide');
+              }else{    
+                alert(msg);  
+            }  
+         });   
+     });
+  });
+</script>        
+
+
+

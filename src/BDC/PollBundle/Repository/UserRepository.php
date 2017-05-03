@@ -121,5 +121,24 @@ class UserRepository extends EntityRepository {
         
         return $stmt->fetch();
     }
+    
+    /**
+     * 
+     * @param string $email
+     * @return object
+     */
+    function getUserByEmail($email){
+        
+        $txt_query = "SELECT u
+               FROM BDCPollBundle:User u
+              WHERE u.email LIKE '%$email%' ";
+        
+        $em = $this->getEntityManager();
+        $query = $em->createQuery($txt_query);
+
+        $users = $query->getResult();
+        
+        return count($users)>0?$users:'';
+    }
 
 }

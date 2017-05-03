@@ -1,0 +1,7 @@
+email_index:
+    path:     /
+    defaults: { _controller: "BDCPollBundle:Email:index" }
+
+email_xml:
+    path:     /xml
+    defaults: { _controller: "BDCPollBundle:Email:xml" }

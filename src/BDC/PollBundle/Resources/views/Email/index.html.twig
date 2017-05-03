@@ -1,0 +1,139 @@
+{% extends 'BDCPollBundle::layout.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li class="active"><i class="fa fa-envelope"></i> Envio de correo</li>
+            </ol>
+        </div>
+    </div>
+    {% if (sent) %} 
+        <div class="alert alert-success">
+            La encuesta se envió correctamente
+        </div>
+    {% endif %}    
+    <h1 class="page-header">Envio de correo</h1>
+
+    <div class="row">
+        <form role="form" class="form-horizontal" method="POST" action="">
+            <div class="form-group">
+                <label class="col-sm-2" for="inputTo">Email</label>
+                <div class="col-sm-9">
+                    <input class="form-control" id="email-socio" name="email-send" placeholder="Email" type="email" readonly="true" required="required">
+                </div>
+                <div class="col-sm-1">
+                    <i id="delete-email" class="fa fa-trash-o" style="padding: 10px; cursor: pointer" title="Limpiar"></i>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2" for="inputTo">Buscar Socios</label>
+                <div class="col-sm-9">
+                    <em style="color: {% if (error) %} red {% else %} #1c92c7 {% endif%}; font-size: 10px;"><i id="add-socios" class="fa fa-info" style="padding: 5px; cursor: pointer" title="Información"></i> Para seleccionar la cuenta del socio debe hacer click en en el email propuesto (si no aparece ningún email deberá agregar el socio <i id="add-socios" class="fa fa-users" style="padding: 10px; cursor: pointer" title="+ Agregar Socios"></i>) </em>
+                    <input class="form-control" id="inputTo" placeholder="Email del socio" type="email">
+                    <div id="div-usre-email" class="col-sm-10" style="display: none;overflow-x: auto;height: 150px;border: 1px solid #ccc;" >
+                        <div id="email-user">  
+                            <p class="email-class"></p>
+                        </div>    
+                    </div>   
+                </div> 
+                <div class="col-sm-1">
+                    <i id="add-socios" class="fa fa-users" style="padding: 10px; cursor: pointer" title="+ Agregar Socios"></i>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2" for="inputSubject">Asunto</label>
+                <div class="col-sm-10"><input class="form-control" id="inputSubject" placeholder="Asunto" name="asunto" type="text" required="required"></div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-12" for="inputBody">Encuesta</label>
+                <div class="col-sm-12">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Nombre</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for poll in polls %}
+                                <tr>
+                                    <td>{% if poll.status == 'active' %}<input name="id_poll" value="{{ poll.id }}" type="radio" required="required"/>{% endif %}</td>
+                                    <td>{{ poll.name }}</td>
+                                    <td>{% if poll.status == 'active' %} Activa {% else %} Inactiva {% endif %}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="row">
+                <button type="submit" class="btn btn-primary ">Enviar <i class="fa fa-arrow-circle-right fa-lg"></i></button>
+            </div>            
+        </form>
+    </div>
+    
+    <div class="modal fade" id="form-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Agregar Socios</h4>
+                </div>
+                <div class="modal-body" id="modal-body">
+                    
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script> 
+        $( function() {
+            $('#inputTo').keyup(function(e) {
+                if (e.which <= 90 && e.which >= 48) {
+                    if($(this).val().length >= 5){
+                        $.ajax({
+                          method: "POST",
+                          url: "/admin/user/show-ajax",
+                          data: { email: $(this).val(), email_all: $('#email-socio').val() }
+                        }).done(function(msg) {
+                                $('#email-user').html(msg)
+                                $('#div-usre-email').show();
+                        });  
+                    }    
+               }
+            });
+            
+            $('#delete-email').click(function(){
+                $('#email-socio').val('');
+            });
+            
+            $('#add-socios').click(function(){
+               $.ajax({
+                    method: "GET",
+                    url: "/admin/user/new-ajax",
+                    data: {ajax: 1}
+                  }).done(function(msg) {
+                     $('#modal-body').html(msg)
+                     $('#form-modal').modal('show');    
+                });   
+            });
+            
+        } );
+    </script>
+{% endblock %}
