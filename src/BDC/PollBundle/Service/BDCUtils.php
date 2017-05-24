@@ -10,7 +10,7 @@ use BDC\PollBundle\Entity\Associate;
 class BDCUtils {
 
 
-    const BASE_PATH = 'http://belgrano.icox.mobi/';
+    const BASE_PATH = 'http://encuestas.belgranocordoba.com/web/';
 
     function slugify($text) {
         // replace non letter or digits by -
