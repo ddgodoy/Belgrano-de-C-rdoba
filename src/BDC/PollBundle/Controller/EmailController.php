@@ -61,9 +61,9 @@ class EmailController extends Controller
                   $user = $em->getRepository('BDCPollBundle:User')->findOneByEmail($email_to);
 
 
-                   $link = $request->getSchemeAndHttpHost().'/vote/show/'.$token.'/'.$email_to;
+                   $link = $request->getSchemeAndHttpHost().'/web/vote/show/'.$token.'/'.$email_to;
 
-                   $link_code = '<div>Si no puede visualizar la Encuesta <a href="'.$link.'" target="_blanck">Click Aqui</a></div><br/><br/><br/>';
+                   $link_code = '<div>Si no puede visualizar o responder la Encuesta <a href="'.$link.'" target="_blanck">Click Aqui</a></div><br/><br/><br/>';
 
                    $form_code = $utils->generate_form_code($poll, $questions, $answers, $action, $user, $link_code);
 
@@ -153,9 +153,9 @@ class EmailController extends Controller
                             $user = $em->getRepository('BDCPollBundle:User')->findOneByEmail($email);
 
 
-                            $link = $request->getSchemeAndHttpHost().'/vote/show/'.$token.'/'.$email;
+                            $link = $request->getSchemeAndHttpHost().'/web/vote/show/'.$token.'/'.$email;
 
-                            $link_code = '<div>Si no puede visualizar la Encuesta <a href="'.$link.'" target="_blanck">Click Aqui</a></div><br/><br/><br/>';
+                            $link_code = '<div>Si no puede visualizar o reponder la Encuesta <a href="'.$link.'" target="_blanck">Click Aqui</a></div><br/><br/><br/>';
 
                             $form_code = $utils->generate_form_code($poll, $questions, $answers, $action, $user, $link_code);
 
