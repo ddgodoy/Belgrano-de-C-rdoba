@@ -5,3 +5,7 @@ stats:
 stats_show:
     path:     /{id}/show
     defaults: { _controller: "BDCPollBundle:Stats:show" }
+
+stats_user_show:
+    path:     /user-show
+    defaults: { _controller: "BDCPollBundle:Stats:userShow" }

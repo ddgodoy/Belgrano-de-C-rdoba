@@ -46,4 +46,26 @@ class VoteRepository extends EntityRepository {
         
          return $stmt->fetchAll();
     }
+
+    /**
+     * @param $id_poll
+     * @param $id_user
+     * @return array
+     * @throws \Doctrine\DBAL\DBALException
+     */
+    function getVoteForUser($id_poll, $id_user){
+
+        $stmt = $this->getEntityManager()
+            ->getConnection()
+            ->prepare("SELECT q.question AS question, a.answer AS answer   
+                       FROM Vote v 
+                       LEFT JOIN Answer a ON v.id_answer = a.id 
+                       LEFT JOIN Question q ON v.id_question = q.id 
+                       WHERE v.id_user = $id_user  AND v.id_poll = $id_poll");
+
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+
+    }
 }

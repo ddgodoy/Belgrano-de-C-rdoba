@@ -7,6 +7,7 @@ use BDC\PollBundle\Entity\Poll;
 use BDC\PollBundle\Entity\Answer;
 use BDC\PollBundle\Service\BDCUtils;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Poll controller.
@@ -78,4 +79,22 @@ class StatsController extends Controller {
         }
     }
 
+    /**
+     * @param Request $request
+     */
+    public function userShowAction(Request $request){
+        $id_poll = $request->get('id_poll');
+        $id_user = $request->get('id_user');
+
+        $em = $this->getDoctrine()->getManager();
+
+        $user_repo = $em->getRepository('BDCPollBundle:User')->findOneById($id_user);
+
+        $entity = $em->getRepository('BDCPollBundle:Vote')->getVoteForUser($id_poll, $id_user);
+        
+        return $this->render('BDCPollBundle:Stats:usershow.html.twig',
+            array('entity' => $entity,
+                  'user'   => $user_repo));
+
+    }
 }
