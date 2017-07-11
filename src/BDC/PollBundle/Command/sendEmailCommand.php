@@ -26,28 +26,29 @@ class sendEmailCommand extends ContainerAwareCommand
         $utils = new BDCUtils;
         // leeo el xml con curl desde el link
         // este link es de prueba
-        // remplazar por el link de ellos 
-        $sXML = $this->download_page('file:///home/mauro/webdav_belgrano/MAIL_ENCUESTAS_15-05-2017_170000.xml');
+        // remplazar por el link de ellos
+        $date = date("d-m-Y His");
+        $date = str_ireplace(' ', '_', $date);
+        $sXML = $this->download_page('http://belgranosocios.com/dav/xmlupload/MAIL_ENCUESTAS_'.$date.'.xml');
         $oXML = new \SimpleXMLElement($sXML);
         
-        /*$d = $this->getContainer()->get('doctrine');
+        $d = $this->getContainer()->get('doctrine');
         $em = $d->getManager(); 
         
         // dejo el id de la encuesta fijo por que siempre es la misma encuesta 
         // cambiar el id cuando cree la encuesta 
-        $poll_id = 15;
+        $poll_id = 14;
         $token = md5($poll_id);
         $poll = $em->getRepository('BDCPollBundle:Poll')->find($poll_id);
         $questions = $em->getRepository('BDCPollBundle:Question')->findBy(array('id_poll' => $poll_id));
         $answers = $em->getRepository('BDCPollBundle:Answer')->findBy(array('id_poll' => $poll_id));
 
-        $action =  $url = $this->generateUrl('front_vote',array(), true);*/
+        $action =  $url = $this->generateUrl('front_vote',array(), true);
         
         // recorro el xml 
         foreach($oXML as $oEntry){
             $email = $oEntry->mail."\n";
-            echo $email;
-            /*if($email){
+            if($email){
                 $user = $em->getRepository('BDCPollBundle:User')->findOneByEmail($email);
                 // si no existe el usuario lo creo
                 if(!$user){
@@ -86,10 +87,9 @@ class sendEmailCommand extends ContainerAwareCommand
                     "{user}" => $email,
                     "{body}" => $form_code
                 ); 
-            }*/
+            }
             
         }
-        exit();
         // envio multiples email
         // Create the mail transport configuration
         $transport = \Swift_MailTransport::newInstance();
