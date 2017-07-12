@@ -73,7 +73,7 @@ class sendEmailCommand extends ContainerAwareCommand
                 
                 // cambiar el link del servidor segun si estaen prod o dev 
                 // esto por ahora es para la prueba 
-                $link = 'http://belgrano.icox.mobi/vote/show/'.$token.'/'.$email;
+                $link = 'http://encuestas.belgranocordoba.com/web/vote/show/'.$token.'/'.$email;
                 
                 //$link = 'http://encuestas.belgranocordoba.com/vote/show/'.$token.'/'.$email;
                
