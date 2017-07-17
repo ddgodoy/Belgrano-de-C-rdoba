@@ -3,6 +3,7 @@
 namespace BDC\PollBundle\Controller;
 
 
+use BDC\PollBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Constraints\Email as EmailConstraint;
 use Symfony\Component\HttpFoundation\Session\Session;
 use BDC\PollBundle\Service\BDCUtils;
+use BDC\PollBundle\Service\PasswordEncrypt;
 
 class EmailController extends Controller
 {
@@ -211,6 +213,140 @@ class EmailController extends Controller
             $out[$index] = ( is_object ( $node ) ) ? xml2array ( $node ) : $node;
 
         return $out;
+    }
+
+    /**
+     * crontab Action
+     * @param Request $request
+     */
+    public function crontabAction(Request $request){
+        libxml_use_internal_errors(true);
+        $utils = new BDCUtils;
+        // leeo el xml con curl desde el link
+        // este link es de prueba
+        // remplazar por el link de ellos
+        $date = date("d-m-Y H0000");
+        //$date = '14-07-2017 130000';
+        $date = str_ireplace(' ', '_', $date);
+
+        //echo $date;
+        
+        $sXML = $this->download_page('http://belgranosocios.com/xmlupload/MAIL_ENCUESTAS_'.$date.'.xml');
+
+        $oXML = simplexml_load_string($sXML);
+
+        /*echo '<pre>';
+        print_r($oXML);
+        echo '</pre>';
+        exit();*/
+
+        if ($oXML) {
+            $d  = $this->getDoctrine();
+            $em = $d->getManager();
+
+            // dejo el id de la encuesta fijo por que siempre es la misma encuesta
+            // cambiar el id cuando cree la encuesta
+            $poll_id = 14;
+            $token = md5($poll_id);
+            $poll = $em->getRepository('BDCPollBundle:Poll')->find($poll_id);
+            $questions = $em->getRepository('BDCPollBundle:Question')->findBy(array('id_poll' => $poll_id));
+            $answers = $em->getRepository('BDCPollBundle:Answer')->findBy(array('id_poll' => $poll_id));
+
+            $action =  $url = $this->generateUrl('front_vote',array(), true);
+
+            // recorro el xml
+            foreach($oXML as $oEntry){
+                $email = $oEntry->mail;
+                if($email){
+                    $user = $em->getRepository('BDCPollBundle:User')->findOneByEmail($email);
+                    // si no existe el usuario lo creo
+                    if(!$user){
+                        $associate = $em->getRepository('BDCPollBundle:Associate')->findOneById(1);
+
+                        $user = NEW User();
+                        $user->setName($oEntry->nombre);
+                        $user->setEmail($email);
+                        $user->setLastName($oEntry->apellido);
+                        $user->setDni($oEntry->codigo);
+                        $user->setAssociate($associate);
+                        $user->setGender('');
+                        $user->setCreated(new \DateTime());
+                        $user->setModified(new \DateTime());
+                        $role = 'associate';
+                        $enc = new PasswordEncrypt();
+                        $salt = uniqid(mt_rand());
+                        $user->setSalt($salt);
+                        $encoded = $enc->encodePassword(uniqid(), $salt);
+
+                        $user->setPassword($encoded);
+                        $user->setRole($role);
+                        $em->persist($user);
+                        $em->flush();
+                    }
+
+                    // cambiar el link del servidor segun si estaen prod o dev
+                    // esto por ahora es para la prueba
+                    $link = 'http://encuestas.belgranocordoba.com/web/vote/show/'.$token.'/'.$email;
+
+                    //$link = 'http://encuestas.belgranocordoba.com/vote/show/'.$token.'/'.$email;
+
+                    $link_code = '<div>Si no puede visualizar la Encuesta <a href="'.$link.'" target="_blanck">Click Aqui</a></div><br/><br/><br/>';
+
+                    // creo el codigo de la encuesta por cada usuario
+                    $form_code = $utils->generate_form_code($poll, $questions, $answers, $action, $user, $link_code);
+
+                    $replacements[$email] = array (
+                        "{user}" => $email,
+                        "{body}" => $form_code
+                    );
+
+                }
+
+            }
+
+            // envio multiples email
+            // Create the mail transport configuration
+            $transport = \Swift_MailTransport::newInstance();
+
+            $plugin = new \Swift_Plugins_DecoratorPlugin($replacements);
+
+            $mailer = \Swift_Mailer::newInstance($transport);
+
+            $mailer->registerPlugin($plugin);
+
+            $message = \Swift_Message::newInstance()
+                ->setSubject('Club Belgrano | Encuesta socios')
+                ->setFrom("info@belgrano.com", 'Club Belgrano')
+                ->setBody('{body}','text/html')  ;
+
+            // Send the email
+            foreach($oXML as $oEntry) {
+                $message->setTo($oEntry->mail);
+                $mailer->send($message);
+            }
+
+            echo 'email enviados';
+        } else {
+            echo 'error de docuento';
+        }
+        exit();
+    }
+
+    /**
+     * download_page
+     * @param string $path
+     * @return object xml
+     */
+    protected function download_page($path){
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL,$path);
+        curl_setopt($ch, CURLOPT_FAILONERROR,1);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION,1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+        $retValue = curl_exec($ch);
+        curl_close($ch);
+        return $retValue;
     }
 
 }

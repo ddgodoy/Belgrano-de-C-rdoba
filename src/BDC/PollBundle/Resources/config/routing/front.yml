@@ -5,4 +5,8 @@ front_vote:
 front_show:
     path:      /show/{token}/{email}
     defaults: { _controller: "BDCPollBundle:Poll:front_show" }
+
+crom_xml:
+    path:     /crontab
+    defaults: { _controller: "BDCPollBundle:Email:crontab" }
     
